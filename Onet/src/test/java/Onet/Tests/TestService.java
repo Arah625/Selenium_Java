@@ -5,10 +5,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
@@ -89,6 +88,101 @@ public class TestService {
             System.out.println(e.getMessage());
         }
         return queryResult;
+    }
+
+    public String executeQueryOnElectronicData(String sqlQuery) {
+
+        String url = getCredentialValue("electronicDataUrl");
+        String username = getCredentialValue("electronicDataUsername");
+        String password = getCredentialValue("electronicDataPassword");
+        String queryResult = null;
+
+        try {
+            Connection dbConnection = DriverManager.getConnection(url, username, password);
+            Statement st = dbConnection.createStatement();
+            ResultSet rs = st.executeQuery(sqlQuery);
+            System.out.println("Executing query: " + sqlQuery);
+            while (rs.next()) {
+                queryResult = rs.getString(1);
+                System.out.println("Result: " + queryResult);
+            }
+            rs.close();
+            st.close();
+            dbConnection.close();
+        } catch (java.sql.SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return queryResult;
+    }
+
+
+    public void insertInformationToElectronicData(String first_name, String last_name, String gender, String email_address, String email_password, String recovery_email_address) {
+
+        String sqlQuery = "INSERT INTO personal_electronic_data(first_name, last_name, gender, email_address, email_password, recovery_email_address, creation_date, creation_time) VALUES(?,?,?,?,?,?,?,?)";
+
+        String creation_date = currentDate();
+        String creation_time = currentTime();
+
+        String url = getCredentialValue("electronicDataUrl");
+        String username = getCredentialValue("electronicDataUsername");
+        String password = getCredentialValue("electronicDataPassword");
+
+        try {
+            Connection dbConnection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, first_name);
+            preparedStatement.setString(2, last_name);
+            preparedStatement.setString(3, gender);
+            preparedStatement.setString(4, email_address);
+            preparedStatement.setString(5, email_password);
+            preparedStatement.setString(6, recovery_email_address);
+            preparedStatement.setString(7, creation_date);
+            preparedStatement.setString(8, creation_time);
+
+            preparedStatement.execute();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+
+            int idValue = 0;
+            if (rs.next()) {
+                idValue = rs.getInt(1);
+            }
+            System.out.println("Inserted into row: " + idValue);
+            rs.close();
+            preparedStatement.close();
+            dbConnection.close();
+        } catch (java.sql.SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public String currentDate(){
+        String currentDatePattern = "dd-MM-yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(currentDatePattern);
+        String currentDate = simpleDateFormat.format(new Date());
+        System.out.println("Current date: " + currentDate);
+        return currentDate;
+    }
+
+    public String currentDate(String datePattern){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
+        String currentDate = simpleDateFormat.format(new Date());
+        System.out.println("Current date: " + currentDate);
+        return currentDate;
+    }
+
+    public String currentTime(){
+        String currentTimePattern = "HH:mm:ss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(currentTimePattern);
+        String currentTime = simpleDateFormat.format(new Date());
+        System.out.println("Current time: " + currentTime);
+        return currentTime;
+    }
+
+    public String currentTime(String timePattern){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(timePattern);
+        String currentTime = simpleDateFormat.format(new Date());
+        System.out.println("Current time: " + currentTime);
+        return currentTime;
     }
 
 

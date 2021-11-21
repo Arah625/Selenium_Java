@@ -55,8 +55,8 @@ public class CreateAccountTests {
             emailPage = mainPage.emailButtonClick();
             Assert.assertTrue(emailPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
             createAccountPage = emailPage.createAccountButtonClick();
-            String firstName = testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName());
-            String lastName = testService.executeQueryOnPersonalData(sqlQueries.getMaleLastName());
+            String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName()));
+            String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleLastName()));
             String partOfEmailAddress = testService.generateRandomEmailAddress(firstName, lastName);
             createAccountPage.fillEmailAddress2(partOfEmailAddress);
             String newEmailAddress = createAccountPage.getEmailAddressFromSetPasswordSubheader();
@@ -70,7 +70,7 @@ public class CreateAccountTests {
             createAccountPage.submitButtonClick();
             String gender = "male";
             createAccountPage.genderButtonClick(gender);
-            createAccountPage.fillFirstNameAndLastName(testService.minimizeString(firstName) + " " + testService.minimizeString(lastName));
+            createAccountPage.fillFirstNameAndLastName(firstName + " " + lastName);
             createAccountPage.selectDateOfBirth("13", "4", "1989");
             String postalCode = testService.polishPostalCodeGenerator();
             createAccountPage.fillPostalCode(postalCode);
@@ -80,15 +80,36 @@ public class CreateAccountTests {
             createAccountPage.submitButtonClick();
             Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
             emailPage = createAccountPage.goToEmailPageButtonClick();
-
-
-
+            testService.insertInformationToElectronicData(firstName,lastName, gender, partOfEmailAddress, password, recoveryEmailAddress);
 
         } catch (Exception exception) {
-            System.out.println("Wystapił błąd");
+            System.out.println("Error occurred");
             throw exception;
         }
     }
+
+
+
+/*    @Test(priority = 1)
+    public void successfulLogIn2() throws Exception {
+        try {
+            testService = new TestService(driver);
+            sqlQueries = new SqlQueries(driver);
+            mainPage = new MainPage(driver);
+            String firstName = testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName());
+            String lastName = testService.executeQueryOnPersonalData(sqlQueries.getMaleLastName());
+            String partOfEmailAddress = testService.generateRandomEmailAddress(firstName, lastName);
+            String password = testService.getCredentialValue("passwordForTests");
+            String recoveryEmailAddress = testService.getCredentialValue("recoveryEmailAddress");
+            String gender = "male";
+            testService.insertInformationToElectronicData(firstName,lastName, gender, partOfEmailAddress, password, recoveryEmailAddress);
+
+
+        } catch (Exception exception) {
+            System.out.println("Error occurred");
+            throw exception;
+        }
+    }*/
 
 /*    @AfterTest(alwaysRun = true)
     public void afterTest() {
