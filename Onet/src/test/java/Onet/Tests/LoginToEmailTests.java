@@ -60,6 +60,20 @@ public class LoginToEmailTests {
             loginPage.fillEmailPassword(emailPassword);
             emailAccountPage = loginPage.LoginButtonClick();
             emailAccountPage.writeMessageButtonClick();
+            emailAccountPage.receivedMessagesTabClick();
+            emailAccountPage.communityTabClick();
+            emailAccountPage.offersTabClick();
+            emailAccountPage.notificationsTabClick();
+            emailAccountPage.ePrescriptionsTabClick();
+            emailAccountPage.ePaymentsTabClick();
+            emailAccountPage.attachmentsByTypeTabClick("Zdjęcia");
+            emailAccountPage.attachmentsTabClick();
+            emailAccountPage.binTabClick();
+            emailAccountPage.sentTabClick();
+            emailAccountPage.spamTabClick();
+            emailAccountPage.draftsTabClick();
+            emailAccountPage.foldersTabClick();
+
 
         } catch (Exception exception) {
             System.out.println("Error occurred");
