@@ -304,10 +304,10 @@ public class CreateAccountPage extends BasePage{
         }
     }
 
-    public EmailPage goToEmailPageButtonClick() throws InterruptedException {
+    public LoginPage goToEmailPageButtonClick() throws InterruptedException {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(goToEmailPageButton));
         goToEmailPageButton.click();
-        return new EmailPage (driver);
+        return new LoginPage(driver);
     }
 
 

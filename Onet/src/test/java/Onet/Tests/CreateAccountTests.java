@@ -1,7 +1,7 @@
 package Onet.Tests;
 
 import Onet.Pages.CreateAccountPage;
-import Onet.Pages.EmailPage;
+import Onet.Pages.LoginPage;
 import Onet.Pages.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,7 +15,7 @@ public class CreateAccountTests {
     TestService testService;
     SqlQueries sqlQueries;
     MainPage mainPage;
-    EmailPage emailPage;
+    LoginPage loginPage;
     CreateAccountPage createAccountPage;
 
 
@@ -45,16 +45,16 @@ public class CreateAccountTests {
 
 
     @Test(priority = 1)
-    public void successfulLogIn() throws Exception {
+    public void createMaleAccount() throws Exception {
         try {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
             Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
             mainPage.goToWebsiteButtonClick();
-            emailPage = mainPage.emailButtonClick();
-            Assert.assertTrue(emailPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
-            createAccountPage = emailPage.createAccountButtonClick();
+            loginPage = mainPage.emailButtonClick();
+            Assert.assertTrue(loginPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
+            createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName()));
             String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleLastName()));
             String partOfEmailAddress = testService.generateRandomEmailAddress(firstName, lastName);
@@ -79,7 +79,51 @@ public class CreateAccountTests {
             createAccountPage.acceptAllCheckboxes();
             createAccountPage.submitButtonClick();
             Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
-            emailPage = createAccountPage.goToEmailPageButtonClick();
+            loginPage = createAccountPage.goToEmailPageButtonClick();
+            testService.insertInformationToElectronicData(firstName,lastName, gender, partOfEmailAddress, password, recoveryEmailAddress);
+
+        } catch (Exception exception) {
+            System.out.println("Error occurred");
+            throw exception;
+        }
+    }
+
+    @Test(priority = 2)
+    public void createFemaleAccount() throws Exception {
+        try {
+            testService = new TestService(driver);
+            sqlQueries = new SqlQueries(driver);
+            mainPage = new MainPage(driver);
+            Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
+            mainPage.goToWebsiteButtonClick();
+            loginPage = mainPage.emailButtonClick();
+            Assert.assertTrue(loginPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
+            createAccountPage = loginPage.createAccountButtonClick();
+            String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleFirstName()));
+            String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleLastName()));
+            String partOfEmailAddress = testService.generateRandomEmailAddress(firstName, lastName);
+            createAccountPage.fillEmailAddress2(partOfEmailAddress);
+            String newEmailAddress = createAccountPage.getEmailAddressFromSetPasswordSubheader();
+            System.out.println("New email address is: " + newEmailAddress);
+            String password = testService.getCredentialValue("passwordForTests");
+            createAccountPage.fillNewPassword(password);
+            createAccountPage.fillRepeatNewPassword(password);
+            createAccountPage.submitButtonClick();
+            String recoveryEmailAddress = testService.getCredentialValue("recoveryEmailAddress");
+            createAccountPage.fillRecoveryEmailAddress(recoveryEmailAddress);
+            createAccountPage.submitButtonClick();
+            String gender = "female";
+            createAccountPage.genderButtonClick(gender);
+            createAccountPage.fillFirstNameAndLastName(firstName + " " + lastName);
+            createAccountPage.selectDateOfBirth("13", "4", "1989");
+            String postalCode = testService.polishPostalCodeGenerator();
+            createAccountPage.fillPostalCode(postalCode);
+            createAccountPage.submitButtonClick();
+            createAccountPage.onetMailFreePlanButtonClick();
+            createAccountPage.acceptAllCheckboxes();
+            createAccountPage.submitButtonClick();
+            Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
+            loginPage = createAccountPage.goToEmailPageButtonClick();
             testService.insertInformationToElectronicData(firstName,lastName, gender, partOfEmailAddress, password, recoveryEmailAddress);
 
         } catch (Exception exception) {

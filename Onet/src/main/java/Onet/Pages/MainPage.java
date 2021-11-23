@@ -10,7 +10,7 @@ public class MainPage extends BasePage{
         super(driver);
     }
 
-    EmailPage emailPage;
+    LoginPage emailPage;
 
     @FindBy (xpath = "//span[contains(text(),'Szanowna Użytkowniczko, Szanowny Użytkowniku,')]")
     WebElement popUpHeader;
@@ -61,10 +61,10 @@ public class MainPage extends BasePage{
         advancedSettingsButton.click();
     }
 
-    public EmailPage emailButtonClick() throws InterruptedException {
+    public LoginPage emailButtonClick() throws InterruptedException {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(emailButton));
         emailButton.click();
-        return new EmailPage(driver);
+        return new LoginPage(driver);
     }
 
 }
