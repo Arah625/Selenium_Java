@@ -144,4 +144,28 @@ public class SqlQueries {
     public String getDBDTParameterValue(String testerAlias, String parametr) {
         return "SELECT wartosc FROM namiary WHERE testerAlias ='" + testerAlias + "' AND parametr = '" + parametr + "'";
     }
+
+    /**
+     * Zapytania do bazy PersonalElectronicData
+     */
+
+    public String getEmailAddress() {
+        return "SELECT email_address FROM personal_electronic_data WHERE email_address NOT LIKE '%@%' ORDER BY RANDOM() FETCH FIRST ROWS ONLY;";
+    }
+
+    public String updateEmailAddress(String fullEmailAddress, String partialEmailAddress){
+        return "UPDATE personal_electronic_data SET email_address = '" + fullEmailAddress + "' WHERE email_address = '" + partialEmailAddress +"';";
+    }
+
+    public String getEmailAddressWithoutNotificationSent(){
+        return "SELECT email_address FROM personal_electronic_data WHERE recovery_email_address_notified IS NULL FETCH FIRST ROWS ONLY;";
+    }
+
+    public String updateNotificationDetails(String currentDate, String currentTime, String emailAddress){
+        return "UPDATE personal_electronic_data " +
+                "SET recovery_email_address_notified = 'true', " +
+                "notification_sent_date = '" + currentDate + "', " +
+                "notification_sent_time = '" + currentTime + "'" +
+                "WHERE email_address = '" + emailAddress +"';";
+    }
 }

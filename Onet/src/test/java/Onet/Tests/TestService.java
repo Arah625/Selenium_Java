@@ -5,6 +5,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -116,7 +119,7 @@ public class TestService {
     }
 
 
-    public void insertInformationToElectronicData(String first_name, String last_name, String gender, String email_address, String email_password, String recovery_email_address) {
+    public void insertInformationToPersonalElectronicDataTable(String first_name, String last_name, String gender, String email_address, String email_password, String recovery_email_address) {
 
         String sqlQuery = "INSERT INTO personal_electronic_data(first_name, last_name, gender, email_address, email_password, recovery_email_address, creation_date, creation_time) VALUES(?,?,?,?,?,?,?,?)";
 
@@ -146,7 +149,62 @@ public class TestService {
             if (rs.next()) {
                 idValue = rs.getInt(1);
             }
-            System.out.println("Inserted into row: " + idValue);
+            System.out.println("Inserted first name: " + first_name + " to database table personal_electronic_data");
+            System.out.println("Inserted last name: " + last_name + " to database table personal_electronic_data");
+            System.out.println("Inserted gender: " + gender + " to database table personal_electronic_data");
+            System.out.println("Inserted email address: " + email_address + " to database table personal_electronic_data");
+            System.out.println("Inserted email password: " + email_password + " to database table personal_electronic_data");
+            System.out.println("Inserted recovery email address: " + recovery_email_address + " to database table personal_electronic_data");
+            System.out.println("Inserted creation date: " + creation_date + " to database table personal_electronic_data");
+            System.out.println("Inserted creation time: " + creation_time + " to database table personal_electronic_data");
+            System.out.println("Inserted all above information to table 'personal_electronic_data' in database: " + username + " into row: " + idValue);
+            rs.close();
+            preparedStatement.close();
+            dbConnection.close();
+        } catch (java.sql.SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertInformationToPersonalEDataTable(String first_name, String last_name, String gender, String email_address, String email_password, String recovery_email_address) {
+
+        String sqlQuery = "INSERT INTO personal_e_data(first_name, last_name, gender, email_address, email_password, recovery_email_address, creation_date, creation_time) VALUES(?,?,?,?,?,?,?,?)";
+
+        String creation_date = currentDate();
+        String creation_time = currentTime();
+
+        String url = getCredentialValue("electronicDataUrl");
+        String username = getCredentialValue("electronicDataUsername");
+        String password = getCredentialValue("electronicDataPassword");
+
+        try {
+            Connection dbConnection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, first_name);
+            preparedStatement.setString(2, last_name);
+            preparedStatement.setString(3, gender);
+            preparedStatement.setString(4, email_address);
+            preparedStatement.setString(5, email_password);
+            preparedStatement.setString(6, recovery_email_address);
+            preparedStatement.setString(7, creation_date);
+            preparedStatement.setString(8, creation_time);
+
+            preparedStatement.execute();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+
+            int idValue = 0;
+            if (rs.next()) {
+                idValue = rs.getInt(1);
+            }
+            System.out.println("Inserted first name: " + first_name + " to database table personal_e_data");
+            System.out.println("Inserted last name: " + last_name + " to database table personal_e_data");
+            System.out.println("Inserted gender: " + gender + " to database table personal_e_data");
+            System.out.println("Inserted email address: " + email_address + " to database table personal_e_data");
+            System.out.println("Inserted email password: " + email_password + " to database table personal_e_data");
+            System.out.println("Inserted recovery email address: " + recovery_email_address + " to database table personal_e_data");
+            System.out.println("Inserted creation date: " + creation_date + " to database table personal_e_data");
+            System.out.println("Inserted creation time: " + creation_time + " to database table personal_e_data");
+            System.out.println("Inserted all above information to table 'personal_e_data' in database: " + username + " into row: " + idValue);
             rs.close();
             preparedStatement.close();
             dbConnection.close();
@@ -183,6 +241,14 @@ public class TestService {
         String currentTime = simpleDateFormat.format(new Date());
         System.out.println("Current time: " + currentTime);
         return currentTime;
+    }
+
+    public String timestamp(String text){
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HHmmssyyyyMMdd");
+        String timestamp = simpleDateFormat.format(date);
+        System.out.println("Generated timestamp: " + timestamp);
+        return text + timestamp;
     }
 
 
@@ -266,5 +332,10 @@ public class TestService {
         String postalCode = firstPart + "-" + secondPart;
         System.out.println("Generated polish postal code: " + postalCode);
         return postalCode;
+    }
+
+    public String readStringFromFile(String filePath) throws IOException {
+        String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
+        return fileContent;
     }
 }

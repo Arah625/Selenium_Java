@@ -5,12 +5,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 public class MainPage extends BasePage{
     public MainPage(WebDriver driver) {
         super(driver);
     }
 
     LoginPage emailPage;
+
+    @FindBy(xpath = "//*[@aria-label = 'close']")
+    List<WebElement> closePopUpsList;
+
+    @FindBy(xpath = "//*[@aria-label = 'close']")
+    WebElement closeSinglePopUp;
 
     @FindBy (xpath = "//span[contains(text(),'Szanowna Użytkowniczko, Szanowny Użytkowniku,')]")
     WebElement popUpHeader;
@@ -24,6 +32,26 @@ public class MainPage extends BasePage{
     @FindBy (xpath = "//*[@class = 'headerNavItem mail']")
     WebElement emailButton;
 
+
+    public boolean closeAllPopUpsIfVisible() {
+        for (WebElement closeButton : closePopUpsList){
+            if (isPopUpToCloseVisible()){
+                closeButton.click();
+                webDriverWait.until(ExpectedConditions.invisibilityOf(closeButton));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPopUpToCloseVisible() {
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOf(closeSinglePopUp)).isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
 
     public boolean isPopUpHeaderVisible() {
         try {

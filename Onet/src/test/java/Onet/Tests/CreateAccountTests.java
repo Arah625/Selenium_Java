@@ -6,6 +6,8 @@ import Onet.Pages.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -80,7 +82,7 @@ public class CreateAccountTests {
             createAccountPage.submitButtonClick();
             Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
             loginPage = createAccountPage.goToEmailPageButtonClick();
-            testService.insertInformationToElectronicData(firstName,lastName, gender, partOfEmailAddress, password, recoveryEmailAddress);
+            testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, newEmailAddress, password, recoveryEmailAddress);
 
         } catch (Exception exception) {
             System.out.println("Error occurred");
@@ -124,7 +126,7 @@ public class CreateAccountTests {
             createAccountPage.submitButtonClick();
             Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
             loginPage = createAccountPage.goToEmailPageButtonClick();
-            testService.insertInformationToElectronicData(firstName,lastName, gender, partOfEmailAddress, password, recoveryEmailAddress);
+            testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, newEmailAddress, password, recoveryEmailAddress);
 
         } catch (Exception exception) {
             System.out.println("Error occurred");
@@ -155,7 +157,7 @@ public class CreateAccountTests {
         }
     }*/
 
-/*    @AfterTest(alwaysRun = true)
+    @AfterTest(alwaysRun = true)
     public void afterTest() {
         driver.quit();
         System.out.println("Calling: driver.quit()");
@@ -165,5 +167,5 @@ public class CreateAccountTests {
     public void afterMethod() {
         driver.close();
         System.out.println("Calling: driver.close()");
-    }*/
+    }
 }

@@ -11,11 +11,17 @@ public class EmailAccountPage extends BasePage{
         super(driver);
     }
 
+    @FindBy (xpath = "//header//button/span/span")
+    WebElement emailAddress;
+
     @FindBy (xpath = "//span[contains(text(),'Napisz wiadomość')]/../..")
     WebElement writeMessageButton;
 
     @FindBy (xpath = "//span[contains(text(),'Odebrane')]/../..")
     WebElement receivedMessagesTab;
+
+    @FindBy (xpath = "//button[@id = 'inbox-refresh']/..")
+    WebElement refreshInboxButton;
 
     @FindBy (xpath = "//span[contains(text(),'Społeczności')]/../..")
     WebElement communityTab;
@@ -74,17 +80,63 @@ public class EmailAccountPage extends BasePage{
     @FindBy (xpath = "//span[contains(text(),'Foldery')]/../..")
     WebElement foldersTab;
 
+    @FindBy (xpath = "//*[@id = 'field-recipient-to']//input")
+    WebElement recipientInputField;
+
+    @FindBy (xpath = "//*[@id = 'field-subject']//input")
+    WebElement subjectInputField;
+
+    @FindBy (xpath = "//button[@title = 'Użyj edytora tekstu']")
+    WebElement useTextEditorButton;
+
+    @FindBy (xpath = "//*[@id='wrapper']//textarea")
+    WebElement messageInputFieldInTextEditor;
+
+    @FindBy (xpath = "//button[@title = 'Powrót']")
+    WebElement returnButton;
+
+    @FindBy (xpath = "//button[@title = 'Wyślij']")
+    WebElement sendEmailButton;
+
+    @FindBy (xpath = "//button[@title = 'Zapisz szkic']")
+    WebElement saveEmailDraftButton;
+
+    @FindBy (xpath = "//button[@title = 'Anuluj']")
+    WebElement cancelEmailButton;
 
 
+    public String getEmailAddressFromEmailAccountPage() {
+        webDriverWait.until(ExpectedConditions.visibilityOf(emailAddress));
+        return emailAddress.getText();
+    }
+
+    public boolean isWriteMessageButtonVisible() {
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOf(writeMessageButton)).isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
 
     public void writeMessageButtonClick() throws InterruptedException {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(writeMessageButton));
         writeMessageButton.click();
     }
 
+    public void useTextEditorButtonClick() throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(useTextEditorButton));
+        useTextEditorButton.click();
+    }
+
     public void receivedMessagesTabClick() throws InterruptedException {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(receivedMessagesTab));
         receivedMessagesTab.click();
+    }
+
+    public void refreshInboxButtonClick() throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(refreshInboxButton));
+        refreshInboxButton.click();
     }
 
     public void communityTabClick() throws InterruptedException {
@@ -181,6 +233,46 @@ public class EmailAccountPage extends BasePage{
     public void foldersTabClick() throws InterruptedException {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(foldersTab));
         foldersTab.click();
+    }
+
+    public void fillRecipient(String recipient) throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(recipientInputField));
+        recipientInputField.clear();
+        recipientInputField.sendKeys(recipient);
+        recipientInputField.click();
+    }
+
+    public void fillSubject(String subject) {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(subjectInputField));
+        subjectInputField.clear();
+        subjectInputField.sendKeys(subject);
+    }
+
+    public void fillMessage(String message) {
+        webDriverWait.until(ExpectedConditions.visibilityOf(messageInputFieldInTextEditor));
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(messageInputFieldInTextEditor));
+        messageInputFieldInTextEditor.clear();
+        messageInputFieldInTextEditor.sendKeys(message);
+    }
+
+    public void returnButtonClick() throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(returnButton));
+        returnButton.click();
+    }
+
+    public void sendEmailButtonClick() throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(sendEmailButton));
+        sendEmailButton.click();
+    }
+
+    public void saveEmailDraftButtonClick() throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(saveEmailDraftButton));
+        saveEmailDraftButton.click();
+    }
+
+    public void cancelEmailButtonClick() throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(cancelEmailButton));
+        cancelEmailButton.click();
     }
 
 }
