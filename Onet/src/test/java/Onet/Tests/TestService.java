@@ -312,7 +312,7 @@ public class TestService {
      */
     public String generateRandomEmailAddress(String firstName, String lastName) {
         String fullEmail = replacePolishLetters((firstName + "." + lastName + randomNumberGenerator(0, 999))).toLowerCase().replace(" ", "");
-        System.out.println("Generated e-mail address: " + fullEmail);
+        System.out.println("Generated partial e-mail address: " + fullEmail);
         return replacePolishLetters(fullEmail);
     }
 
@@ -337,5 +337,16 @@ public class TestService {
     public String readStringFromFile(String filePath) throws IOException {
         String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
         return fileContent;
+    }
+
+    public String notifyRecoveryEmailMessageFileLocation(){
+        return "src/main/resources/NotifyRecoveryEmailMessage.txt";
+    }
+    public String credentialsPasswordForTests(){
+        return "passwordForTests";
+    }
+
+    public String credentialsRecoveryEmailAddress(){
+        return "recoveryEmailAddress";
     }
 }

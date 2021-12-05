@@ -158,7 +158,7 @@ public class SqlQueries {
     }
 
     public String getEmailAddressWithoutNotificationSent(){
-        return "SELECT email_address FROM personal_electronic_data WHERE recovery_email_address_notified IS NULL FETCH FIRST ROWS ONLY;";
+        return "SELECT email_address FROM personal_electronic_data WHERE recovery_email_address_notified IS NULL FETCH FIRST ROW ONLY;";
     }
 
     public String updateNotificationDetails(String currentDate, String currentTime, String emailAddress){

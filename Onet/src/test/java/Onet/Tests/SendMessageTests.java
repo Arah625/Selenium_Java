@@ -6,6 +6,8 @@ import Onet.Pages.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -42,36 +44,31 @@ public class SendMessageTests {
     }*/
 
 
-/*    @Test(priority = 1)
+    @Test(priority = 1)
     public void LoginToEmailAccount() throws Exception {
         try {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
-            Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
-            mainPage.goToWebsiteButtonClick();
+            mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Assert.assertTrue(loginPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
-            String emailAddress = "yuriy.olejnik666@op.pl";
+            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
+            String emailAddress = "";
             loginPage.fillEmailAddress(emailAddress);
-            String emailPassword = testService.getCredentialValue("passwordForTests");
+            String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
             loginPage.fillEmailPassword(emailPassword);
             emailAccountPage = loginPage.LoginButtonClick();
-            int retry = 0;
-            while (retry < 1) {
-                emailAccountPage.writeMessageButtonClick();
-                String recipient = "yuriy.olejnik666@op.pl";
-                emailAccountPage.fillRecipient(recipient);
-                String subject = testService.timestamp("Test subject: ");
-                emailAccountPage.fillSubject(subject);
-                String message = testService.readStringFromFile("src/main/resources/NotifyRecoveryEmailMessage.txt");
-                emailAccountPage.useTextEditorButtonClick();
-                emailAccountPage.fillMessage(message);
-                emailAccountPage.sendEmailButtonClick();
-                emailAccountPage.refreshInboxButtonClick();
-                emailAccountPage.communityTabClick();
-                retry++;
-            }
+            emailAccountPage.writeMessageButtonClick();
+            String recipient = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
+            emailAccountPage.fillRecipient(recipient);
+            String subject = testService.timestamp("Test subject: ");
+            emailAccountPage.fillSubject(subject);
+            String message = testService.readStringFromFile(testService.notifyRecoveryEmailMessageFileLocation());
+            emailAccountPage.useTextEditorButtonClick();
+            emailAccountPage.fillMessage(message);
+            emailAccountPage.sendEmailButtonClick();
+            emailAccountPage.refreshInboxButtonClick();
+            emailAccountPage.communityTabClick();
             emailAccountPage.receivedMessagesTabClick();
 
 
@@ -79,7 +76,7 @@ public class SendMessageTests {
             System.out.println("Error occurred");
             throw exception;
         }
-    }*/
+    }
 
     @Test(priority = 1)
     public void sendNotificationFromFile() throws Exception {
@@ -87,26 +84,25 @@ public class SendMessageTests {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
-            Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
-            mainPage.goToWebsiteButtonClick();
+            mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Assert.assertTrue(loginPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
+            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
             String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutNotificationSent());
             loginPage.fillEmailAddress(emailAddress);
-            String emailPassword = testService.getCredentialValue("passwordForTests");
+            String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
             loginPage.fillEmailPassword(emailPassword);
             emailAccountPage = loginPage.LoginButtonClick();
             emailAccountPage.writeMessageButtonClick();
-            String recipient = testService.getCredentialValue("recoveryEmailAddress");
+            String recipient = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
             emailAccountPage.fillRecipient(recipient);
             String subject = testService.timestamp("Notification: Recovery e-mail address: ");
             emailAccountPage.fillSubject(subject);
-            String message = testService.readStringFromFile("src/main/resources/NotifyRecoveryEmailMessage.txt");
+            String message = testService.readStringFromFile(testService.notifyRecoveryEmailMessageFileLocation());
             emailAccountPage.useTextEditorButtonClick();
             emailAccountPage.fillMessage(message);
             emailAccountPage.sendEmailButtonClick();
-            emailAccountPage.refreshInboxButtonClick();
-            testService.executeQueryOnElectronicData(sqlQueries.updateNotificationDetails(testService.currentDate(), testService.currentTime(),emailAddress));
+            Assert.assertTrue(emailAccountPage.isEmailSentNotificationVisible(), "Notification 'Mail został wysłany' is not visible");
+            testService.executeQueryOnElectronicData(sqlQueries.updateNotificationDetails(testService.currentDate(), testService.currentTime(), emailAddress));
 
         } catch (Exception exception) {
             System.out.println("Error occurred");
@@ -114,7 +110,7 @@ public class SendMessageTests {
         }
     }
 
-/*    @AfterTest(alwaysRun = true)
+    @AfterTest(alwaysRun = true)
     public void afterTest() {
         driver.quit();
         System.out.println("Calling: driver.quit()");
@@ -124,5 +120,5 @@ public class SendMessageTests {
     public void afterMethod() {
         driver.close();
         System.out.println("Calling: driver.close()");
-    }*/
+    }
 }

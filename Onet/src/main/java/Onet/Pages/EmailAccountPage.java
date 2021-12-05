@@ -104,6 +104,9 @@ public class EmailAccountPage extends BasePage{
     @FindBy (xpath = "//button[@title = 'Anuluj']")
     WebElement cancelEmailButton;
 
+    @FindBy (xpath = "//span[contains(text(),'Mail został wysłany')]")
+    WebElement emailSentNotification;
+
 
     public String getEmailAddressFromEmailAccountPage() {
         webDriverWait.until(ExpectedConditions.visibilityOf(emailAddress));
@@ -273,6 +276,15 @@ public class EmailAccountPage extends BasePage{
     public void cancelEmailButtonClick() throws InterruptedException {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(cancelEmailButton));
         cancelEmailButton.click();
+    }
+
+    public boolean isEmailSentNotificationVisible() {
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOf(emailSentNotification)).isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
     }
 
 }

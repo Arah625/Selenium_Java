@@ -62,6 +62,12 @@ public class MainPage extends BasePage{
         }
     }
 
+    public void closePopUpIfVisible() throws InterruptedException {
+        if (isPopUpHeaderVisible()){
+            goToWebsiteButtonClick();
+        }
+    }
+
     public boolean isGoToWebsiteButtonVisible() {
         try {
             webDriverWait.until(ExpectedConditions.visibilityOf(goToWebsiteButton)).isDisplayed();

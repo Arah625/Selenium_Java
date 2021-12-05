@@ -52,14 +52,12 @@ public class LoginToEmailTests {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
-            System.out.println(testService.readStringFromFile("src/main/resources/NotifyRecoveryEmailMessage.txt"));
-            Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
-            mainPage.goToWebsiteButtonClick();
+            mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Assert.assertTrue(loginPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
+            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
             String emailAddress = "";
             loginPage.fillEmailAddress(emailAddress);
-            String emailPassword = testService.getCredentialValue("passwordForTests");
+            String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
             loginPage.fillEmailPassword(emailPassword);
             emailAccountPage = loginPage.LoginButtonClick();
             emailAccountPage.writeMessageButtonClick();
@@ -76,8 +74,6 @@ public class LoginToEmailTests {
             emailAccountPage.spamTabClick();
             emailAccountPage.draftsTabClick();
             emailAccountPage.foldersTabClick();
-
-
         } catch (Exception exception) {
             System.out.println("Error occurred");
             throw exception;
@@ -93,11 +89,11 @@ public class LoginToEmailTests {
 //            Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
 //            mainPage.goToWebsiteButtonClick();
 //            loginPage = mainPage.emailButtonClick();
-//            Assert.assertTrue(loginPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
+//            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
 //            String partialEmailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddress());
 //            String emailAddress = partialEmailAddress + "@op.pl";
 //            loginPage.fillEmailAddress(emailAddress);
-//            String emailPassword = testService.getCredentialValue("passwordForTests");
+//            String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
 //            loginPage.fillEmailPassword(emailPassword);
 //            emailAccountPage = loginPage.LoginButtonClick();
 //            Assert.assertTrue(emailAccountPage.isWriteMessageButtonVisible(), "Button 'Napisz wiadomość' is not visible");

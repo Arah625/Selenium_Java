@@ -52,10 +52,9 @@ public class CreateAccountTests {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
-            Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
-            mainPage.goToWebsiteButtonClick();
+            mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Assert.assertTrue(loginPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
+            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName()));
             String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleLastName()));
@@ -63,11 +62,11 @@ public class CreateAccountTests {
             createAccountPage.fillEmailAddress2(partOfEmailAddress);
             String newEmailAddress = createAccountPage.getEmailAddressFromSetPasswordSubheader();
             System.out.println("New email address is: " + newEmailAddress);
-            String password = testService.getCredentialValue("passwordForTests");
+            String password = testService.getCredentialValue(testService.credentialsPasswordForTests());
             createAccountPage.fillNewPassword(password);
             createAccountPage.fillRepeatNewPassword(password);
             createAccountPage.submitButtonClick();
-            String recoveryEmailAddress = testService.getCredentialValue("recoveryEmailAddress");
+            String recoveryEmailAddress = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
             createAccountPage.fillRecoveryEmailAddress(recoveryEmailAddress);
             createAccountPage.submitButtonClick();
             String gender = "male";
@@ -83,6 +82,7 @@ public class CreateAccountTests {
             Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
             loginPage = createAccountPage.goToEmailPageButtonClick();
             testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, newEmailAddress, password, recoveryEmailAddress);
+            driver.quit();
 
         } catch (Exception exception) {
             System.out.println("Error occurred");
@@ -90,16 +90,15 @@ public class CreateAccountTests {
         }
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, groups = {"basic"})
     public void createFemaleAccount() throws Exception {
         try {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
-            Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
-            mainPage.goToWebsiteButtonClick();
+            mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Assert.assertTrue(loginPage.isLoginFormVisible(), "Okno do logowania do poczty nie jest widoczne");
+            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleFirstName()));
             String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleLastName()));
@@ -107,11 +106,11 @@ public class CreateAccountTests {
             createAccountPage.fillEmailAddress2(partOfEmailAddress);
             String newEmailAddress = createAccountPage.getEmailAddressFromSetPasswordSubheader();
             System.out.println("New email address is: " + newEmailAddress);
-            String password = testService.getCredentialValue("passwordForTests");
+            String password = testService.getCredentialValue(testService.credentialsPasswordForTests());
             createAccountPage.fillNewPassword(password);
             createAccountPage.fillRepeatNewPassword(password);
             createAccountPage.submitButtonClick();
-            String recoveryEmailAddress = testService.getCredentialValue("recoveryEmailAddress");
+            String recoveryEmailAddress = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
             createAccountPage.fillRecoveryEmailAddress(recoveryEmailAddress);
             createAccountPage.submitButtonClick();
             String gender = "female";
@@ -127,6 +126,7 @@ public class CreateAccountTests {
             Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
             loginPage = createAccountPage.goToEmailPageButtonClick();
             testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, newEmailAddress, password, recoveryEmailAddress);
+            driver.quit();
 
         } catch (Exception exception) {
             System.out.println("Error occurred");
@@ -165,7 +165,12 @@ public class CreateAccountTests {
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod() {
-        driver.close();
-        System.out.println("Calling: driver.close()");
+        try {
+            driver.close();
+            System.out.println("Calling: driver.close()");
+        }catch (Exception e){
+            System.out.println("Caught exception " + e.getMessage());
+        }
+
     }
 }
