@@ -20,7 +20,7 @@ public class MainPage extends BasePage{
     @FindBy(xpath = "//*[@aria-label = 'close']")
     WebElement closeSinglePopUp;
 
-    @FindBy (xpath = "//span[contains(text(),'Szanowna Użytkowniczko, Szanowny Użytkowniku,')]")
+    @FindBy (xpath = "//span[contains(text(),'Szanowna Użytkowniczko, Szanowny Użytkowniku')]")
     WebElement popUpHeader;
 
     @FindBy (xpath = "//button//span[contains(text(),'Przejdź do serwisu')]")
@@ -29,7 +29,7 @@ public class MainPage extends BasePage{
     @FindBy (xpath = "//button//span[contains(text(),'Ustawienia zaawansowane')]")
     WebElement advancedSettingsButton;
 
-    @FindBy (xpath = "//*[@class = 'headerNavItem mail']")
+    @FindBy (xpath = "//*[@class = 'headerNavItem mail'] | //*[span = 'E-mail']")
     WebElement emailButton;
 
 
@@ -95,7 +95,7 @@ public class MainPage extends BasePage{
         advancedSettingsButton.click();
     }
 
-    public LoginPage emailButtonClick() throws InterruptedException {
+    public LoginPage emailButtonClick() throws Exception {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(emailButton));
         emailButton.click();
         return new LoginPage(driver);

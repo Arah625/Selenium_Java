@@ -161,11 +161,26 @@ public class SqlQueries {
         return "SELECT email_address FROM personal_electronic_data WHERE recovery_email_address_notified IS NULL FETCH FIRST ROW ONLY;";
     }
 
+    public String getEmailAddressWithoutLastLoginDate(){
+        return "SELECT email_address FROM personal_electronic_data WHERE last_login_date IS NULL FETCH FIRST ROW ONLY;";
+    }
+
     public String updateNotificationDetails(String currentDate, String currentTime, String emailAddress){
         return "UPDATE personal_electronic_data " +
                 "SET recovery_email_address_notified = 'true', " +
                 "notification_sent_date = '" + currentDate + "', " +
                 "notification_sent_time = '" + currentTime + "'" +
                 "WHERE email_address = '" + emailAddress +"';";
+    }
+
+    public String updateLastLoginDetails(String currentDate, String currentTime, String emailAddress){
+        return "UPDATE personal_electronic_data " +
+                "SET last_login_date = '" + currentDate + "', " +
+                "last_login_time = '" + currentTime + "'" +
+                "WHERE email_address = '" + emailAddress +"';";
+    }
+
+    public String selectCount(String tableName, String columnName){
+        return "select count(*) from " + tableName + " where " + columnName + " is NULL;";
     }
 }

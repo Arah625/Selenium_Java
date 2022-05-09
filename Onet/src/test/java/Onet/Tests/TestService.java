@@ -1,6 +1,8 @@
 package Onet.Tests;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -50,6 +52,16 @@ public class TestService {
 
     public String facebookUrl() {
         return "http://facebook.com/";
+    }
+
+    //TODO: Fix this method
+
+    public RemoteWebDriver prepareChromeDriver(String url){
+        driver = new ChromeDriver();
+        System.setProperty(chromeDriver(), chromeDriverLocation());
+        driver.get(onetUrl());
+        driver.manage().window().maximize();
+        return (RemoteWebDriver) driver;
     }
 
 

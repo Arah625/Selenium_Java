@@ -8,7 +8,7 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait webDriverWait;
 
-    private static final int TIMEOUT = 10;
+    private static final int TIMEOUT = 15;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;

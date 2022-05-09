@@ -54,12 +54,12 @@ public class LoginToEmailTests {
             mainPage = new MainPage(driver);
             mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
+            Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
             String emailAddress = "";
             loginPage.fillEmailAddress(emailAddress);
             String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
             loginPage.fillEmailPassword(emailPassword);
-            emailAccountPage = loginPage.LoginButtonClick();
+            emailAccountPage = loginPage.loginButtonClick();
             emailAccountPage.writeMessageButtonClick();
             emailAccountPage.receivedMessagesTabClick();
             emailAccountPage.communityTabClick();

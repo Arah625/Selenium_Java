@@ -11,13 +11,16 @@ public class LoginPage extends BasePage{
     }
 
 
-    @FindBy (xpath = "//*[@id = 'loginForm']")
-    WebElement loginForm;
+    @FindBy (xpath = "//h1[contains(text(), 'Logowanie do Onet Poczty')]")
+    WebElement loginToOnetMailHeader;
 
-    @FindBy (xpath = "//*[@id = 'mailFormLogin']")
+    @FindBy (xpath = "//*[@id = 'email']")
     WebElement emailAddressInput;
 
-    @FindBy (xpath = "//*[@id = 'mailFormPassword']")
+    @FindBy (xpath = "//button/span[contains(text(), 'Dalej')]")
+    WebElement submitEmailAddress;
+
+    @FindBy (xpath = "//*[@id = 'password']")
     WebElement emailPasswordInput;
 
     @FindBy (xpath = "//*[@id = 'mailFormPerm']/../span")
@@ -26,18 +29,18 @@ public class LoginPage extends BasePage{
     @FindBy (xpath = "//*[@id = 'loginForm']//*[contains(text(),'Odzyskaj hasło')]")
     WebElement recoverPassword;
 
-    @FindBy (xpath = "//*[@id = 'loginForm']//*[@class = 'loginButton']")
+    @FindBy (xpath = "//button/span[contains(text(), 'Zaloguj')]")
     WebElement loginButton;
 
-    @FindBy (xpath = "//a[contains(text(),'Załóż konto')]")
+    @FindBy (xpath = "//span[contains(text(),'Zarejestruj się')]")
     WebElement createAccountButton;
 
 
 
 
-    public boolean isLoginFormVisible() {
+    public boolean isLoginToOnetMailHeaderVisible() {
         try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(loginForm)).isDisplayed();
+            webDriverWait.until(ExpectedConditions.visibilityOf(loginToOnetMailHeader)).isDisplayed();
             return true;
         } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
             return false;
@@ -66,7 +69,12 @@ public class LoginPage extends BasePage{
         recoverPassword.click();
     }
 
-    public EmailAccountPage LoginButtonClick() throws InterruptedException {
+    public void submitEmailAddressButtonClick() throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(submitEmailAddress));
+        submitEmailAddress.click();
+    }
+
+    public EmailAccountPage loginButtonClick() throws InterruptedException {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(loginButton));
         loginButton.click();
         return new EmailAccountPage(driver);

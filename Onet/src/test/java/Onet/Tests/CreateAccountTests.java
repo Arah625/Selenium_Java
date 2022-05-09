@@ -54,7 +54,7 @@ public class CreateAccountTests {
             mainPage = new MainPage(driver);
             mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
+            Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName()));
             String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleLastName()));
@@ -98,7 +98,7 @@ public class CreateAccountTests {
             mainPage = new MainPage(driver);
             mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
+            Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleFirstName()));
             String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleLastName()));
