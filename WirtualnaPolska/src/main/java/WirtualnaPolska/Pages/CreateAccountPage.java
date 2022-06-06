@@ -6,6 +6,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CreateAccountPage extends BasePage{
 
     public CreateAccountPage(WebDriver driver) {
@@ -44,6 +48,12 @@ public class CreateAccountPage extends BasePage{
 
     @FindBy (xpath = "//*[contains(text(),'Numer telefonu komórkowego')]/..//input")
     WebElement mobilePhoneInputField;
+
+    @FindBy (xpath = "//button[contains(text(),'Email pomocniczy')]")
+    WebElement recoveryEmailButton;
+
+    @FindBy (xpath = "//*[@name='recoveryEmail']")
+    WebElement recoveryEmailInputField;
 
     @FindBy (xpath = "//*[@id='free']/..")
     WebElement freeAccountRadioButton;
@@ -100,6 +110,16 @@ public class CreateAccountPage extends BasePage{
         maleRadioButton.click();
     }
 
+    public void genderButtonClick(String gender) throws InterruptedException {
+        if (gender.equalsIgnoreCase("male")){
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(maleRadioButton));
+            maleRadioButton.click();
+        } if (gender.equalsIgnoreCase("female")){
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(femaleRadioButton));
+            femaleRadioButton.click();
+        }
+    }
+
     public void selectDateOfBirth(String day, String month, String year) {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(dayOfBirthInputField));
         dayOfBirthInputField.clear();
@@ -107,6 +127,28 @@ public class CreateAccountPage extends BasePage{
         Select monthOfBirth = new Select(monthOfBirthSelect);
 //        monthOfBirth.selectByValue(month);
         monthOfBirth.selectByVisibleText(month);
+        Select yearOfBirth = new Select(yearOfBirthSelect);
+        yearOfBirth.selectByValue(year);
+    }
+
+    public void selectDateOfBirth(String date) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date myDate = simpleDateFormat.parse(date);
+        simpleDateFormat = new SimpleDateFormat("dd");
+        String day = simpleDateFormat.format(myDate);
+        System.out.println("Day: " + day);
+        simpleDateFormat = new SimpleDateFormat("MM");
+        String month = simpleDateFormat.format(myDate);
+        System.out.println("Month: " + month);
+        simpleDateFormat = new SimpleDateFormat("yyyy");
+        String year = simpleDateFormat.format(myDate);
+        System.out.println("Year: " + year);
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(dayOfBirthInputField));
+        dayOfBirthInputField.clear();
+        dayOfBirthInputField.sendKeys(day);
+        Select monthOfBirth = new Select(monthOfBirthSelect);
+        monthOfBirth.selectByValue(month);
+//        monthOfBirth.selectByVisibleText(month);
         Select yearOfBirth = new Select(yearOfBirthSelect);
         yearOfBirth.selectByValue(year);
     }
@@ -133,6 +175,17 @@ public class CreateAccountPage extends BasePage{
         webDriverWait.until(ExpectedConditions.elementToBeClickable(mobilePhoneInputField));
         mobilePhoneInputField.clear();
         mobilePhoneInputField.sendKeys(mobilePhoneNumber);
+    }
+
+    public void addRecoveryEmailAddressButtonClick(){
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(recoveryEmailButton));
+        recoveryEmailButton.click();
+    }
+
+    public void fillRecoveryEmailAddress(String recoveryEmail) {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(recoveryEmailInputField));
+        recoveryEmailInputField.clear();
+        recoveryEmailInputField.sendKeys(recoveryEmail);
     }
 
     public void freeAccountRadioButtonClick() {

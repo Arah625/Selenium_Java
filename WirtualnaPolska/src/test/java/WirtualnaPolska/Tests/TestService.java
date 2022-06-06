@@ -12,9 +12,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TestService {
 
@@ -136,9 +140,9 @@ public class TestService {
     }
 
 
-    public void insertInformationToPersonalElectronicDataTable(String first_name, String last_name, String gender, String email_address, String email_password, String recovery_email_address) throws SQLException {
+    public void insertInformationToPersonalElectronicDataTable(String first_name, String last_name, String gender, String date_of_birth, String email_address, String email_password, String recovery_email_address) throws SQLException {
 
-        String sqlQuery = "INSERT INTO personal_electronic_data(first_name, last_name, gender, email_address, email_password, recovery_email_address, creation_date, creation_time) VALUES(?,?,?,?,?,?,?,?)";
+        String sqlQuery = "INSERT INTO personal_electronic_data(first_name, last_name, gender, date_of_birth, email_address, email_password, recovery_email_address, creation_date, creation_time) VALUES(?,?,?,?,?,?,?,?,?)";
 
         String creation_date = currentDate();
         String creation_time = currentTime();
@@ -155,11 +159,12 @@ public class TestService {
             preparedStatement.setString(1, first_name);
             preparedStatement.setString(2, last_name);
             preparedStatement.setString(3, gender);
-            preparedStatement.setString(4, email_address);
-            preparedStatement.setString(5, email_password);
-            preparedStatement.setString(6, recovery_email_address);
-            preparedStatement.setString(7, creation_date);
-            preparedStatement.setString(8, creation_time);
+            preparedStatement.setString(4, date_of_birth);
+            preparedStatement.setString(5, email_address);
+            preparedStatement.setString(6, email_password);
+            preparedStatement.setString(7, recovery_email_address);
+            preparedStatement.setString(8, creation_date);
+            preparedStatement.setString(9, creation_time);
 
             preparedStatement.execute();
 
@@ -170,6 +175,7 @@ public class TestService {
             System.out.println("Inserted first name: " + first_name + " to database table personal_electronic_data");
             System.out.println("Inserted last name: " + last_name + " to database table personal_electronic_data");
             System.out.println("Inserted gender: " + gender + " to database table personal_electronic_data");
+            System.out.println("Inserted date of birth: " + date_of_birth + " to database table personal_electronic_data");
             System.out.println("Inserted email address: " + email_address + " to database table personal_electronic_data");
             System.out.println("Inserted email password: " + email_password + " to database table personal_electronic_data");
             System.out.println("Inserted recovery email address: " + recovery_email_address + " to database table personal_electronic_data");
@@ -376,5 +382,22 @@ public class TestService {
         return "phoneNumberForTests";
     }
 
+    public String randomDateInGivenRange(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay, String dateFormat) {
+        LocalDate from = LocalDate.of(startYear, startMonth, startDay);
+        LocalDate to = LocalDate.of(endYear, endMonth, endDay);
+        long days = from.until(to, ChronoUnit.DAYS);
+        long randomDays = ThreadLocalRandom.current().nextLong(days + 1);
+        LocalDate randomDate = from.plusDays(randomDays);
+        String generatedDate = randomDate.format(DateTimeFormatter.ofPattern(dateFormat));
+        System.out.println("Generating date between " + startDay + "-" + startMonth + "-" + startYear + " and "  + endDay + "-" + endMonth + "-" + endYear);
+        System.out.println("in format: '" + dateFormat + "'");
+        System.out.println("Generated date: " + generatedDate);
+        return generatedDate;
+    }
+
+
+
 
 }
+
+

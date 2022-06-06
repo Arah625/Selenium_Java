@@ -38,6 +38,7 @@ public class CreateAccountTests {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
+
             mainPage.acceptTermsIfVisible();
             loginPage = mainPage.emailButtonClick();
             createAccountPage = loginPage.createAccountButtonClick();
@@ -45,12 +46,10 @@ public class CreateAccountTests {
             String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleLastName()));
             createAccountPage.fillFirstName(firstName);
             createAccountPage.fillLastName(lastName);
-            createAccountPage.genderMaleRadioButtonClick();
-            String dayOfBirth = "15";
-//            String monthOfBirth = "01";
-            String monthOfBirth = "Styczeń";
-            String yearOfBirth = "1997";
-            createAccountPage.selectDateOfBirth(dayOfBirth, monthOfBirth,yearOfBirth);
+            String gender = "male";
+            createAccountPage.genderButtonClick(gender);
+            String dateOfBirth = testService.randomDateInGivenRange(1989, 1, 1, 2004, 1, 1, "dd-MM-yyyy");
+            createAccountPage.selectDateOfBirth(dateOfBirth);
             String partOfEmailAddress = testService.generateRandomEmailAddress(firstName, lastName);
             createAccountPage.fillLogin(partOfEmailAddress);
             String password = testService.getCredentialValue(testService.credentialsPasswordForTests());
@@ -58,13 +57,63 @@ public class CreateAccountTests {
             createAccountPage.fillRepeatPassword(password);
             String phoneNumber = testService.getCredentialValue(testService.credentialsPhoneNumberForTests());
             createAccountPage.fillMobilePhoneNumber(phoneNumber);
+            createAccountPage.addRecoveryEmailAddressButtonClick();
+            String recoveryEmailAddress = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
+            createAccountPage.fillRecoveryEmailAddress(recoveryEmailAddress);
             createAccountPage.freeAccountRadioButtonClick();
             createAccountPage.checkAllCheckboxes();
             createAccountPage.createAccountButtonClick();
             Assert.assertTrue(createAccountPage.isAccountCreatedHeaderVisible(), "Header 'Twoje konto w WP Poczcie zostało założone!' is not visible");
+            String emailAddressDomain = "@wp.pl";
+            String newEmailAddress = partOfEmailAddress + emailAddressDomain;
             loginPage = createAccountPage.loginToAccountButtonClick();
             Assert.assertTrue(loginPage.isLoginButtonVisible(), "Button 'Zaloguj się' is not visible");
-//            testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, newEmailAddress, password, recoveryEmailAddress);
+            testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, dateOfBirth, newEmailAddress, password, recoveryEmailAddress);
+            driver.quit();
+
+        } catch (Exception exception) {
+            System.out.println("Error occurred");
+            throw exception;
+        }
+    }
+
+    @Test(priority = 2)
+    public void createFemaleAccount() throws Exception {
+        try {
+            testService = new TestService(driver);
+            sqlQueries = new SqlQueries(driver);
+            mainPage = new MainPage(driver);
+
+            mainPage.acceptTermsIfVisible();
+            loginPage = mainPage.emailButtonClick();
+            createAccountPage = loginPage.createAccountButtonClick();
+            String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleFirstName()));
+            String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleLastName()));
+            createAccountPage.fillFirstName(firstName);
+            createAccountPage.fillLastName(lastName);
+            String gender = "female";
+            createAccountPage.genderButtonClick(gender);
+            String dateOfBirth = testService.randomDateInGivenRange(1989, 1, 1, 2004, 1, 1, "dd-MM-yyyy");
+            createAccountPage.selectDateOfBirth(dateOfBirth);
+            String partOfEmailAddress = testService.generateRandomEmailAddress(firstName, lastName);
+            createAccountPage.fillLogin(partOfEmailAddress);
+            String password = testService.getCredentialValue(testService.credentialsPasswordForTests());
+            createAccountPage.fillPassword(password);
+            createAccountPage.fillRepeatPassword(password);
+            String phoneNumber = testService.getCredentialValue(testService.credentialsPhoneNumberForTests());
+            createAccountPage.fillMobilePhoneNumber(phoneNumber);
+            createAccountPage.addRecoveryEmailAddressButtonClick();
+            String recoveryEmailAddress = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
+            createAccountPage.fillRecoveryEmailAddress(recoveryEmailAddress);
+            createAccountPage.freeAccountRadioButtonClick();
+            createAccountPage.checkAllCheckboxes();
+            createAccountPage.createAccountButtonClick();
+            Assert.assertTrue(createAccountPage.isAccountCreatedHeaderVisible(), "Header 'Twoje konto w WP Poczcie zostało założone!' is not visible");
+            String emailAddressDomain = "@wp.pl";
+            String newEmailAddress = partOfEmailAddress + emailAddressDomain;
+            loginPage = createAccountPage.loginToAccountButtonClick();
+            Assert.assertTrue(loginPage.isLoginButtonVisible(), "Button 'Zaloguj się' is not visible");
+            testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, dateOfBirth, newEmailAddress, password, recoveryEmailAddress);
             driver.quit();
 
         } catch (Exception exception) {
