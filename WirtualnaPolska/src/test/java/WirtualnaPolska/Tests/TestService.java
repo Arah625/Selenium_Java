@@ -192,7 +192,7 @@ public class TestService {
         }
     }
 
-    public void insertInformationToPersonalEDataTable(String first_name, String last_name, String gender, String email_address, String email_password, String recovery_email_address) {
+    public void insertInformationToPersonalEDataTable(String first_name, String last_name, String gender, String email_address, String email_password, String recovery_email_address) throws SQLException {
 
         String sqlQuery = "INSERT INTO personal_e_data(first_name, last_name, gender, email_address, email_password, recovery_email_address, creation_date, creation_time) VALUES(?,?,?,?,?,?,?,?)";
 
@@ -202,10 +202,12 @@ public class TestService {
         String url = getCredentialValue("electronicDataUrl");
         String username = getCredentialValue("electronicDataUsername");
         String password = getCredentialValue("electronicDataPassword");
+        Connection dbConnection = DriverManager.getConnection(url, username, password);
+        PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = preparedStatement.getGeneratedKeys();
 
         try {
-            Connection dbConnection = DriverManager.getConnection(url, username, password);
-            PreparedStatement preparedStatement = dbConnection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+
             preparedStatement.setString(1, first_name);
             preparedStatement.setString(2, last_name);
             preparedStatement.setString(3, gender);
@@ -216,7 +218,6 @@ public class TestService {
             preparedStatement.setString(8, creation_time);
 
             preparedStatement.execute();
-            ResultSet rs = preparedStatement.getGeneratedKeys();
 
             int idValue = 0;
             if (rs.next()) {
@@ -231,13 +232,14 @@ public class TestService {
             System.out.println("Inserted creation date: " + creation_date + " to database table personal_e_data");
             System.out.println("Inserted creation time: " + creation_time + " to database table personal_e_data");
             System.out.println("Inserted all above information to table 'personal_e_data' in database: " + username + " into row: " + idValue);
-            rs.close();
-            preparedStatement.close();
-            dbConnection.close();
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
             System.out.println("Executing finally block and closing database connection");
+            rs.close();
+            preparedStatement.close();
+            dbConnection.close();
         }
     }
 

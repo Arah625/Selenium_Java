@@ -21,7 +21,6 @@ public class CreateAccountTests {
     CreateAccountPage createAccountPage;
 
 
-
     @BeforeMethod(alwaysRun = true)
     public void driverSetup() {
         driver = new ChromeDriver();
@@ -31,7 +30,6 @@ public class CreateAccountTests {
         driver.manage().window().maximize();
     }
 
-
     @Test(priority = 1)
     public void createMaleAccount() throws Exception {
         try {
@@ -40,6 +38,7 @@ public class CreateAccountTests {
             mainPage = new MainPage(driver);
 
             mainPage.acceptTermsIfVisible();
+            Thread.sleep(3000);
             loginPage = mainPage.emailButtonClick();
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName()));
@@ -68,7 +67,7 @@ public class CreateAccountTests {
             String newEmailAddress = partOfEmailAddress + emailAddressDomain;
             loginPage = createAccountPage.loginToAccountButtonClick();
             Assert.assertTrue(loginPage.isLoginButtonVisible(), "Button 'Zaloguj się' is not visible");
-            testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, dateOfBirth, newEmailAddress, password, recoveryEmailAddress);
+            testService.insertInformationToPersonalElectronicDataTable(firstName, lastName, gender, dateOfBirth, newEmailAddress, password, recoveryEmailAddress);
             driver.quit();
 
         } catch (Exception exception) {
@@ -85,6 +84,7 @@ public class CreateAccountTests {
             mainPage = new MainPage(driver);
 
             mainPage.acceptTermsIfVisible();
+            Thread.sleep(3000);
             loginPage = mainPage.emailButtonClick();
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleFirstName()));
@@ -113,7 +113,7 @@ public class CreateAccountTests {
             String newEmailAddress = partOfEmailAddress + emailAddressDomain;
             loginPage = createAccountPage.loginToAccountButtonClick();
             Assert.assertTrue(loginPage.isLoginButtonVisible(), "Button 'Zaloguj się' is not visible");
-            testService.insertInformationToPersonalElectronicDataTable(firstName,lastName, gender, dateOfBirth, newEmailAddress, password, recoveryEmailAddress);
+            testService.insertInformationToPersonalElectronicDataTable(firstName, lastName, gender, dateOfBirth, newEmailAddress, password, recoveryEmailAddress);
             driver.quit();
 
         } catch (Exception exception) {
@@ -121,7 +121,6 @@ public class CreateAccountTests {
             throw exception;
         }
     }
-
 
     @AfterTest(alwaysRun = true)
     public void afterTest() {
@@ -134,7 +133,7 @@ public class CreateAccountTests {
         try {
             driver.close();
             System.out.println("Calling: driver.close()");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Caught exception " + e.getMessage());
         }
     }
