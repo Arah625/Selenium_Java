@@ -46,8 +46,8 @@ public class LoginToEmailTests {
 
 
 
-    @Test(priority = 1)
-    public void LoginToEmailAccount() throws Exception {
+    @Test(priority = 1, groups = {"group_1"})
+    public void firstLoginToEmailAccount() throws Exception {
         try {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
@@ -55,56 +55,46 @@ public class LoginToEmailTests {
             mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
             Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
-            String emailAddress = "";
+            String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutLastLoginDate());
             loginPage.fillEmailAddress(emailAddress);
+            loginPage.submitEmailAddressButtonClick();
             String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
             loginPage.fillEmailPassword(emailPassword);
             emailAccountPage = loginPage.loginButtonClick();
-            emailAccountPage.writeMessageButtonClick();
-            emailAccountPage.receivedMessagesTabClick();
-            emailAccountPage.communityTabClick();
-            emailAccountPage.offersTabClick();
-            emailAccountPage.notificationsTabClick();
-            emailAccountPage.ePrescriptionsTabClick();
-            emailAccountPage.ePaymentsTabClick();
-            emailAccountPage.attachmentsByTypeTabClick("Zdjęcia");
-            emailAccountPage.attachmentsTabClick();
-            emailAccountPage.binTabClick();
-            emailAccountPage.sentTabClick();
-            emailAccountPage.spamTabClick();
-            emailAccountPage.draftsTabClick();
-            emailAccountPage.foldersTabClick();
+            Assert.assertTrue(emailAccountPage.isWriteMessageButtonVisible(), "Button 'Napisz wiadomość' is not visible");
+            Assert.assertTrue(emailAccountPage.isLogoutButtonVisible(), "Button 'Logout' is not visible");
+            testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
+
         } catch (Exception exception) {
             System.out.println("Error occurred");
             throw exception;
         }
     }
 
-//    @Test(priority = 1)
-//    public void replacePartialEmailAddressInDatabase() throws Exception {
-//        try {
-//            testService = new TestService(driver);
-//            sqlQueries = new SqlQueries(driver);
-//            mainPage = new MainPage(driver);
-//            Assert.assertTrue(mainPage.isPopUpHeaderVisible(), "Okno dotyczące ustawień nie jest widoczne");
-//            mainPage.goToWebsiteButtonClick();
-//            loginPage = mainPage.emailButtonClick();
-//            Assert.assertTrue(loginPage.isLoginFormVisible(), "Login to email account form is not visible");
-//            String partialEmailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddress());
-//            String emailAddress = partialEmailAddress + "@op.pl";
-//            loginPage.fillEmailAddress(emailAddress);
-//            String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
-//            loginPage.fillEmailPassword(emailPassword);
-//            emailAccountPage = loginPage.LoginButtonClick();
-//            Assert.assertTrue(emailAccountPage.isWriteMessageButtonVisible(), "Button 'Napisz wiadomość' is not visible");
-//            String fullEmail = emailAccountPage.getEmailAddressFromEmailAccountPage();
-//            testService.executeQueryOnElectronicData(sqlQueries.updateEmailAddress(fullEmail, partialEmailAddress));
-//
-//        } catch (Exception exception) {
-//            System.out.println("Error occurred");
-//            throw exception;
-//        }
-//    }
+    @Test(priority = 2, groups = {"group_2"})
+    public void loginToEmailAccountWithLoginDateGreaterThan30Days() throws Exception {
+        try {
+            testService = new TestService(driver);
+            sqlQueries = new SqlQueries(driver);
+            mainPage = new MainPage(driver);
+            mainPage.closePopUpIfVisible();
+            loginPage = mainPage.emailButtonClick();
+            Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
+            String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(testService.currentDate("dd-MM-yyyy")));
+            loginPage.fillEmailAddress(emailAddress);
+            loginPage.submitEmailAddressButtonClick();
+            String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
+            loginPage.fillEmailPassword(emailPassword);
+            emailAccountPage = loginPage.loginButtonClick();
+            Assert.assertTrue(emailAccountPage.isWriteMessageButtonVisible(), "Button 'Napisz wiadomość' is not visible");
+            Assert.assertTrue(emailAccountPage.isLogoutButtonVisible(), "Button 'Logout' is not visible");
+            testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
+
+        } catch (Exception exception) {
+            System.out.println("Error occurred");
+            throw exception;
+        }
+    }
 
     @AfterTest(alwaysRun = true)
     public void afterTest() {

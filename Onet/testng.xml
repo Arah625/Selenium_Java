@@ -3,13 +3,13 @@
 <suite name="Suite">
     <test name="Test">
 <!--        Groups that should only by run. Groups are specified in test classes next to @Test annotation-->
-<!--        <groups>-->
-<!--            <run>-->
-<!--                <include name = "group_1"></include>-->
-<!--            </run>-->
-<!--        </groups>-->
+        <groups>
+            <run>
+                <include name = "group_2"></include>
+            </run>
+        </groups>
         <classes>
-            <class name = "Onet.Tests.SendMessageTests">
+            <class name = "Onet.Tests.LoginToEmailTests">
 <!--                    <methods>-->
 <!--                        <include name="createFemaleAccount"></include>-->
 <!--                    </methods>-->

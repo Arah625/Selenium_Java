@@ -27,8 +27,8 @@ public class SendMessageTests {
             driver = new ChromeDriver();
             testService = new TestService(driver);
             System.setProperty(testService.chromeDriver(), testService.chromeDriverLocation());
-//            driver.get(testService.onetUrl());
-//            driver.manage().window().maximize();
+            driver.get(testService.onetUrl());
+            driver.manage().window().maximize();
         } catch (Exception exception){
             System.out.println("beforeMethod Error: " + exception.getMessage());
             System.out.println("beforeMethod Error ST: " + exception.getStackTrace());
@@ -49,7 +49,7 @@ public class SendMessageTests {
     }*/
 
 
-/*    @Test(priority = 1)
+    @Test(priority = 1)
     public void LoginToEmailAccount() throws Exception {
         try {
             testService = new TestService(driver);
@@ -58,11 +58,11 @@ public class SendMessageTests {
             mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
             Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
-            String emailAddress = "yuriy.olejnik666@op.pl";
+            String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutLastLoginDate());
             loginPage.fillEmailAddress(emailAddress);
             String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
             loginPage.fillEmailPassword(emailPassword);
-            emailAccountPage = loginPage.LoginButtonClick();
+            emailAccountPage = loginPage.loginButtonClick();
             emailAccountPage.writeMessageButtonClick();
             String recipient = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
             emailAccountPage.fillRecipient(recipient);
@@ -77,12 +77,11 @@ public class SendMessageTests {
             emailAccountPage.receivedMessagesTabClick();
             testService.executeQueryOnElectronicData(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
 
-
         } catch (Exception exception) {
             System.out.println("Error occurred");
             throw exception;
         }
-    }*/
+    }
 
     //TODO: Add method that opens given URL without @BeforeMethod and add additional tests for e-mail addresses maintenance
 
@@ -90,7 +89,7 @@ public class SendMessageTests {
     public void sendNotificationFromFile() throws Exception {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
-            int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCount("personal_electronic_data", "last_login_date")));
+            int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountWhereColumnRecordsAreNull("personal_electronic_data", "last_login_date")));
             int counter = 0;
             while (attempts > counter) {
                 try {
@@ -99,8 +98,7 @@ public class SendMessageTests {
                     mainPage.closePopUpIfVisible();
                     loginPage = mainPage.emailButtonClick();
                     Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
-               //     String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutNotificationSent());
-                    String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutLastLoginDate());
+                    String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutNotificationSent());
                     loginPage.fillEmailAddress(emailAddress);
                     loginPage.submitEmailAddressButtonClick();
                     String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());

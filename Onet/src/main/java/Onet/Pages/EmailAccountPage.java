@@ -1,5 +1,6 @@
 package Onet.Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -106,6 +107,9 @@ public class EmailAccountPage extends BasePage{
 
     @FindBy (xpath = "//span[contains(text(),'Mail został wysłany')]")
     WebElement emailSentNotification;
+
+    @FindBy (xpath = "//a[@title ='Wyloguj']")
+    WebElement logoutButton;
 
 
     public String getEmailAddressFromEmailAccountPage() {
@@ -285,6 +289,23 @@ public class EmailAccountPage extends BasePage{
         } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
             return false;
         }
+    }
+
+    public boolean isLogoutButtonVisible() {
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOf(logoutButton)).isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public ProfilePage avatarIconClick(String emailAddress) throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(logoutButton));
+        WebElement avatarIcon = driver.findElement(By.xpath("//a[@title ='" + emailAddress + "']//img"));
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(avatarIcon));
+        avatarIcon.click();
+        return new ProfilePage(driver);
     }
 
 }
