@@ -18,7 +18,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 public class TestService {
 
@@ -61,6 +63,7 @@ public class TestService {
         driver = new ChromeDriver();
         System.setProperty(chromeDriver(), chromeDriverLocation());
         driver.get(wirtualnaPolskaUrl());
+        driver.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         return (RemoteWebDriver) driver;
     }
@@ -190,6 +193,54 @@ public class TestService {
             preparedStatement.close();
             dbConnection.close();
         }
+    }
+
+    public void updateOnPersonalElectronicDataTable(String query) throws SQLException {
+        String url = getCredentialValue("electronicDataUrl");
+        String username = getCredentialValue("electronicDataUsername");
+        String password = getCredentialValue("electronicDataPassword");
+        Vector<String> columnNames = new Vector<>();
+
+        Connection dbConnection = DriverManager.getConnection(url, username, password);
+        dbConnection.setAutoCommit(false);
+        Statement statement = dbConnection.createStatement();
+        ResultSet rs = null;
+
+        try {
+
+            statement.executeUpdate(query);
+            dbConnection.commit();
+
+            rs = statement.executeQuery("SELECT * FROM personal_electronic_data;");
+
+
+            ResultSetMetaData columns = rs.getMetaData();
+            int i = 0;
+            while (i < columns.getColumnCount()) {
+                i++;
+                System.out.print(columns.getColumnName(i) + "\t");
+                columnNames.add(columns.getColumnName(i));
+            }
+            System.out.print("\n");
+
+            while (rs.next()) {
+                for (i = 0; i < columnNames.size(); i++) {
+                    System.out.print(rs.getString(columnNames.get(i))
+                            + "\t");
+
+                }
+                System.out.print("\n");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        } finally {
+            System.out.println("Executing finally block and closing database (" + username + ") connection");
+            rs.close();
+            statement.close();
+            dbConnection.close();
+        }
+        System.out.println("Operation done successfully");
     }
 
     public void insertInformationToPersonalEDataTable(String first_name, String last_name, String gender, String email_address, String email_password, String recovery_email_address) throws SQLException {

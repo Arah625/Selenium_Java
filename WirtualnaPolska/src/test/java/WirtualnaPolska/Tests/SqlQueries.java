@@ -158,11 +158,11 @@ public class SqlQueries {
     }
 
     public String getEmailAddressWithoutNotificationSent(){
-        return "SELECT email_address FROM personal_electronic_data WHERE recovery_email_address_notified IS NULL FETCH FIRST ROW ONLY;";
+        return "SELECT email_address FROM personal_electronic_data WHERE email_address LIKE '%@wp.pl' AND recovery_email_address_notified IS NULL FETCH FIRST ROW ONLY;";
     }
 
     public String getEmailAddressWithoutLastLoginDate(){
-        return "SELECT email_address FROM personal_electronic_data WHERE last_login_date IS NULL FETCH FIRST ROW ONLY;";
+        return "SELECT email_address FROM personal_electronic_data WHERE email_address LIKE '%@wp.pl' AND last_login_date IS NULL FETCH FIRST ROW ONLY";
     }
 
     public String updateNotificationDetails(String currentDate, String currentTime, String emailAddress){
@@ -180,8 +180,8 @@ public class SqlQueries {
                 "WHERE email_address = '" + emailAddress +"';";
     }
 
-    public String selectCount(String tableName, String columnName){
-        return "select count(*) from " + tableName + " where " + columnName + " is NULL;";
+    public String selectCountWhereColumnRecordsAreNull(String tableName, String columnName){
+        return "select count(*) FROM " + tableName + " WHERE " + columnName + " is NULL;";
     }
 
     public String selectAllFromTableWhereDateIsGreaterThan(String tableName, String dateColumnName, String dateFormat, String interval){

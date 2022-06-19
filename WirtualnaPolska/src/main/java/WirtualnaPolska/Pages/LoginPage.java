@@ -14,7 +14,7 @@ public class LoginPage extends BasePage{
     @FindBy (xpath = "//*[@id='login']")
     WebElement loginInputField;
 
-    @FindBy (xpath = "//*[@id='login']")
+    @FindBy (xpath = "//*[@id='password']")
     WebElement passwordInputField;
 
     @FindBy (xpath = "//*[@id='stgMain']//*[contains(text(),'Załóż konto')]")
@@ -63,10 +63,10 @@ public class LoginPage extends BasePage{
         }
     }
 
-    public CreateAccountPage loginButtonClick() {
+    public EmailAccountPage loginButtonClick() {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(loginButton));
         loginButton.click();
-        return new CreateAccountPage(driver);
+        return new EmailAccountPage(driver);
     }
 
 }

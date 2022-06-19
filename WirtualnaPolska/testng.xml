@@ -9,7 +9,7 @@
 <!--            </run>-->
 <!--        </groups>-->
         <classes>
-            <class name = "WirtualnaPolska.Tests.CreateAccountTests">
+            <class name = "WirtualnaPolska.Tests.SendMessageTests">
 <!--                    <methods>-->
 <!--                        <include name="createFemaleAccount"></include>-->
 <!--                    </methods>-->
