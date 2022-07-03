@@ -22,6 +22,9 @@ public class MainPage extends BasePage{
     @FindBy (xpath = "//*[contains(text(),'Cenimy Twoją prywatność')]")
     WebElement termsAcceptationHeader;
 
+    @FindBy (xpath = "//*[contains(text(),'Przejdź teraz')]")
+    WebElement skipAdvertisementButton;
+
 
     public void acceptTerms(){
         webDriverWait.until(ExpectedConditions.elementToBeClickable(acceptAllTermsButton));
@@ -38,8 +41,34 @@ public class MainPage extends BasePage{
     }
 
     public void acceptTermsIfVisible() throws InterruptedException {
-        if (isTermsAcceptationHeaderVisible()){
+        try {
             acceptTerms();
+            skipAdvertisementButtonClick();
+        } catch (Exception e) {
+            System.out.println("No popups visible to close");
+        }
+//        if (isTermsAcceptationHeaderVisible()){
+//            acceptTerms();
+//        }
+    }
+
+    public boolean isSkipAdvertisementButtonVisible() {
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOf(skipAdvertisementButton)).isDisplayed();
+            return true;
+        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public void skipAdvertisementButtonClick(){
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(skipAdvertisementButton));
+        skipAdvertisementButton.click();
+    }
+
+    public void skipAdvertisementButtonIfVisible() throws InterruptedException {
+        if (isSkipAdvertisementButtonVisible()){
+            skipAdvertisementButtonClick();
         }
     }
 

@@ -145,6 +145,7 @@ public class TestService {
 
     public void insertInformationToPersonalElectronicDataTable(String first_name, String last_name, String gender, String date_of_birth, String email_address, String email_password, String recovery_email_address) throws SQLException {
 
+//        String sqlQuery = "INSERT INTO personal_electronic_data(first_name, last_name, gender, date_of_birth, email_address, email_password, recovery_email_address, creation_date, creation_time) VALUES(?,?,?,to_date(?, 'DD-MM-YYYY'),?,?,?,to_date(?, 'DD-MM-YYYY'),to_timestamp(?, 'HH24:MI:SS'))";
         String sqlQuery = "INSERT INTO personal_electronic_data(first_name, last_name, gender, date_of_birth, email_address, email_password, recovery_email_address, creation_date, creation_time) VALUES(?,?,?,?,?,?,?,?,?)";
 
         String creation_date = currentDate();
@@ -295,7 +296,7 @@ public class TestService {
     }
 
     public String currentDate(){
-        String currentDatePattern = "dd-MM-yyyy";
+        String currentDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(currentDatePattern);
         String currentDate = simpleDateFormat.format(new Date());
         System.out.println("Current date: " + currentDate);
@@ -447,9 +448,6 @@ public class TestService {
         System.out.println("Generated date: " + generatedDate);
         return generatedDate;
     }
-
-
-
 
 }
 

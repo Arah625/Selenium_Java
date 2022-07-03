@@ -38,6 +38,7 @@ public class CreateAccountTests {
             mainPage = new MainPage(driver);
 
             mainPage.acceptTermsIfVisible();
+            mainPage.skipAdvertisementButtonIfVisible();
             Thread.sleep(3000);
             loginPage = mainPage.emailButtonClick();
             createAccountPage = loginPage.createAccountButtonClick();
@@ -47,7 +48,7 @@ public class CreateAccountTests {
             createAccountPage.fillLastName(lastName);
             String gender = "male";
             createAccountPage.genderButtonClick(gender);
-            String dateOfBirth = testService.randomDateInGivenRange(1989, 1, 1, 2004, 1, 1, "dd-MM-yyyy");
+            String dateOfBirth = testService.randomDateInGivenRange(1979, 1, 1, 1999, 1, 1, "yyyy-MM-dd");
             createAccountPage.selectDateOfBirth(dateOfBirth);
             String partOfEmailAddress = testService.generateRandomEmailAddress(firstName, lastName);
             createAccountPage.fillLogin(partOfEmailAddress);
@@ -84,6 +85,7 @@ public class CreateAccountTests {
             mainPage = new MainPage(driver);
 
             mainPage.acceptTermsIfVisible();
+            mainPage.skipAdvertisementButtonIfVisible();
             Thread.sleep(3000);
             loginPage = mainPage.emailButtonClick();
             createAccountPage = loginPage.createAccountButtonClick();
@@ -93,7 +95,7 @@ public class CreateAccountTests {
             createAccountPage.fillLastName(lastName);
             String gender = "female";
             createAccountPage.genderButtonClick(gender);
-            String dateOfBirth = testService.randomDateInGivenRange(1989, 1, 1, 2004, 1, 1, "dd-MM-yyyy");
+            String dateOfBirth = testService.randomDateInGivenRange(1979, 1, 1, 1999, 1, 1, "yyyy-MM-dd");
             createAccountPage.selectDateOfBirth(dateOfBirth);
             String partOfEmailAddress = testService.generateRandomEmailAddress(firstName, lastName);
             createAccountPage.fillLogin(partOfEmailAddress);

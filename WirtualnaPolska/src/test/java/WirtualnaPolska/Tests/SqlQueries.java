@@ -175,8 +175,8 @@ public class SqlQueries {
 
     public String updateLastLoginDetails(String currentDate, String currentTime, String emailAddress){
         return "UPDATE personal_electronic_data " +
-                "SET last_login_date = '" + currentDate + "', " +
-                "last_login_time = '" + currentTime + "'" +
+                "SET last_login_date = to_date('" + currentDate + "', 'YYYY-MM-DD'), " +
+                "last_login_time = to_timestamp('" + currentTime + "', 'HH24:MI:SS')" +
                 "WHERE email_address = '" + emailAddress +"';";
     }
 
@@ -184,12 +184,57 @@ public class SqlQueries {
         return "select count(*) FROM " + tableName + " WHERE " + columnName + " is NULL;";
     }
 
+    public String selectCountWhereLastLoginDateIsOlderThan30Days(String tableName, String columnName){
+        return "select count(*) FROM " + tableName + " WHERE to_timestamp(" + columnName + ", 'YYYY-MM-DD') < NOW() - INTERVAL '30 days'";
+    }
+
     public String selectAllFromTableWhereDateIsGreaterThan(String tableName, String dateColumnName, String dateFormat, String interval){
         return "SELECT * FROM " + tableName + " WHERE to_timestamp(" + dateColumnName + ", '" + dateFormat + "') < NOW() - INTERVAL '" + interval + "'";
     }
 
     public String selectAllFromTableWhereDateIsGreaterThan30Days(String tableName, String dateColumnName){
-        return "SELECT * from " + tableName + " WHERE to_timestamp(" + dateColumnName + ", 'DD-MM-YYYY') < NOW() - INTERVAL '30 days'";
+        return "SELECT * from " + tableName + " WHERE to_timestamp(" + dateColumnName + ", 'YYYY-MM-DD') < NOW() - INTERVAL '30 days'";
     }
+
+    public String alterPersonalElectronicDataTableColumnsFromDateToVarchar(){
+        return "ALTER TABLE personal_electronic_data \n" +
+                "ALTER COLUMN creation_date TYPE varchar (50),\n" +
+                "ALTER COLUMN notification_sent_date TYPE varchar (50),\n" +
+                "ALTER COLUMN last_login_date TYPE varchar (50),\n" +
+                "ALTER COLUMN date_of_birth TYPE varchar (50);";
+    }
+
+    public String alterPersonalElectronicDataTableColumnsFromTimestampToVarchar(){
+        return "ALTER TABLE personal_electronic_data \n" +
+                "ALTER COLUMN notification_sent_time TYPE varchar (50),\n" +
+                "ALTER COLUMN last_login_time TYPE varchar (50),\n" +
+                "ALTER COLUMN creation_time TYPE varchar (50);";
+    }
+
+    public String alterPersonalElectronicDataTableColumnsFromVarcharToTimestamp(){
+        return "ALTER TABLE personal_electronic_data \n" +
+                "ALTER COLUMN creation_time TYPE timestamp USING to_timestamp(creation_time, 'HH24:MI:SS'),\n" +
+                "ALTER COLUMN notification_sent_time TYPE timestamp USING to_timesta mp(notification_sent_time, 'HH24:MI:SS'),\n" +
+                "ALTER COLUMN last_login_time TYPE timestamp USING to_timestamp(last_login_time, 'HH24:MI:SS');";
+    }
+
+    public String alterPersonalElectronicDataTableColumnsFromTimestampToTime(){
+        return "ALTER TABLE personal_electronic_data \n" +
+                "ALTER COLUMN creation_time TYPE TIME,\n" +
+                "ALTER COLUMN notification_sent_time TYPE TIME,\n" +
+                "ALTER COLUMN last_login_time TYPE TIME;";
+    }
+
+    public String alterPersonalElectronicDataTableColumnsFromVarcharToDate(){
+        return "ALTER TABLE personal_electronic_data\n" +
+                "    ALTER COLUMN creation_date TYPE DATE USING to_date(creation_date, 'DD-MM-YYYY'),\n" +
+                "    ALTER COLUMN notification_sent_date TYPE DATE USING to_date(notification_sent_date, 'DD-MM-YYYY'),\n" +
+                "    ALTER COLUMN last_login_date TYPE DATE USING to_date(last_login_date, 'DD-MM-YYYY'),\n" +
+                "    ALTER COLUMN date_of_birth TYPE DATE USING to_date(date_of_birth, 'DD-MM-YYYY');";
+    }
+
+
+
+
 
 }

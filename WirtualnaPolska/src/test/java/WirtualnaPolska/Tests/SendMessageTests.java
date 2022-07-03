@@ -33,14 +33,16 @@ public class SendMessageTests {
     public void sendNotificationMessageFromFileToRecoveryEmail() throws Exception {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
-            int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountWhereColumnRecordsAreNull("personal_electronic_data", "recovery_email_address_notified")));
-            int counter = 0;
-            while (attempts > counter) {
+//            int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountWhereColumnRecordsAreNull("personal_electronic_data", "recovery_email_address_notified")));
+//            int counter = 0;
+//            while (attempts > counter) {
                 try {
                     driver = testService.prepareChromeDriver(testService.wirtualnaPolskaUrl());
                     mainPage = new MainPage(driver);
 
                     mainPage.acceptTermsIfVisible();
+                    mainPage.skipAdvertisementButtonIfVisible();
+
                     Thread.sleep(3000);
                     loginPage = mainPage.emailButtonClick();
                     String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutNotificationSent());
@@ -61,8 +63,8 @@ public class SendMessageTests {
                     Assert.assertTrue(emailAccountPage.isMessageSentNotificationVisible(), "Notification 'Wiadomość została wysłana' is not visible");
                     testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
 
-                    attempts--;
-                    System.out.println("Attempts: " + attempts);
+//                    attempts--;
+//                    System.out.println("Attempts: " + attempts);
 
                 } catch (Exception exception) {
                     System.out.println("Error occurred");
@@ -71,7 +73,7 @@ public class SendMessageTests {
                     driver.close();
                     driver.quit();
                 }
-            }
+ //           }
     }
 //    @AfterTest(alwaysRun = true)
 //    public void afterTest() {

@@ -132,7 +132,7 @@ public class CreateAccountPage extends BasePage{
     }
 
     public void selectDateOfBirth(String date) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date myDate = simpleDateFormat.parse(date);
         simpleDateFormat = new SimpleDateFormat("dd");
         String day = simpleDateFormat.format(myDate);

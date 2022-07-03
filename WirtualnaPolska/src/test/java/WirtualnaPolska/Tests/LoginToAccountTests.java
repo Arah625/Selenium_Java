@@ -7,6 +7,8 @@ import WirtualnaPolska.Pages.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -66,19 +68,20 @@ public class LoginToAccountTests {
                 }
             }
     }
-//    @AfterTest(alwaysRun = true)
-//    public void afterTest() {
-//        driver.quit();
-//        System.out.println("Calling: driver.quit()");
-//    }
-//
-//    @AfterMethod(alwaysRun = true)
-//    public void afterMethod() {
-//        try {
-//            driver.close();
-//            System.out.println("Calling: driver.close()");
-//        } catch (Exception e) {
-//            System.out.println("Caught exception " + e.getMessage());
-//        }
-//    }
+
+    @AfterTest(alwaysRun = true)
+    public void afterTest() {
+        driver.quit();
+        System.out.println("Calling: driver.quit()");
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod() {
+        try {
+            driver.close();
+            System.out.println("Calling: driver.close()");
+        } catch (Exception e) {
+            System.out.println("Caught exception " + e.getMessage());
+        }
+    }
         }
