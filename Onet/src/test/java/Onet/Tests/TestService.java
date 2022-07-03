@@ -2,6 +2,7 @@ package Onet.Tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -63,6 +64,8 @@ public class TestService {
     //TODO: Fix this method
 
     public RemoteWebDriver prepareChromeDriver(String url) {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setAcceptInsecureCerts(false);
         driver = new ChromeDriver();
         TestService testService = new TestService(driver);
         System.setProperty(chromeDriver(), chromeDriverLocation());
@@ -347,7 +350,7 @@ public class TestService {
     }
 
     public String currentDate() {
-        String currentDatePattern = "dd-MM-yyyy";
+        String currentDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(currentDatePattern);
         String currentDate = simpleDateFormat.format(new Date());
         System.out.println("Current date: " + currentDate);
@@ -482,6 +485,10 @@ public class TestService {
 
     public String credentialsRecoveryEmailAddress() {
         return "recoveryEmailAddress";
+    }
+
+    public String credentialsVerificationPhoneNumber() {
+        return "verificationPhoneNumber";
     }
 
     public String removeLeadingZeros(String string) {

@@ -6,8 +6,6 @@ import Onet.Pages.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -46,14 +44,16 @@ public class CreateAccountTests {
 
 
 
-    @Test(priority = 1)
+    @Test(priority = 1, groups = "group_2")
     public void createMaleAccount() throws Exception {
         try {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
             mainPage.closePopUpIfVisible();
+            Thread.sleep(3000);
             loginPage = mainPage.emailButtonClick();
+            Thread.sleep(3000);
             Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName()));
@@ -66,17 +66,21 @@ public class CreateAccountTests {
             createAccountPage.fillNewPassword(password);
             createAccountPage.fillRepeatNewPassword(password);
             createAccountPage.submitButtonClick();
-            String recoveryEmailAddress = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
-            createAccountPage.fillRecoveryEmailAddress(recoveryEmailAddress);
+            String verificationPhoneNumber = testService.getCredentialValue(testService.credentialsVerificationPhoneNumber());
+            createAccountPage.fillVerificationPhoneNumber(verificationPhoneNumber);
+            createAccountPage.submitVerificationPhoneNumberButtonClick();
+            Thread.sleep(30000);
+            //TODO VerificationCode from phone
             createAccountPage.submitButtonClick();
+            String recoveryEmailAddress = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
             String gender = "male";
             createAccountPage.genderButtonClick(gender);
             createAccountPage.fillFirstNameAndLastName(firstName + " " + lastName);
-            createAccountPage.selectDateOfBirth("13", "4", "1989");
+            String dateOfBirth = testService.randomDateInGivenRange(1989, 1, 1, 2004, 1, 1, "yyyy-MM-dd");
+            createAccountPage.selectDateOfBirth(dateOfBirth);
             String postalCode = testService.polishPostalCodeGenerator();
             createAccountPage.fillPostalCode(postalCode);
             createAccountPage.submitButtonClick();
-            createAccountPage.onetMailFreePlanButtonClick();
             createAccountPage.acceptAllCheckboxes();
             createAccountPage.submitButtonClick();
             Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
@@ -90,14 +94,16 @@ public class CreateAccountTests {
         }
     }
 
-    @Test(priority = 2, groups = {"basic"})
+    @Test(priority = 2, groups = {"group_2"})
     public void createFemaleAccount() throws Exception {
         try {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
             mainPage.closePopUpIfVisible();
+            Thread.sleep(3000);
             loginPage = mainPage.emailButtonClick();
+            Thread.sleep(3000);
             Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleFirstName()));
@@ -110,17 +116,22 @@ public class CreateAccountTests {
             createAccountPage.fillNewPassword(password);
             createAccountPage.fillRepeatNewPassword(password);
             createAccountPage.submitButtonClick();
-            String recoveryEmailAddress = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
-            createAccountPage.fillRecoveryEmailAddress(recoveryEmailAddress);
+            String verificationPhoneNumber = testService.getCredentialValue(testService.credentialsVerificationPhoneNumber());
+            createAccountPage.fillVerificationPhoneNumber(verificationPhoneNumber);
+            createAccountPage.submitVerificationPhoneNumberButtonClick();
+            Thread.sleep(30000);
+            //TODO VerificationCode from phone
             createAccountPage.submitButtonClick();
+            String recoveryEmailAddress = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
             String gender = "female";
             createAccountPage.genderButtonClick(gender);
             createAccountPage.fillFirstNameAndLastName(firstName + " " + lastName);
-            createAccountPage.selectDateOfBirth("13", "4", "1989");
+            String dateOfBirth = testService.randomDateInGivenRange(1989, 1, 1, 2004, 1, 1, "yyyy-MM-dd");
+
+            createAccountPage.selectDateOfBirth(dateOfBirth);
             String postalCode = testService.polishPostalCodeGenerator();
             createAccountPage.fillPostalCode(postalCode);
             createAccountPage.submitButtonClick();
-            createAccountPage.onetMailFreePlanButtonClick();
             createAccountPage.acceptAllCheckboxes();
             createAccountPage.submitButtonClick();
             Assert.assertTrue(createAccountPage.isRegistrationCompletedHeaderVisible());
@@ -157,20 +168,20 @@ public class CreateAccountTests {
         }
     }*/
 
-    @AfterTest(alwaysRun = true)
-    public void afterTest() {
-        driver.quit();
-        System.out.println("Calling: driver.quit()");
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void afterMethod() {
-        try {
-            driver.close();
-            System.out.println("Calling: driver.close()");
-        }catch (Exception e){
-            System.out.println("Caught exception " + e.getMessage());
-        }
-
-    }
+//    @AfterTest(alwaysRun = true)
+//    public void afterTest() {
+//        driver.quit();
+//        System.out.println("Calling: driver.quit()");
+//    }
+//
+//    @AfterMethod(alwaysRun = true)
+//    public void afterMethod() {
+//        try {
+//            driver.close();
+//            System.out.println("Calling: driver.close()");
+//        }catch (Exception e){
+//            System.out.println("Caught exception " + e.getMessage());
+//        }
+//
+//    }
 }

@@ -32,7 +32,7 @@ public class LoginPage extends BasePage{
     @FindBy (xpath = "//button/span[contains(text(), 'Zaloguj')]")
     WebElement loginButton;
 
-    @FindBy (xpath = "//span[contains(text(),'Zarejestruj się')]")
+    @FindBy (xpath = "//span[contains(text(),'Zarejestruj się')]/..")
     WebElement createAccountButton;
 
 

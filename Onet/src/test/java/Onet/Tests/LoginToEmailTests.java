@@ -80,7 +80,7 @@ public class LoginToEmailTests {
             mainPage.closePopUpIfVisible();
             loginPage = mainPage.emailButtonClick();
             Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
-            String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(testService.currentDate("dd-MM-yyyy")));
+            String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(testService.currentDate("yyyy-MM-dd")));
             loginPage.fillEmailAddress(emailAddress);
             loginPage.submitEmailAddressButtonClick();
             String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());

@@ -68,7 +68,7 @@ public class EditProfileTests {
                 emailAccountPage = loginPage.loginButtonClick();
                 profilePage = emailAccountPage.avatarIconClick(emailAddress);
                 editPersonalDataPage = profilePage.editPersonalDataButtonClick();
-                String dateOfBirth = testService.randomDateInGivenRange(1989, 1, 1, 2004, 1, 1, "dd-MM-yyyy");
+                String dateOfBirth = testService.randomDateInGivenRange(1989, 1, 1, 2004, 1, 1, "yyyy-MM-dd");
                 editPersonalDataPage.selectDateOfBirth(dateOfBirth);
                 editPersonalDataPage.saveChangesButtonClick();
                 Assert.assertTrue(profilePage.isPersonalDataSavedCorrectlyHeaderVisible(), "Popup message 'Poprawnie zapisano dane personalne.' is not visible");

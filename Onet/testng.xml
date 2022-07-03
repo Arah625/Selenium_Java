@@ -9,7 +9,7 @@
             </run>
         </groups>
         <classes>
-            <class name = "Onet.Tests.LoginToEmailTests">
+            <class name = "Onet.Tests.CreateAccountTests">
 <!--                    <methods>-->
 <!--                        <include name="createFemaleAccount"></include>-->
 <!--                    </methods>-->

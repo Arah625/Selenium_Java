@@ -6,6 +6,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CreateAccountPage extends BasePage{
     public CreateAccountPage (WebDriver driver){
         super(driver);
@@ -29,6 +33,9 @@ public class CreateAccountPage extends BasePage{
     @FindBy (xpath = "//button//span[contains(text(),'Dalej')]")
     WebElement submitButton;
 
+    @FindBy (xpath = "//button[contains(text(),'Dalej')]")
+    WebElement submitVerificationPhoneNumberButton;
+
     @FindBy (xpath = "//h2[contains(text(),'Ustaw hasło')]")
     WebElement setPasswordHeader;
 
@@ -49,6 +56,12 @@ public class CreateAccountPage extends BasePage{
 
     @FindBy (xpath = "//*[@id = 'recoveryEmail']")
     WebElement recoveryEmailAddressInput;
+
+    @FindBy (xpath = "//*[@id = 'phone']")
+    WebElement verificationPhoneNumberInput;
+
+    @FindBy (xpath = "//*[@id = 'code']")
+    WebElement verificationCodeInput;
 
     @FindBy (xpath = "//*[@id = 'K']//..//span")
     WebElement femaleGenderRadioButton;
@@ -120,6 +133,12 @@ public class CreateAccountPage extends BasePage{
         newEmailInput.sendKeys(emailAddress);
     }
 
+    public void fillVerificationPhoneNumber(String phoneNumber) {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(verificationPhoneNumberInput));
+        verificationPhoneNumberInput.clear();
+        verificationPhoneNumberInput.sendKeys(phoneNumber);
+    }
+
     public boolean isEmailAddressAlreadyTakenMessageVisible() {
         try {
             webDriverWait.until(ExpectedConditions.visibilityOf(emailAlreadyTakenMessage)).isDisplayed();
@@ -150,6 +169,11 @@ public class CreateAccountPage extends BasePage{
     public void submitButtonClick() throws InterruptedException {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(submitButton));
         submitButton.click();
+    }
+
+    public void submitVerificationPhoneNumberButtonClick() throws InterruptedException {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(submitVerificationPhoneNumberButton));
+        submitVerificationPhoneNumberButton.click();
     }
 
     public boolean isSetPasswordHeaderVisible() {
@@ -193,6 +217,12 @@ public class CreateAccountPage extends BasePage{
         recoveryMobilePhoneNumberInput.sendKeys(mobileNumber);
     }
 
+    public void fillVerificationCode(String verificationCode) {
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(verificationCodeInput));
+        verificationCodeInput.clear();
+        verificationCodeInput.sendKeys(verificationCode);
+    }
+
     public void fillRecoveryEmailAddress(String recoveryEmailAddress) {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(recoveryEmailAddressInput));
         recoveryEmailAddressInput.clear();
@@ -225,7 +255,18 @@ public class CreateAccountPage extends BasePage{
         firstAndLastNameInput.sendKeys(firstAndLastName);
     }
 
-    public void selectDateOfBirth(String day, String month, String year) {
+    public void selectDateOfBirth(String date) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date myDate = simpleDateFormat.parse(date);
+        simpleDateFormat = new SimpleDateFormat("dd");
+        String day = simpleDateFormat.format(myDate);
+        System.out.println("Day: " + day);
+        simpleDateFormat = new SimpleDateFormat("M");
+        String month = simpleDateFormat.format(myDate);
+        System.out.println("Month: " + month);
+        simpleDateFormat = new SimpleDateFormat("yyyy");
+        String year = simpleDateFormat.format(myDate);
+        System.out.println("Year: " + year);
         webDriverWait.until(ExpectedConditions.elementToBeClickable(dayOfBirthInput));
         dayOfBirthInput.clear();
         dayOfBirthInput.sendKeys(day);
