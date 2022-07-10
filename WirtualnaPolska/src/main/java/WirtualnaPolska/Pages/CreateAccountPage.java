@@ -10,118 +10,111 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreateAccountPage extends BasePage{
+public class CreateAccountPage extends BasePage {
 
     public CreateAccountPage(WebDriver driver) {
         super(driver);
     }
 
-    @FindBy (xpath = "//*[contains(text(),'Imię')]/../input")
+    @FindBy(xpath = "//*[contains(text(),'Imię')]/../input")
     WebElement firstNameInputField;
 
-    @FindBy (xpath = "//*[contains(text(),'Nazwisko')]/../input")
+    @FindBy(xpath = "//*[contains(text(),'Nazwisko')]/../input")
     WebElement lastNameInputField;
 
-    @FindBy (xpath = "//*[@id='female']/..")
+    @FindBy(xpath = "//*[@id='female']/..")
     WebElement femaleRadioButton;
 
-    @FindBy (xpath = "//*[@id='male']/..")
+    @FindBy(xpath = "//*[@id='male']/..")
     WebElement maleRadioButton;
 
-    @FindBy (xpath = "//*[contains(text(),'Dzień')]/../input")
+    @FindBy(xpath = "//*[contains(text(),'Dzień')]/../input")
     WebElement dayOfBirthInputField;
 
-    @FindBy (xpath = "//*[@name='month']")
+    @FindBy(xpath = "//*[@name='month']")
     WebElement monthOfBirthSelect;
 
-    @FindBy (xpath = "//*[@name='year']")
+    @FindBy(xpath = "//*[@name='year']")
     WebElement yearOfBirthSelect;
 
-    @FindBy (xpath = "//*[contains(text(),'Wybierz login')]/..//input")
+    @FindBy(xpath = "//*[contains(text(),'Wybierz login')]/..//input")
     WebElement loginInputField;
 
-    @FindBy (xpath = "//*[@id='password']")
+    @FindBy(xpath = "//*[@id='password']")
     WebElement passwordInputField;
 
-    @FindBy (xpath = "//*[contains(text(),'Powtórz hasło')]/..//input")
+    @FindBy(xpath = "//*[contains(text(),'Powtórz hasło')]/..//input")
     WebElement repeatPasswordInputField;
 
-    @FindBy (xpath = "//*[contains(text(),'Numer telefonu komórkowego')]/..//input")
+    @FindBy(xpath = "//*[contains(text(),'Numer telefonu komórkowego')]/..//input")
     WebElement mobilePhoneInputField;
 
-    @FindBy (xpath = "//button[contains(text(),'Email pomocniczy')]")
+    @FindBy(xpath = "//button[contains(text(),'Email pomocniczy')]")
     WebElement recoveryEmailButton;
 
-    @FindBy (xpath = "//*[@name='recoveryEmail']")
+    @FindBy(xpath = "//*[@name='recoveryEmail']")
     WebElement recoveryEmailInputField;
 
-    @FindBy (xpath = "//*[@id='free']/..")
+    @FindBy(xpath = "//*[@id='free']/..")
     WebElement freeAccountRadioButton;
 
-    @FindBy (xpath = "//*[@id='pro']/..")
+    @FindBy(xpath = "//*[@id='pro']/..")
     WebElement paidAccountRadioButton;
 
-    @FindBy (xpath = "//*[@id='selectAll']/..")
+    @FindBy(xpath = "//*[@id='selectAll']/..")
     WebElement acceptAllTermsCheckbox;
 
-    @FindBy (xpath = "//*[@id='confirm']")
+    @FindBy(xpath = "//*[@id='confirm']")
     WebElement acceptStatuteCheckbox;
 
-    @FindBy (xpath = "//*[@id='14th']")
+    @FindBy(xpath = "//*[@id='14th']")
     WebElement fourteenDaysCheckbox;
 
-    @FindBy (xpath = "//*[@id='processing_holding']")
+    @FindBy(xpath = "//*[@id='processing_holding']")
     WebElement marketingPurposesDataProcessingCheckbox;
 
-    @FindBy (xpath = "//*[@id='marketing']")
+    @FindBy(xpath = "//*[@id='marketing']")
     WebElement receivingMarketingInfoCheckbox;
 
-    @FindBy (xpath = "//*[@id='alcogambling']")
+    @FindBy(xpath = "//*[@id='alcogambling']")
     WebElement receivingAlcoholAndGamblingMarketingInfoCheckbox;
 
-    @FindBy (xpath = "//button[contains(text(),'Załóż konto')]")
+    @FindBy(xpath = "//button[contains(text(),'Załóż konto')]")
     WebElement createAccountButton;
 
-    @FindBy (xpath = "//*[contains(text(),'Twoje konto')]")
+    @FindBy(xpath = "//*[contains(text(),'Twoje konto')]")
     WebElement accountCreatedHeader;
 
-    @FindBy (xpath = "//*[contains(text(),'Masz już konto?')]/..//*[contains(text(),'Zaloguj się')]")
+    @FindBy(xpath = "//*[contains(text(),'Masz już konto?')]/..//*[contains(text(),'Zaloguj się')]")
     WebElement loginToAccountButton;
 
     public void fillFirstName(String firstName) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(firstNameInputField));
-        firstNameInputField.clear();
-        firstNameInputField.sendKeys(firstName);
+        clearAndSendKeysToElement(firstNameInputField, firstName);
     }
 
     public void fillLastName(String lastName) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(lastNameInputField));
-        lastNameInputField.clear();
-        lastNameInputField.sendKeys(lastName);
+        clearAndSendKeysToElement(lastNameInputField, lastName);
     }
 
-    public void genderFemaleRadioButtonClick() {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(femaleRadioButton));
-        femaleRadioButton.click();
+    public void genderFemaleRadioButtonClick() throws Exception {
+        clickElement(femaleRadioButton);
     }
 
-    public void genderMaleRadioButtonClick() {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(maleRadioButton));
-        maleRadioButton.click();
+    public void genderMaleRadioButtonClick() throws Exception {
+        clickElement(maleRadioButton);
     }
 
-    public void genderButtonClick(String gender) throws InterruptedException {
-        if (gender.equalsIgnoreCase("male")){
-            webDriverWait.until(ExpectedConditions.elementToBeClickable(maleRadioButton));
-            maleRadioButton.click();
-        } if (gender.equalsIgnoreCase("female")){
-            webDriverWait.until(ExpectedConditions.elementToBeClickable(femaleRadioButton));
-            femaleRadioButton.click();
+    public void genderButtonClick(String gender) throws Exception {
+        if (gender.equalsIgnoreCase("male")) {
+            genderMaleRadioButtonClick();
+        }
+        if (gender.equalsIgnoreCase("female")) {
+            genderFemaleRadioButtonClick();
         }
     }
 
     public void selectDateOfBirth(String day, String month, String year) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(dayOfBirthInputField));
+        webDriverWaitDefault.until(ExpectedConditions.elementToBeClickable(dayOfBirthInputField));
         dayOfBirthInputField.clear();
         dayOfBirthInputField.sendKeys(day);
         Select monthOfBirth = new Select(monthOfBirthSelect);
@@ -143,7 +136,7 @@ public class CreateAccountPage extends BasePage{
         simpleDateFormat = new SimpleDateFormat("yyyy");
         String year = simpleDateFormat.format(myDate);
         System.out.println("Year: " + year);
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(dayOfBirthInputField));
+        webDriverWaitDefault.until(ExpectedConditions.elementToBeClickable(dayOfBirthInputField));
         dayOfBirthInputField.clear();
         dayOfBirthInputField.sendKeys(day);
         Select monthOfBirth = new Select(monthOfBirthSelect);
@@ -154,73 +147,53 @@ public class CreateAccountPage extends BasePage{
     }
 
     public void fillLogin(String login) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(loginInputField));
-        loginInputField.clear();
-        loginInputField.sendKeys(login);
+        clearAndSendKeysToElement(loginInputField, login);
     }
 
     public void fillPassword(String password) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(passwordInputField));
-        passwordInputField.clear();
-        passwordInputField.sendKeys(password);
+        clearAndSendKeysToElement(passwordInputField, password);
     }
 
     public void fillRepeatPassword(String repeatPassword) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(repeatPasswordInputField));
-        repeatPasswordInputField.clear();
-        repeatPasswordInputField.sendKeys(repeatPassword);
+        clearAndSendKeysToElement(repeatPasswordInputField, repeatPassword);
     }
 
     public void fillMobilePhoneNumber(String mobilePhoneNumber) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(mobilePhoneInputField));
-        mobilePhoneInputField.clear();
-        mobilePhoneInputField.sendKeys(mobilePhoneNumber);
+        clearAndSendKeysToElement(mobilePhoneInputField, mobilePhoneNumber);
+
     }
 
-    public void addRecoveryEmailAddressButtonClick(){
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(recoveryEmailButton));
-        recoveryEmailButton.click();
+    public void addRecoveryEmailAddressButtonClick() throws Exception {
+        clickElement(recoveryEmailButton);
     }
 
     public void fillRecoveryEmailAddress(String recoveryEmail) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(recoveryEmailInputField));
-        recoveryEmailInputField.clear();
-        recoveryEmailInputField.sendKeys(recoveryEmail);
+        clearAndSendKeysToElement(recoveryEmailInputField, recoveryEmail);
     }
 
-    public void freeAccountRadioButtonClick() {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(freeAccountRadioButton));
-        freeAccountRadioButton.click();
+    public void freeAccountRadioButtonClick() throws Exception {
+        clickElement(freeAccountRadioButton);
     }
 
-    public void paidAccountRadioButtonClick() {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(paidAccountRadioButton));
-        paidAccountRadioButton.click();
+    public void paidAccountRadioButtonClick() throws Exception {
+        clickElement(paidAccountRadioButton);
     }
 
-    public void checkAllCheckboxes() {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(acceptAllTermsCheckbox));
-        acceptAllTermsCheckbox.click();
+    public void checkAllCheckboxes() throws Exception {
+        clickElement(acceptAllTermsCheckbox);
     }
 
-    public void createAccountButtonClick() {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(createAccountButton));
-        createAccountButton.click();
+    public void createAccountButtonClick() throws Exception {
+        clickElement(createAccountButton);
     }
 
-    public LoginPage loginToAccountButtonClick() {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(loginToAccountButton));
-        loginToAccountButton.click();
+    public LoginPage loginToAccountButtonClick() throws Exception {
+        clickElement(loginToAccountButton);
         return new LoginPage(driver);
     }
 
-    public boolean isAccountCreatedHeaderVisible(){
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(accountCreatedHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+    public boolean isAccountCreatedHeaderVisible() {
+        return isElementVisible(accountCreatedHeader);
     }
 
 }

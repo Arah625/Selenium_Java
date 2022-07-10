@@ -3,41 +3,41 @@ package WirtualnaPolska.Pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class MainPage extends BasePage{
+public class MainPage extends BasePage {
 
     public MainPage(WebDriver driver) {
         super(driver);
     }
-    @FindBy (xpath = "//*[@id='site-header']//*[contains(text(),'Poczta')]")
+
+    @FindBy(xpath = "//*[@id='site-header']//*[contains(text(),'Poczta')]")
     WebElement emailButton;
 
-    @FindBy (xpath = "//button[contains(text(),'USTAWIENIA ZAAWANSOWANE')]")
+    @FindBy(xpath = "//button[contains(text(),'USTAWIENIA ZAAWANSOWANE')]")
     WebElement advancedSettingsButton;
 
-    @FindBy (xpath = "//button[contains(text(),'AKCEPTUJĘ I PRZECHODZĘ DO SERWISU')]")
+    @FindBy(xpath = "//button[contains(text(),'AKCEPTUJĘ I PRZECHODZĘ DO SERWISU')]")
     WebElement acceptAllTermsButton;
 
-    @FindBy (xpath = "//*[contains(text(),'Cenimy Twoją prywatność')]")
+    @FindBy(xpath = "//*[contains(text(),'Cenimy Twoją prywatność')]")
     WebElement termsAcceptationHeader;
 
-    @FindBy (xpath = "//*[contains(text(),'Przejdź teraz')]")
+    @FindBy(xpath = "//*[contains(text(),'Przejdź teraz')]")
     WebElement skipAdvertisementButton;
 
+    @FindBy(xpath = "//*[@id = 'logos']")
+    WebElement logo;
 
-    public void acceptTerms(){
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(acceptAllTermsButton));
-        acceptAllTermsButton.click();
+    public boolean isLogoVisible() {
+        return isElementVisible(logo);
+    }
+
+    public void acceptTerms() throws Exception {
+        clickElement(acceptAllTermsButton);
     }
 
     public boolean isTermsAcceptationHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(termsAcceptationHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(termsAcceptationHeader);
     }
 
     public void acceptTermsIfVisible() throws InterruptedException {
@@ -47,34 +47,24 @@ public class MainPage extends BasePage{
         } catch (Exception e) {
             System.out.println("No popups visible to close");
         }
-//        if (isTermsAcceptationHeaderVisible()){
-//            acceptTerms();
-//        }
     }
 
     public boolean isSkipAdvertisementButtonVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(skipAdvertisementButton)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(skipAdvertisementButton);
     }
 
-    public void skipAdvertisementButtonClick(){
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(skipAdvertisementButton));
-        skipAdvertisementButton.click();
+    public void skipAdvertisementButtonClick() throws Exception {
+        clickElement(skipAdvertisementButton);
     }
 
-    public void skipAdvertisementButtonIfVisible() throws InterruptedException {
-        if (isSkipAdvertisementButtonVisible()){
+    public void skipAdvertisementButtonIfVisible() throws Exception {
+        if (isSkipAdvertisementButtonVisible()) {
             skipAdvertisementButtonClick();
         }
     }
 
-    public LoginPage emailButtonClick(){
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(emailButton));
-        emailButton.click();
+    public LoginPage emailButtonClick() throws Exception {
+        clickElement(emailButton);
         return new LoginPage(driver);
     }
 

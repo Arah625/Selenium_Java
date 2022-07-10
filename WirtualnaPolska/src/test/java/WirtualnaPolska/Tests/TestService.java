@@ -57,9 +57,7 @@ public class TestService {
     }
 
 
-
-
-    public RemoteWebDriver prepareChromeDriver(String url){
+    public RemoteWebDriver prepareChromeDriver(String url) {
         driver = new ChromeDriver();
         System.setProperty(chromeDriver(), chromeDriverLocation());
         driver.get(wirtualnaPolskaUrl());
@@ -295,7 +293,7 @@ public class TestService {
         }
     }
 
-    public String currentDate(){
+    public String currentDate() {
         String currentDatePattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(currentDatePattern);
         String currentDate = simpleDateFormat.format(new Date());
@@ -303,14 +301,14 @@ public class TestService {
         return currentDate;
     }
 
-    public String currentDate(String datePattern){
+    public String currentDate(String datePattern) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
         String currentDate = simpleDateFormat.format(new Date());
         System.out.println("Current date: " + currentDate);
         return currentDate;
     }
 
-    public String currentTime(){
+    public String currentTime() {
         String currentTimePattern = "HH:mm:ss";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(currentTimePattern);
         String currentTime = simpleDateFormat.format(new Date());
@@ -318,21 +316,20 @@ public class TestService {
         return currentTime;
     }
 
-    public String currentTime(String timePattern){
+    public String currentTime(String timePattern) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(timePattern);
         String currentTime = simpleDateFormat.format(new Date());
-        System.out.println("Current time: " + currentTime);
+        System.out.println("Current timestamp: " + currentTime);
         return currentTime;
     }
 
-    public String timestamp(String text){
+    public String timestamp(String text) {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HHmmssyyyyMMdd");
         String timestamp = simpleDateFormat.format(date);
         System.out.println("Generated timestamp: " + timestamp);
         return text + timestamp;
     }
-
 
     public String replacePolishLetters(String text) {
         return text.replace("ą", "a")
@@ -421,18 +418,19 @@ public class TestService {
         return fileContent;
     }
 
-    public String notifyRecoveryEmailMessageFileLocation(){
+    public String notifyRecoveryEmailMessageFileLocation() {
         return "src/main/resources/NotifyRecoveryEmailMessage.txt";
     }
-    public String credentialsPasswordForTests(){
+
+    public String credentialsPasswordForTests() {
         return "passwordForTests";
     }
 
-    public String credentialsRecoveryEmailAddress(){
+    public String credentialsRecoveryEmailAddress() {
         return "recoveryEmailAddress";
     }
 
-    public String credentialsPhoneNumberForTests(){
+    public String credentialsPhoneNumberForTests() {
         return "phoneNumberForTests";
     }
 
@@ -443,10 +441,33 @@ public class TestService {
         long randomDays = ThreadLocalRandom.current().nextLong(days + 1);
         LocalDate randomDate = from.plusDays(randomDays);
         String generatedDate = randomDate.format(DateTimeFormatter.ofPattern(dateFormat));
-        System.out.println("Generating date between " + startDay + "-" + startMonth + "-" + startYear + " and "  + endDay + "-" + endMonth + "-" + endYear);
+        System.out.println("Generating date between " + startDay + "-" + startMonth + "-" + startYear + " and " + endDay + "-" + endMonth + "-" + endYear);
         System.out.println("in format: '" + dateFormat + "'");
         System.out.println("Generated date: " + generatedDate);
         return generatedDate;
+    }
+
+    public void stopFor(int quantity, String timeUnit) {
+        int millis;
+        switch (timeUnit.toUpperCase()) {
+            case "SECONDS":
+                millis = 1000;
+                break;
+            case "MINUTES":
+                millis = 60000;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + timeUnit.toUpperCase());
+        }
+        for (int i = quantity; i > 0; i--) {
+            currentTime("dd-MM-yyyy HH:mm:ss");
+            System.out.println("Stop ends in: " + i + " " + timeUnit.toLowerCase());
+            try {
+                Thread.sleep(millis);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

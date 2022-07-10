@@ -38,8 +38,8 @@ public class CreateAccountTests {
             mainPage = new MainPage(driver);
 
             mainPage.acceptTermsIfVisible();
-            mainPage.skipAdvertisementButtonIfVisible();
-            Thread.sleep(3000);
+//            mainPage.skipAdvertisementButtonIfVisible();
+//            Thread.sleep(3000);
             loginPage = mainPage.emailButtonClick();
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName()));
@@ -85,8 +85,8 @@ public class CreateAccountTests {
             mainPage = new MainPage(driver);
 
             mainPage.acceptTermsIfVisible();
-            mainPage.skipAdvertisementButtonIfVisible();
-            Thread.sleep(3000);
+//            mainPage.skipAdvertisementButtonIfVisible();
+//            Thread.sleep(3000);
             loginPage = mainPage.emailButtonClick();
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getFemaleFirstName()));
