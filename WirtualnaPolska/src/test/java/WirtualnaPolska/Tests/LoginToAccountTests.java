@@ -33,40 +33,102 @@ public class LoginToAccountTests {
         driver.close();
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1, groups = {"normal", "high"})
     public void firstLoginToAccount() throws Exception {
-            testService = new TestService(driver);
-            sqlQueries = new SqlQueries(driver);
-            int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountWhereColumnRecordsAreNull("personal_electronic_data", "last_login_date")));
-            int counter = 0;
-            while (attempts > counter) {
-                try {
-                    driver = testService.prepareChromeDriver(testService.wirtualnaPolskaUrl());
-                    mainPage = new MainPage(driver);
+        testService = new TestService(driver);
+        sqlQueries = new SqlQueries(driver);
+            try {
+                driver = testService.prepareChromeDriver(testService.wirtualnaPolskaUrl());
+                mainPage = new MainPage(driver);
+                mainPage.acceptTermsIfVisible();
 
-                    mainPage.acceptTermsIfVisible();
-                    Thread.sleep(3000);
-                    loginPage = mainPage.emailButtonClick();
-                    String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutLastLoginDate());
-                    loginPage.fillLogin(emailAddress);
-                    String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
-                    loginPage.fillPassword(emailPassword);
-                    emailAccountPage = loginPage.loginButtonClick();
-                    emailAccountPage.acceptTermsOf1LoginFromWpIfVisible();
-                    Assert.assertTrue(emailAccountPage.isLogoutButtonVisible(), "Logout button is not visible");
-                    testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
+                loginPage = mainPage.emailButtonClick();
+                String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutLastLoginDate());
+                loginPage.fillLogin(emailAddress);
+                String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
+                loginPage.fillPassword(emailPassword);
+                emailAccountPage = loginPage.loginButtonClick();
+                emailAccountPage.acceptTermsOf1LoginFromWpIfVisible();
+                Assert.assertTrue(emailAccountPage.isLogoutButtonVisible(), "Logout button is not visible");
+                testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
 
-                    attempts--;
-                    System.out.println("Attempts: " + attempts);
-
-                } catch (Exception exception) {
-                    System.out.println("Error occurred");
-                    throw exception;
-                } finally {
-                    driver.close();
-                    driver.quit();
-                }
+            } catch (Exception exception) {
+                System.out.println("Error occurred");
+                throw exception;
+            } finally {
+                driver.close();
+                driver.quit();
             }
+        }
+
+    @Test(priority = 1, groups = {"repeatable"})
+    public void firstLoginToAccountLoop() throws Exception {
+        testService = new TestService(driver);
+        sqlQueries = new SqlQueries(driver);
+        int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountWhereColumnRecordsAreNull("personal_electronic_data", "last_login_date")));
+        int counter = 0;
+        while (attempts > counter) {
+            try {
+                driver = testService.prepareChromeDriver(testService.wirtualnaPolskaUrl());
+                mainPage = new MainPage(driver);
+                mainPage.acceptTermsIfVisible();
+
+                loginPage = mainPage.emailButtonClick();
+                String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressWithoutLastLoginDate());
+                loginPage.fillLogin(emailAddress);
+                String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
+                loginPage.fillPassword(emailPassword);
+                emailAccountPage = loginPage.loginButtonClick();
+                emailAccountPage.acceptTermsOf1LoginFromWpIfVisible();
+                Assert.assertTrue(emailAccountPage.isLogoutButtonVisible(), "Logout button is not visible");
+                testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
+
+                attempts--;
+                System.out.println("Attempts: " + attempts);
+
+            } catch (Exception exception) {
+                System.out.println("Error occurred");
+                throw exception;
+            } finally {
+                driver.close();
+                driver.quit();
+            }
+        }
+    }
+
+    @Test(priority = 1, groups = {"repeatable"})
+    public void loginToEmailAccountWithLoginDateGreaterThan30DaysLoop() throws Exception {
+        testService = new TestService(driver);
+        sqlQueries = new SqlQueries(driver);
+        int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(testService.currentDate())));
+        int counter = 0;
+        while (attempts > counter) {
+            try {
+                driver = testService.prepareChromeDriver(testService.wirtualnaPolskaUrl());
+                mainPage = new MainPage(driver);
+                mainPage.acceptTermsIfVisible();
+
+                loginPage = mainPage.emailButtonClick();
+                String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(testService.currentDate()));
+                loginPage.fillLogin(emailAddress);
+                String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
+                loginPage.fillPassword(emailPassword);
+                emailAccountPage = loginPage.loginButtonClick();
+                emailAccountPage.acceptTermsOf1LoginFromWpIfVisible();
+                Assert.assertTrue(emailAccountPage.isLogoutButtonVisible(), "Logout button is not visible");
+                testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
+
+                attempts--;
+                System.out.println("Attempts: " + attempts);
+
+            } catch (Exception exception) {
+                System.out.println("Error occurred");
+                throw exception;
+            } finally {
+                driver.close();
+                driver.quit();
+            }
+        }
     }
 
     @AfterTest(alwaysRun = true)
@@ -84,4 +146,4 @@ public class LoginToAccountTests {
             System.out.println("Caught exception " + e.getMessage());
         }
     }
-        }
+}

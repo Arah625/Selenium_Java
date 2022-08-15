@@ -169,31 +169,31 @@ public class SqlQueries {
         return "UPDATE personal_electronic_data " +
                 "SET recovery_email_address_notified = 'true', " +
                 "notification_sent_date = '" + currentDate + "', " +
-                "notification_sent_time = '" + currentTime + "'" +
+                "notification_sent_time = '" + currentTime + "' " +
                 "WHERE email_address = '" + emailAddress +"';";
     }
 
     public String updateLastLoginDetails(String currentDate, String currentTime, String emailAddress){
         return "UPDATE personal_electronic_data " +
                 "SET last_login_date = '" + currentDate + "', " +
-                "last_login_time = '" + currentTime + "'" +
+                "last_login_time = '" + currentTime + "' " +
                 "WHERE email_address = '" + emailAddress +"';";
     }
 
     public String selectCountWhereColumnRecordsAreNull(String tableName, String columnName){
-        return "select count(*) FROM " + tableName + " WHERE " + columnName + " is NULL;";
+        return "select count(*) FROM " + tableName + " WHERE email_address LIKE '%@op.pl' AND " + columnName + " is NULL;";
     }
 
     public String selectAllFromTableWhereDateIsGreaterThan(String tableName, String dateColumnName, String dateFormat, String interval){
         return "SELECT * FROM " + tableName + " WHERE to_timestamp(" + dateColumnName + ", '" + dateFormat + "') < NOW() - INTERVAL '" + interval + "'";
     }
 
-    public String selectCountEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(String currentDateDD_MM_YYYY){
-        return "select count(*) FROM personal_electronic_data WHERE email_address LIKE '%@op.pl' AND to_timestamp(last_login_date, '" + currentDateDD_MM_YYYY + "') < NOW() - INTERVAL '30 days' FETCH FIRST ROW ONLY;";
+    public String selectCountEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(String currentDateYYYY_MM_DD){
+        return "select count(*) FROM personal_electronic_data WHERE email_address LIKE '%@op.pl' AND to_timestamp(last_login_date, '" + currentDateYYYY_MM_DD + "') < NOW() - INTERVAL '30 days';";
     }
 
-    public String getEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(String currentDateDD_MM_YYYY){
-        return "SELECT email_address FROM personal_electronic_data WHERE email_address LIKE '%@op.pl' AND to_timestamp(last_login_date, '" + currentDateDD_MM_YYYY + "') < NOW() - INTERVAL '30 days' FETCH FIRST ROW ONLY;";
+    public String getEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(String currentDateYYYY_MM_DD){
+        return "SELECT email_address FROM personal_electronic_data WHERE email_address LIKE '%@op.pl' AND to_timestamp(last_login_date, '" + currentDateYYYY_MM_DD + "') < NOW() - INTERVAL '30 days' ORDER BY last_login_date ASC FETCH FIRST ROW ONLY;";
     }
 
     public String getEmailAddressWhereDateOfBirthIsNull(){

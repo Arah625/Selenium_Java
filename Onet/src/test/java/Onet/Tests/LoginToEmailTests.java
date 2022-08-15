@@ -29,6 +29,7 @@ public class LoginToEmailTests {
         System.setProperty(testService.chromeDriver(), testService.chromeDriverLocation());
         driver.get(testService.onetUrl());
         driver.manage().window().maximize();
+        driver.close();
     }
 
 /*    @BeforeMethod(alwaysRun = true)
@@ -93,6 +94,43 @@ public class LoginToEmailTests {
         } catch (Exception exception) {
             System.out.println("Error occurred");
             throw exception;
+        }
+    }
+
+    @Test(priority = 3, groups = "repeatable")
+    public void loginToEmailAccountWithLoginDateGreaterThan30DaysLoop() throws Exception {
+        testService = new TestService(driver);
+        sqlQueries = new SqlQueries(driver);
+        int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(testService.currentDate())));
+        int counter = 0;
+        while (attempts > counter) {
+            try {
+                driver = testService.prepareChromeDriver(testService.onetUrl());
+                mainPage = new MainPage(driver);
+                mainPage.closePopUpIfVisible();
+                loginPage = mainPage.emailButtonClick();
+                Assert.assertTrue(loginPage.isLoginToOnetMailHeaderVisible(), "Login to email account form is not visible");
+                String emailAddress = testService.executeQueryOnElectronicData(sqlQueries.getEmailAddressFromTableWhereLastLoginDateIsGreaterThan30Days(testService.currentDate()));
+                loginPage.fillEmailAddress(emailAddress);
+                loginPage.submitEmailAddressButtonClick();
+                String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
+                loginPage.fillEmailPassword(emailPassword);
+                emailAccountPage = loginPage.loginButtonClick();
+                emailAccountPage.clickThroughDataConfirmation();
+                Assert.assertTrue(emailAccountPage.isWriteMessageButtonVisible(), "Button 'Napisz wiadomość' is not visible");
+                Assert.assertTrue(emailAccountPage.isLogoutButtonVisible(), "Button 'Logout' is not visible");
+                testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
+                attempts--;
+                System.out.println("Attempts left: " + attempts);
+
+
+            } catch (Exception exception) {
+                System.out.println("Error occurred");
+                throw exception;
+
+            }
+            driver.close();
+            driver.quit();
         }
     }
 

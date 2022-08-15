@@ -53,6 +53,7 @@ public class TestService {
     }
 
     public String wirtualnaPolskaUrl() {
+//        return "https://profil.wp.pl/login/login.html";
         return "https://www.wp.pl/";
     }
 
@@ -469,6 +470,11 @@ public class TestService {
             }
         }
     }
+
+    public void taskKillChromedriver() throws IOException {
+        Runtime.getRuntime().exec("taskkill /F /IM ChromeDriver.exe");
+    }
+
 
 }
 

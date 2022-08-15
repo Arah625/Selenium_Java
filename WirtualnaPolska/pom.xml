@@ -45,10 +45,22 @@
             <artifactId>pdfbox</artifactId>
             <version>2.0.4</version>
         </dependency>
+        <dependency>
+            <groupId>org.arah</groupId>
+            <artifactId>BasicUtilitiesMethods</artifactId>
+            <version>1.0-20220710.013219-1</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>a0zhsfl9iffoy-artifactory-primary-0-releases</name>
+            <url>https://arah.jfrog.io/artifactory/newrepo-libs-release</url>
+        </repository>
+    </distributionManagement>
 </project>

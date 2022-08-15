@@ -10,80 +10,78 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EditPersonalDataPage extends BasePage{
-    public EditPersonalDataPage(WebDriver driver){
+public class EditPersonalDataPage extends BasePage {
+    public EditPersonalDataPage(WebDriver driver) {
         super(driver);
     }
 
 
-    @FindBy (xpath = "//h3[contains(text(),'Edycja danych personalnych')]")
+    @FindBy(xpath = "//h3[contains(text(),'Edycja danych personalnych')]")
     WebElement editPersonalDataPageHeader;
 
-    @FindBy (xpath = "//*[contains(text(),'Dane personalne')]/../..//div[2]/a/span")
+    @FindBy(xpath = "//*[contains(text(),'Dane personalne')]/../..//div[2]/a/span")
     WebElement editPersonalDataButton;
 
-    @FindBy (xpath = "//*[@id='name']")
+    @FindBy(xpath = "//*[@id='name']")
     WebElement nameInputField;
 
-    @FindBy (xpath = "//*[@id='surname']")
+    @FindBy(xpath = "//*[@id='surname']")
     WebElement surnameInputField;
 
-    @FindBy (xpath = "//*[@id='K']/..")
+    @FindBy(xpath = "//*[@id='K']/..")
     WebElement femaleGenderRadioButton;
 
-    @FindBy (xpath = "//*[@id='M']/..")
+    @FindBy(xpath = "//*[@id='M']/..")
     WebElement maleGenderRadioButton;
 
-    @FindBy (xpath = "//*[@id='birthDate.day']")
+    @FindBy(xpath = "//*[@id='birthDate.day']")
     WebElement dayOfBirthSelect;
 
-    @FindBy (xpath = "//*[@id='birthDate.month']")
+    @FindBy(xpath = "//*[@id='birthDate.month']")
     WebElement monthOfBirthSelect;
 
-    @FindBy (xpath = "//*[@id='birthDate.year']")
+    @FindBy(xpath = "//*[@id='birthDate.year']")
     WebElement yearOfBirthSelect;
 
-    @FindBy (xpath = "//*[@id='country']")
+    @FindBy(xpath = "//*[@id='country']")
     WebElement countryInputField;
 
-    @FindBy (xpath = "//*[@id='city']")
+    @FindBy(xpath = "//*[@id='city']")
     WebElement cityInputField;
 
-    @FindBy (xpath = "//*[@id='postalCode']")
+    @FindBy(xpath = "//*[@id='postalCode']")
     WebElement postalCodeInputField;
 
-    @FindBy (xpath = "//button//*[contains(text(),'Zapisz')]")
+    @FindBy(xpath = "//button//*[contains(text(),'Zapisz')]")
     WebElement saveChangesButton;
 
 
     public boolean isEditPersonalDataPageHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(editPersonalDataPageHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(editPersonalDataPageHeader);
     }
 
     public void fillName(String name) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(nameInputField));
-        nameInputField.clear();
-        nameInputField.sendKeys(name);
+        clearAndSendKeysToElement(nameInputField, name);
     }
 
     public void fillSurname(String surname) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(surnameInputField));
-        surnameInputField.clear();
-        surnameInputField.sendKeys(surname);
+        clearAndSendKeysToElement(surnameInputField, surname);
     }
 
-    public void genderButtonClick(String gender) throws InterruptedException {
-        if (gender.equalsIgnoreCase("male")){
-            webDriverWait.until(ExpectedConditions.elementToBeClickable(maleGenderRadioButton));
-            maleGenderRadioButton.click();
-        } if (gender.equalsIgnoreCase("female")){
-            webDriverWait.until(ExpectedConditions.elementToBeClickable(femaleGenderRadioButton));
-            femaleGenderRadioButton.click();
+    public void maleGenderRadioButtonClick() throws Exception {
+        clickElement(maleGenderRadioButton);
+    }
+
+    public void femaleGenderRadioButtonClick() throws Exception {
+        clickElement(femaleGenderRadioButton);
+    }
+
+    public void genderButtonClick(String gender) throws Exception {
+        if (gender.equalsIgnoreCase("male")) {
+            maleGenderRadioButtonClick();
+        }
+        if (gender.equalsIgnoreCase("female")) {
+            femaleGenderRadioButtonClick();
         }
     }
 
@@ -95,7 +93,7 @@ public class EditPersonalDataPage extends BasePage{
         System.out.println("Day: " + day);
         simpleDateFormat = new SimpleDateFormat("MM");
         String month = simpleDateFormat.format(myDate);
-        switch (month){
+        switch (month) {
             case "01":
                 month = "styczeń";
                 break;
@@ -137,7 +135,7 @@ public class EditPersonalDataPage extends BasePage{
         simpleDateFormat = new SimpleDateFormat("yyyy");
         String year = simpleDateFormat.format(myDate);
         System.out.println("Year: " + year);
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(dayOfBirthSelect));
+        webDriverWaitDefault.until(ExpectedConditions.elementToBeClickable(dayOfBirthSelect));
         Select dayOfBirth = new Select(dayOfBirthSelect);
         dayOfBirth.selectByValue(day);
         Select monthOfBirth = new Select(monthOfBirthSelect);
@@ -146,9 +144,8 @@ public class EditPersonalDataPage extends BasePage{
         yearOfBirth.selectByValue(year);
     }
 
-    public void saveChangesButtonClick() {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(saveChangesButton));
-        saveChangesButton.click();
+    public void saveChangesButtonClick() throws Exception {
+        clickElement(saveChangesButton);
     }
 
 

@@ -6,8 +6,6 @@ import Onet.Pages.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -29,6 +27,7 @@ public class SendMessageTests {
             System.setProperty(testService.chromeDriver(), testService.chromeDriverLocation());
             driver.get(testService.onetUrl());
             driver.manage().window().maximize();
+            driver.close();
         } catch (Exception exception){
             System.out.println("beforeMethod Error: " + exception.getMessage());
             System.out.println("beforeMethod Error ST: " + exception.getStackTrace());
@@ -49,7 +48,7 @@ public class SendMessageTests {
     }*/
 
 
-    @Test(priority = 1)
+/*    @Test(priority = 1)
     public void LoginToEmailAccount() throws Exception {
         try {
             testService = new TestService(driver);
@@ -81,15 +80,16 @@ public class SendMessageTests {
             System.out.println("Error occurred");
             throw exception;
         }
-    }
+    }*/
 
     //TODO: Add method that opens given URL without @BeforeMethod and add additional tests for e-mail addresses maintenance
 
-    @Test(priority = 1)
+    @Test(priority = 1, groups = "repeatable")
     public void sendNotificationFromFile() throws Exception {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
-            int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountWhereColumnRecordsAreNull("personal_electronic_data", "last_login_date")));
+//            int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountWhereColumnRecordsAreNull("personal_electronic_data", "last_login_date")));
+            int attempts = Integer.parseInt(testService.executeQueryOnElectronicData(sqlQueries.selectCountWhereColumnRecordsAreNull("personal_electronic_data", "recovery_email_address_notified")));
             int counter = 0;
             while (attempts > counter) {
                 try {
@@ -104,6 +104,7 @@ public class SendMessageTests {
                     String emailPassword = testService.getCredentialValue(testService.credentialsPasswordForTests());
                     loginPage.fillEmailPassword(emailPassword);
                     emailAccountPage = loginPage.loginButtonClick();
+                    emailAccountPage.clickThroughDataConfirmation();
                     emailAccountPage.writeMessageButtonClick();
                     String recipient = testService.getCredentialValue(testService.credentialsRecoveryEmailAddress());
                     emailAccountPage.fillRecipient(recipient);
@@ -114,8 +115,8 @@ public class SendMessageTests {
                     emailAccountPage.fillMessage(message);
                     emailAccountPage.sendEmailButtonClick();
                     Assert.assertTrue(emailAccountPage.isEmailSentNotificationVisible(), "Notification 'Mail został wysłany' is not visible");
-                    testService.executeQueryOnElectronicData(sqlQueries.updateNotificationDetails(testService.currentDate(), testService.currentTime(), emailAddress));
-                    testService.executeQueryOnElectronicData(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
+                    testService.updateOnPersonalElectronicDataTable(sqlQueries.updateNotificationDetails(testService.currentDate(), testService.currentTime(), emailAddress));
+                    testService.updateOnPersonalElectronicDataTable(sqlQueries.updateLastLoginDetails(testService.currentDate(), testService.currentTime(), emailAddress));
                     attempts--;
 
 
@@ -129,20 +130,20 @@ public class SendMessageTests {
             }
     }
 
-    @AfterTest(alwaysRun = true)
-    public void afterTest() {
-        driver.quit();
-        System.out.println("Calling: driver.quit()");
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void afterMethod() {
-        try {
-            driver.close();
-            System.out.println("Calling: driver.close()");
-        } catch (Exception exception) {
-            System.out.println("driver.close() Error: " + exception.getMessage());
-            System.out.println("driver.close() Error ST: " + exception.getStackTrace());
-        }
-    }
+//    @AfterTest(alwaysRun = true)
+//    public void afterTest() {
+//        driver.quit();
+//        System.out.println("Calling: driver.quit()");
+//    }
+//
+//    @AfterMethod(alwaysRun = true)
+//    public void afterMethod() {
+//        try {
+//            driver.close();
+//            System.out.println("Calling: driver.close()");
+//        } catch (Exception exception) {
+//            System.out.println("driver.close() Error: " + exception.getMessage());
+//            System.out.println("driver.close() Error ST: " + exception.getStackTrace());
+//        }
+//    }
 }

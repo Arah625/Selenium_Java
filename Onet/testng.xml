@@ -5,11 +5,11 @@
 <!--        Groups that should only by run. Groups are specified in test classes next to @Test annotation-->
         <groups>
             <run>
-                <include name = "group_2"></include>
+                <include name = "repeatable"></include>
             </run>
         </groups>
         <classes>
-            <class name = "Onet.Tests.CreateAccountTests">
+            <class name = "Onet.Tests.LoginToEmailTests">
 <!--                    <methods>-->
 <!--                        <include name="createFemaleAccount"></include>-->
 <!--                    </methods>-->

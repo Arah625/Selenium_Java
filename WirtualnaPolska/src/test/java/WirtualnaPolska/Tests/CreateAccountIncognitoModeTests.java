@@ -5,13 +5,15 @@ import WirtualnaPolska.Pages.LoginPage;
 import WirtualnaPolska.Pages.MainPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class CreateAccountTests {
+public class CreateAccountIncognitoModeTests {
 
     WebDriver driver;
     TestService testService;
@@ -21,8 +23,12 @@ public class CreateAccountTests {
     CreateAccountPage createAccountPage;
 
     @BeforeMethod(alwaysRun = true)
-    public void driverSetup() {
-        driver = new ChromeDriver();
+    public void driverSetupIncognito() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("incognito");
+        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+        driver = new ChromeDriver(chromeOptions);
         testService = new TestService(driver);
         System.setProperty(testService.chromeDriver(), testService.chromeDriverLocation());
         driver.get(testService.wirtualnaPolskaUrl());
@@ -35,11 +41,9 @@ public class CreateAccountTests {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
-            loginPage = new LoginPage(driver);
 
             mainPage.acceptTermsIfVisible();
             loginPage = mainPage.emailButtonClick();
-            Thread.sleep(3000);
             createAccountPage = loginPage.createAccountButtonClick();
             String firstName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleFirstName()));
             String lastName = testService.minimizeString(testService.executeQueryOnPersonalData(sqlQueries.getMaleLastName()));
@@ -82,7 +86,6 @@ public class CreateAccountTests {
             testService = new TestService(driver);
             sqlQueries = new SqlQueries(driver);
             mainPage = new MainPage(driver);
-            loginPage = new LoginPage(driver);
 
             mainPage.acceptTermsIfVisible();
             loginPage = mainPage.emailButtonClick();

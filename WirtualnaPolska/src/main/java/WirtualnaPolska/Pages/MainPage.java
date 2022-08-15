@@ -10,7 +10,7 @@ public class MainPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(xpath = "//*[@id='site-header']//*[contains(text(),'Poczta')]")
+    @FindBy(xpath = "//*[@id='site-header']//*[contains(text(),'Poczta')]/..")
     WebElement emailButton;
 
     @FindBy(xpath = "//button[contains(text(),'USTAWIENIA ZAAWANSOWANE')]")

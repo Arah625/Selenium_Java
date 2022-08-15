@@ -12,7 +12,7 @@ public class BasePage {
     protected WebDriverWait webDriverWaitDefault;
     protected WebDriverWait webDriverWaitLong;
 
-    private static final int QUICK_TIMEOUT = 5;
+    private static final int QUICK_TIMEOUT = 10;
     private static final int SHORT_TIMEOUT = 15;
     private static final int DEFAULT_TIMEOUT = 30;
     private static final int LONG_TIMEOUT = 45;

@@ -6,306 +6,305 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class EmailAccountPage extends BasePage{
+public class EmailAccountPage extends BasePage {
 
-    public EmailAccountPage(WebDriver driver){
+    public EmailAccountPage(WebDriver driver) {
         super(driver);
     }
 
-    @FindBy (xpath = "//header//button/span/span")
+    @FindBy(xpath = "//header//button/span/span")
     WebElement emailAddress;
 
-    @FindBy (xpath = "//span[contains(text(),'Napisz wiadomość')]/../..")
+//    @FindBy(xpath = "//span[contains(text(),'Napisz wiadomość')]/../..")
+    @FindBy(xpath = "//*[@id=\"wrapper\"]/div[3]/aside/div[1]/div/span")
     WebElement writeMessageButton;
 
-    @FindBy (xpath = "//span[contains(text(),'Odebrane')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'Odebrane')]/../..")
     WebElement receivedMessagesTab;
 
-    @FindBy (xpath = "//button[@id = 'inbox-refresh']/..")
+    @FindBy(xpath = "//button[@id = 'inbox-refresh']/..")
     WebElement refreshInboxButton;
 
-    @FindBy (xpath = "//span[contains(text(),'Społeczności')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'Społeczności')]/../..")
     WebElement communityTab;
 
-    @FindBy (xpath = "//span[contains(text(),'Oferty')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'Oferty')]/../..")
     WebElement offersTab;
 
-    @FindBy (xpath = "//span[contains(text(),'Powiadomienia')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'Powiadomienia')]/../..")
     WebElement notificationsTab;
 
-    @FindBy (xpath = "//span[contains(text(),'E-recepty')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'E-recepty')]/../..")
     WebElement ePrescriptionsTab;
 
-    @FindBy (xpath = "//span[contains(text(),'E-płatności')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'E-płatności')]/../..")
     WebElement ePaymentsTab;
 
-    @FindBy (xpath = "//*[contains(@id,'attachments')]/..//*[contains(text(),'Załączniki')]/../..")
+    @FindBy(xpath = "//*[contains(@id,'attachments')]/..//*[contains(text(),'Załączniki')]/../..")
     WebElement attachmentsTab;
 
-    @FindBy (xpath = "//*[contains(@id,'attachments')]")
+    @FindBy(xpath = "//*[contains(@id,'attachments')]")
     WebElement attachmentsDropdownArrow;
 
-    @FindBy (xpath = "//*[@title = 'Zdjęcia']")
+    @FindBy(xpath = "//*[@title = 'Zdjęcia']")
     WebElement photosAttachmentsTab;
 
-    @FindBy (xpath = "//*[@title = 'Dokumenty']")
+    @FindBy(xpath = "//*[@title = 'Dokumenty']")
     WebElement documentsAttachmentsTab;
 
-    @FindBy (xpath = "//*[@title = 'Wideo']")
+    @FindBy(xpath = "//*[@title = 'Wideo']")
     WebElement videoAttachmentsTab;
 
-    @FindBy (xpath = "//*[@title = 'Muzyka']")
+    @FindBy(xpath = "//*[@title = 'Muzyka']")
     WebElement musicAttachmentsTab;
 
-    @FindBy (xpath = "//*[@title = 'Prezentacje']")
+    @FindBy(xpath = "//*[@title = 'Prezentacje']")
     WebElement presentationsAttachmentsTab;
 
-    @FindBy (xpath = "//*[@title = 'Archiwa']")
+    @FindBy(xpath = "//*[@title = 'Archiwa']")
     WebElement archivesAttachmentsTab;
 
-    @FindBy (xpath = "//*[@title = 'Inne']")
+    @FindBy(xpath = "//*[@title = 'Inne']")
     WebElement othersAttachmentsTab;
 
-    @FindBy (xpath = "//span[contains(text(),'Kosz')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'Kosz')]/../..")
     WebElement binTab;
 
-    @FindBy (xpath = "//span[contains(text(),'Wysłane')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'Wysłane')]/../..")
     WebElement sentTab;
 
-    @FindBy (xpath = "//span[contains(text(),'SPAM')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'SPAM')]/../..")
     WebElement spamTab;
 
-    @FindBy (xpath = "//span[contains(text(),'Szkice')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'Szkice')]/../..")
     WebElement draftsTab;
 
-    @FindBy (xpath = "//span[contains(text(),'Foldery')]/../..")
+    @FindBy(xpath = "//span[contains(text(),'Foldery')]/../..")
     WebElement foldersTab;
 
-    @FindBy (xpath = "//*[@id = 'field-recipient-to']//input")
+    @FindBy(xpath = "//*[@id = 'field-recipient-to']//input")
     WebElement recipientInputField;
 
-    @FindBy (xpath = "//*[@id = 'field-subject']//input")
+    @FindBy(xpath = "//*[@id = 'field-subject']//input")
     WebElement subjectInputField;
 
-    @FindBy (xpath = "//button[@title = 'Użyj edytora tekstu']")
+    @FindBy(xpath = "//button[@title = 'Użyj edytora tekstu']")
     WebElement useTextEditorButton;
 
-    @FindBy (xpath = "//*[@id='wrapper']//textarea")
+    @FindBy(xpath = "//*[@id='wrapper']//textarea")
     WebElement messageInputFieldInTextEditor;
 
-    @FindBy (xpath = "//button[@title = 'Powrót']")
+    @FindBy(xpath = "//button[@title = 'Powrót']")
     WebElement returnButton;
 
-    @FindBy (xpath = "//button[@title = 'Wyślij']")
+    @FindBy(xpath = "//button[@title = 'Wyślij']")
     WebElement sendEmailButton;
 
-    @FindBy (xpath = "//button[@title = 'Zapisz szkic']")
+    @FindBy(xpath = "//button[@title = 'Zapisz szkic']")
     WebElement saveEmailDraftButton;
 
-    @FindBy (xpath = "//button[@title = 'Anuluj']")
+    @FindBy(xpath = "//button[@title = 'Anuluj']")
     WebElement cancelEmailButton;
 
-    @FindBy (xpath = "//span[contains(text(),'Mail został wysłany')]")
+    @FindBy(xpath = "//span[contains(text(),'Mail został wysłany')]")
     WebElement emailSentNotification;
 
-    @FindBy (xpath = "//a[@title ='Wyloguj']")
+    @FindBy(xpath = "//a[@title ='Wyloguj']")
     WebElement logoutButton;
+
+    @FindBy(xpath = "//button//span[contains(text(),'Dalej')]")
+    WebElement submitButton;
+
+    @FindBy(xpath = "//span[contains(text(),'Przypomnij później')]")
+    WebElement remindLaterButton;
+
+    @FindBy (xpath = "//span[contains(text(),'Chcę korzystać z Onet Poczty bezpłatnie')]")
+    WebElement freeAccountUsageCheckbox;
+
+    @FindBy (xpath = "//button//*[contains(text(),'Przejdź do poczty')]")
+    WebElement acceptTermsAndContinueToEmailPageButton;
 
 
     public String getEmailAddressFromEmailAccountPage() {
-        webDriverWait.until(ExpectedConditions.visibilityOf(emailAddress));
+        webDriverWaitDefault.until(ExpectedConditions.visibilityOf(emailAddress));
         return emailAddress.getText();
     }
 
     public boolean isWriteMessageButtonVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(writeMessageButton)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(writeMessageButton);
     }
 
-    public void writeMessageButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(writeMessageButton));
-        writeMessageButton.click();
+    public void writeMessageButtonClick() throws Exception {
+        clickElement(writeMessageButton);
     }
 
-    public void useTextEditorButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(useTextEditorButton));
-        useTextEditorButton.click();
+    public void useTextEditorButtonClick() throws Exception {
+        clickElement(useTextEditorButton);
     }
 
-    public void receivedMessagesTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(receivedMessagesTab));
-        receivedMessagesTab.click();
+    public void receivedMessagesTabClick() throws Exception {
+        clickElement(receivedMessagesTab);
     }
 
-    public void refreshInboxButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(refreshInboxButton));
-        refreshInboxButton.click();
+    public void refreshInboxButtonClick() throws Exception {
+        clickElement(refreshInboxButton);
     }
 
-    public void communityTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(communityTab));
-        communityTab.click();
+    public void communityTabClick() throws Exception {
+        clickElement(communityTab);
     }
 
-    public void offersTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(offersTab));
-        offersTab.click();
+    public void offersTabClick() throws Exception {
+        clickElement(offersTab);
     }
 
-    public void notificationsTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(notificationsTab));
-        notificationsTab.click();
+    public void notificationsTabClick() throws Exception {
+        clickElement(notificationsTab);
     }
 
-    public void ePrescriptionsTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(ePrescriptionsTab));
-        ePrescriptionsTab.click();
+    public void ePrescriptionsTabClick() throws Exception {
+        clickElement(ePrescriptionsTab);
     }
 
-    public void ePaymentsTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(ePaymentsTab));
-        ePaymentsTab.click();
+    public void ePaymentsTabClick() throws Exception {
+        clickElement(ePaymentsTab);
     }
 
-    public void attachmentsTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(attachmentsTab));
-        attachmentsTab.click();
-        attachmentsTab.click();
+    public void attachmentsTabClick() throws Exception {
+        clickElement(attachmentsTab);
     }
 
-    public void attachmentsByTypeTabClick(String attachmentType) throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(attachmentsTab));
-        attachmentsTab.click();
-        switch (attachmentType){
+    public void attachmentsByTypeTabClick(String attachmentType) throws Exception {
+        clickElement(attachmentsTab);
+        switch (attachmentType) {
             case "Zdjęcia":
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(photosAttachmentsTab));
-                photosAttachmentsTab.click();
+                clickElement(photosAttachmentsTab);
                 break;
             case "Dokumenty":
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(documentsAttachmentsTab));
-                documentsAttachmentsTab.click();
+                clickElement(documentsAttachmentsTab);
                 break;
             case "Wideo":
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(videoAttachmentsTab));
-                videoAttachmentsTab.click();
+                clickElement(videoAttachmentsTab);
                 break;
             case "Muzyka":
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(musicAttachmentsTab));
-                musicAttachmentsTab.click();
+                clickElement(musicAttachmentsTab);
                 break;
             case "Prezentacje":
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(presentationsAttachmentsTab));
-                presentationsAttachmentsTab.click();
+                clickElement(presentationsAttachmentsTab);
                 break;
             case "Archiwa":
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(archivesAttachmentsTab));
-                archivesAttachmentsTab.click();
+                clickElement(archivesAttachmentsTab);
                 break;
             case "Inne":
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(othersAttachmentsTab));
-                othersAttachmentsTab.click();
+                clickElement(othersAttachmentsTab);
                 break;
         }
     }
 
-    public void attachmentsDropdownArrowClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(attachmentsDropdownArrow));
-        attachmentsDropdownArrow.click();
+    public void attachmentsDropdownArrowClick() throws Exception {
+        clickElement(attachmentsDropdownArrow);
     }
 
-    public void binTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(binTab));
-        binTab.click();
+    public void binTabClick() throws Exception {
+        clickElement(binTab);
     }
 
-    public void sentTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(sentTab));
-        sentTab.click();
+    public void sentTabClick() throws Exception {
+        clickElement(sentTab);
     }
 
-    public void spamTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(spamTab));
-        spamTab.click();
+    public void spamTabClick() throws Exception {
+        clickElement(spamTab);
     }
 
-    public void draftsTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(draftsTab));
-        draftsTab.click();
+    public void draftsTabClick() throws Exception {
+        clickElement(draftsTab);
     }
 
-    public void foldersTabClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(foldersTab));
-        foldersTab.click();
+    public void foldersTabClick() throws Exception {
+        clickElement(foldersTab);
     }
 
-    public void fillRecipient(String recipient) throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(recipientInputField));
-        recipientInputField.clear();
-        recipientInputField.sendKeys(recipient);
-        recipientInputField.click();
+    public void fillRecipient(String recipient) throws Exception {
+        clearAndSendKeysToElement(recipientInputField, recipient);
+        clickElement(recipientInputField);
     }
 
     public void fillSubject(String subject) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(subjectInputField));
-        subjectInputField.clear();
-        subjectInputField.sendKeys(subject);
+        clearAndSendKeysToElement(subjectInputField, subject);
     }
 
     public void fillMessage(String message) {
-        webDriverWait.until(ExpectedConditions.visibilityOf(messageInputFieldInTextEditor));
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(messageInputFieldInTextEditor));
-        messageInputFieldInTextEditor.clear();
-        messageInputFieldInTextEditor.sendKeys(message);
+        clearAndSendKeysToElement(messageInputFieldInTextEditor, message);
     }
 
-    public void returnButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(returnButton));
-        returnButton.click();
+    public void returnButtonClick() throws Exception {
+        clickElement(returnButton);
     }
 
-    public void sendEmailButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(sendEmailButton));
-        sendEmailButton.click();
+    public void sendEmailButtonClick() throws Exception {
+        clickElement(sendEmailButton);
     }
 
-    public void saveEmailDraftButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(saveEmailDraftButton));
-        saveEmailDraftButton.click();
+    public void saveEmailDraftButtonClick() throws Exception {
+        clickElement(saveEmailDraftButton);
     }
 
-    public void cancelEmailButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(cancelEmailButton));
-        cancelEmailButton.click();
+    public void cancelEmailButtonClick() throws Exception {
+        clickElement(cancelEmailButton);
     }
 
     public boolean isEmailSentNotificationVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(emailSentNotification)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(emailSentNotification);
     }
 
     public boolean isLogoutButtonVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(logoutButton)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(logoutButton);
     }
 
-    public ProfilePage avatarIconClick(String emailAddress) throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(logoutButton));
+    public ProfilePage avatarIconClick(String emailAddress) throws Exception {
+        isElementVisible(logoutButton);
         WebElement avatarIcon = driver.findElement(By.xpath("//a[@title ='" + emailAddress + "']//img"));
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(avatarIcon));
-        avatarIcon.click();
+        clickElement(avatarIcon);
         return new ProfilePage(driver);
+    }
+
+    public boolean isSubmitButtonVisible() {
+        return isElementVisible(submitButton);
+    }
+
+    public void submitButtonClick() throws Exception {
+        clickElement(submitButton);
+    }
+
+    public void remindLaterButtonClick() throws Exception {
+        clickElement(remindLaterButton);
+    }
+
+    public boolean isFreeAccountUsageCheckboxVisible() {
+        return isElementVisible(freeAccountUsageCheckbox);
+    }
+
+    public void freeAccountUsageCheckboxClick() throws Exception {
+        clickElement(freeAccountUsageCheckbox);
+    }
+
+    public void acceptTermsAndContinueToEmailPageButtonClick() throws Exception {
+        clickElement(acceptTermsAndContinueToEmailPageButton);
+    }
+
+    public void clickThroughDataConfirmation() throws Exception {
+        if (isSubmitButtonVisible()) {
+            try {
+                submitButtonClick();
+                remindLaterButtonClick();
+            } catch (Exception e){
+                System.out.println(e.getStackTrace());
+            }
+        } if (isFreeAccountUsageCheckboxVisible()) {
+            freeAccountUsageCheckboxClick();
+            acceptTermsAndContinueToEmailPageButtonClick();
+        }
     }
 
 }

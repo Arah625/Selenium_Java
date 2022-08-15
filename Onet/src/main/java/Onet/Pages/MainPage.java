@@ -7,12 +7,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class MainPage extends BasePage{
+public class MainPage extends BasePage {
     public MainPage(WebDriver driver) {
         super(driver);
     }
-
-    LoginPage emailPage;
 
     @FindBy(xpath = "//*[@aria-label = 'close']")
     List<WebElement> closePopUpsList;
@@ -20,24 +18,24 @@ public class MainPage extends BasePage{
     @FindBy(xpath = "//*[@aria-label = 'close']")
     WebElement closeSinglePopUp;
 
-    @FindBy (xpath = "//span[contains(text(),'Szanowna Użytkowniczko, Szanowny Użytkowniku')]")
+    @FindBy(xpath = "//span[contains(text(),'Szanowna Użytkowniczko, Szanowny Użytkowniku')]")
     WebElement popUpHeader;
 
-    @FindBy (xpath = "//button//span[contains(text(),'Przejdź do serwisu')]")
+    @FindBy(xpath = "//button//span[contains(text(),'Przejdź do serwisu')]")
     WebElement goToWebsiteButton;
 
-    @FindBy (xpath = "//button//span[contains(text(),'Ustawienia zaawansowane')]")
+    @FindBy(xpath = "//button//span[contains(text(),'Ustawienia zaawansowane')]")
     WebElement advancedSettingsButton;
 
-    @FindBy (xpath = "//*[@class = 'headerNavItem mail'] | //*[span = 'E-mail']")
+    @FindBy(xpath = "//*[@class = 'headerNavItem mail'] | //*[span = 'E-mail']")
     WebElement emailButton;
 
 
     public boolean closeAllPopUpsIfVisible() {
-        for (WebElement closeButton : closePopUpsList){
-            if (isPopUpToCloseVisible()){
+        for (WebElement closeButton : closePopUpsList) {
+            if (isPopUpToCloseVisible()) {
                 closeButton.click();
-                webDriverWait.until(ExpectedConditions.invisibilityOf(closeButton));
+                webDriverWaitDefault.until(ExpectedConditions.invisibilityOf(closeButton));
                 return true;
             }
         }
@@ -45,59 +43,37 @@ public class MainPage extends BasePage{
     }
 
     public boolean isPopUpToCloseVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(closeSinglePopUp)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(closeSinglePopUp);
     }
 
     public boolean isPopUpHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(popUpHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(popUpHeader);
     }
 
-    public void closePopUpIfVisible() throws InterruptedException {
-        if (isPopUpHeaderVisible()){
+    public void closePopUpIfVisible() throws Exception {
+        if (isPopUpHeaderVisible()) {
             goToWebsiteButtonClick();
         }
     }
 
     public boolean isGoToWebsiteButtonVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(goToWebsiteButton)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(goToWebsiteButton);
     }
-    public void goToWebsiteButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(goToWebsiteButton));
-        goToWebsiteButton.click();
+
+    public void goToWebsiteButtonClick() throws Exception {
+        clickElement(goToWebsiteButton);
     }
 
     public boolean isAdvancedSettingsButtonVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(advancedSettingsButton)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(advancedSettingsButton);
     }
 
-    public void advancedSettingsButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(advancedSettingsButton));
-        advancedSettingsButton.click();
+    public void advancedSettingsButtonClick() throws Exception {
+        clickElement(advancedSettingsButton);
     }
 
     public LoginPage emailButtonClick() throws Exception {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(emailButton));
-        emailButton.click();
+        clickElement(emailButton);
         return new LoginPage(driver);
     }
 

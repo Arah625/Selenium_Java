@@ -3,13 +3,14 @@
 <suite name="Suite">
     <test name="Test">
 <!--        Groups that should only by run. Groups are specified in test classes next to @Test annotation-->
-<!--        <groups>-->
-<!--            <run>-->
-<!--                <include name = "group_1"></include>-->
-<!--            </run>-->
-<!--        </groups>-->
+        <groups>
+            <run>
+                <include name = "repeatable"></include>
+            </run>
+        </groups>
+<!--        groups = normal, high, critical, repeatable-->
         <classes>
-            <class name = "WirtualnaPolska.Tests.CreateAccountTests">
+            <class name = "WirtualnaPolska.Tests.LoginToAccountTests">
 <!--                    <methods>-->
 <!--                        <include name="createFemaleAccount"></include>-->
 <!--                    </methods>-->

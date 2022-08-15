@@ -10,249 +10,204 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreateAccountPage extends BasePage{
-    public CreateAccountPage (WebDriver driver){
+public class CreateAccountPage extends BasePage {
+    public CreateAccountPage(WebDriver driver) {
         super(driver);
     }
 
-    @FindBy (xpath = "//h1[contains(text(),'Rejestracja Onet Poczta')]")
+    @FindBy(xpath = "//h1[contains(text(),'Rejestracja Onet Poczta')]")
     WebElement registrationOnetMailHeader;
 
-    @FindBy (xpath = "//*[@id = 'alias']")
+    @FindBy(xpath = "//*[@id = 'alias']")
     WebElement newEmailInput;
 
-    @FindBy (xpath = "//div[contains(text(),'Niestety adres ')]")
+    @FindBy(xpath = "//div[contains(text(),'Niestety adres ')]")
     WebElement emailAlreadyTakenMessage;
 
-    @FindBy (xpath = "//strong")
+    @FindBy(xpath = "//strong")
     WebElement emailAddressTakenInMessage;
 
-    @FindBy (xpath = "//div[3]//a[1]//span")
+    @FindBy(xpath = "//div[3]//a[1]//span")
     WebElement firstRecommendedEmailAddressButton;
 
-    @FindBy (xpath = "//button//span[contains(text(),'Dalej')]")
+    @FindBy(xpath = "//button//span[contains(text(),'Dalej')]")
     WebElement submitButton;
 
-    @FindBy (xpath = "//button[contains(text(),'Dalej')]")
+    @FindBy(xpath = "//button[contains(text(),'Dalej')]")
     WebElement submitVerificationPhoneNumberButton;
 
-    @FindBy (xpath = "//h2[contains(text(),'Ustaw hasło')]")
+    @FindBy(xpath = "//h2[contains(text(),'Ustaw hasło')]")
     WebElement setPasswordHeader;
 
-    @FindBy (xpath = "//strong")
+    @FindBy(xpath = "//strong")
     WebElement emailAddressInSetPasswordSubheader;
 
-    @FindBy (xpath = "//*[@id = 'newPassword']")
+    @FindBy(xpath = "//*[@id = 'newPassword']")
     WebElement newPasswordInput;
 
-    @FindBy (xpath = "//*[@id = 'rePassword']")
+    @FindBy(xpath = "//*[@id = 'rePassword']")
     WebElement repeatNewPasswordInput;
 
-    @FindBy (xpath = "//h2[contains(text(),'Dodaj metodę odzyskiwania hasła')]")
+    @FindBy(xpath = "//h2[contains(text(),'Dodaj metodę odzyskiwania hasła')]")
     WebElement addRetrievePasswordHeader;
 
-    @FindBy (xpath = "//*[@id = 'recoveryPhone']")
+    @FindBy(xpath = "//*[@id = 'recoveryPhone']")
     WebElement recoveryMobilePhoneNumberInput;
 
-    @FindBy (xpath = "//*[@id = 'recoveryEmail']")
+    @FindBy(xpath = "//*[@id = 'recoveryEmail']")
     WebElement recoveryEmailAddressInput;
 
-    @FindBy (xpath = "//*[@id = 'phone']")
+    @FindBy(xpath = "//*[@id = 'phone']")
     WebElement verificationPhoneNumberInput;
 
-    @FindBy (xpath = "//*[@id = 'code']")
+    @FindBy(xpath = "//*[@id = 'code']")
     WebElement verificationCodeInput;
 
-    @FindBy (xpath = "//*[@id = 'K']//..//span")
+    @FindBy(xpath = "//*[@id = 'K']//..//span")
     WebElement femaleGenderRadioButton;
 
-    @FindBy (xpath = "//*[@id = 'M']//..//span")
+    @FindBy(xpath = "//*[@id = 'M']//..//span")
     WebElement maleGenderRadioButton;
 
-    @FindBy (xpath = "//*[@id = 'name']")
+    @FindBy(xpath = "//*[@id = 'name']")
     WebElement firstAndLastNameInput;
 
-    @FindBy (xpath = "//*[@id = 'birthDate.day']")
+    @FindBy(xpath = "//*[@id = 'birthDate.day']")
     WebElement dayOfBirthInput;
 
-    @FindBy (xpath = "//*[@id = 'birthDate.month']")
+    @FindBy(xpath = "//*[@id = 'birthDate.month']")
     WebElement listOfMoths;
 
-    @FindBy (xpath = "//*[@id = 'birthDate.year']")
+    @FindBy(xpath = "//*[@id = 'birthDate.year']")
     WebElement yearOfBirthInput;
 
-    @FindBy (xpath = "//*[@id = 'postalCode']")
+    @FindBy(xpath = "//*[@id = 'postalCode']")
     WebElement postalCodeInput;
 
-    @FindBy (xpath = "//h2[contains(text(),'Wybierz pakiet')]")
+    @FindBy(xpath = "//h2[contains(text(),'Wybierz pakiet')]")
     WebElement choosePackageHeader;
 
-    @FindBy (xpath = "//div[3]/button")
+    @FindBy(xpath = "//div[3]/button")
     WebElement onetMailFreeButton;
 
-    @FindBy (xpath = "//div[4]/button")
+    @FindBy(xpath = "//div[4]/button")
     WebElement onetMailPaidButton;
 
-    @FindBy (xpath = "//h2[contains(text(),'Regulaminy i zgody')]")
+    @FindBy(xpath = "//h2[contains(text(),'Regulaminy i zgody')]")
     WebElement statuteAndAgreementsHeader;
 
-    @FindBy (xpath = "//button//span[contains(text(),'Zaznaczam wszystkie poniższe:')]")
+    @FindBy(xpath = "//button//span[contains(text(),'Zaznaczam wszystkie poniższe:')]")
     WebElement acceptAllCheckboxesBelow;
 
-    @FindBy (xpath = "//*[@id = 'agreements.85']")
+    @FindBy(xpath = "//*[@id = 'agreements.85']")
     WebElement acceptStatueCheckbox;
 
-    @FindBy (xpath = "//*[@id = 'agreements.21']")
+    @FindBy(xpath = "//*[@id = 'agreements.21']")
     WebElement acceptOkontoServiceCheckbox;
 
-    @FindBy (xpath = "//*[@id = 'agreements.6']")
+    @FindBy(xpath = "//*[@id = 'agreements.6']")
     WebElement acceptStatueOkontoServiceCheckbox;
 
-    @FindBy (xpath = "//*[@id = 'agreements.1']")
+    @FindBy(xpath = "//*[@id = 'agreements.1']")
     WebElement acceptMarketingCheckbox;
 
-    @FindBy (xpath = "//h2[contains(text(),'Rejestracja zakończona')]")
+    @FindBy(xpath = "//h2[contains(text(),'Rejestracja zakończona')]")
     WebElement registrationCompletedHeader;
 
-    @FindBy (xpath = "//span[contains(text(),'Przejdź do poczty')]")
+    @FindBy(xpath = "//span[contains(text(),'Przejdź do poczty')]")
     WebElement goToEmailPageButton;
 
 
     public boolean isRegistrationOnetMailHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(registrationOnetMailHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(registrationOnetMailHeader);
     }
 
     public void fillEmailAddress(String emailAddress) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(newEmailInput));
-        newEmailInput.clear();
-        newEmailInput.sendKeys(emailAddress);
+        clearAndSendKeysToElement(newEmailInput, emailAddress);
     }
 
     public void fillVerificationPhoneNumber(String phoneNumber) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(verificationPhoneNumberInput));
-        verificationPhoneNumberInput.clear();
-        verificationPhoneNumberInput.sendKeys(phoneNumber);
+        clearAndSendKeysToElement(verificationPhoneNumberInput, phoneNumber);
     }
 
     public boolean isEmailAddressAlreadyTakenMessageVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(emailAlreadyTakenMessage)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(emailAlreadyTakenMessage);
     }
 
-    public void firstRecommendedEmailAddressButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(firstRecommendedEmailAddressButton));
-        firstRecommendedEmailAddressButton.click();
+    public void firstRecommendedEmailAddressButtonClick() throws Exception {
+        clickElement(firstRecommendedEmailAddressButton);
     }
 
-    public void fillEmailAddress2(String emailAddress) throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(newEmailInput));
-        newEmailInput.clear();
-        newEmailInput.sendKeys(emailAddress);
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(submitButton));
-        submitButton.click();
-        if (isEmailAddressAlreadyTakenMessageVisible()){
+    public void fillEmailAddress2(String emailAddress) throws Exception {
+        clearAndSendKeysToElement(newEmailInput, emailAddress);
+        clickElement(submitButton);
+        if (isEmailAddressAlreadyTakenMessageVisible()) {
             System.out.println(emailAddressTakenInMessage.getText() + " Email address is already taken");
             System.out.println("Taking first recommended email address: ");
             firstRecommendedEmailAddressButtonClick();
         }
     }
 
-    public void submitButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(submitButton));
-        submitButton.click();
+    public void submitButtonClick() throws Exception {
+        clickElement(submitButton);
     }
 
-    public void submitVerificationPhoneNumberButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(submitVerificationPhoneNumberButton));
-        submitVerificationPhoneNumberButton.click();
+    public void submitVerificationPhoneNumberButtonClick() throws Exception {
+        clickElement(submitVerificationPhoneNumberButton);
     }
 
     public boolean isSetPasswordHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(setPasswordHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(setPasswordHeader);
     }
 
     public String getEmailAddressFromSetPasswordSubheader() {
-        webDriverWait.until(ExpectedConditions.visibilityOf(emailAddressInSetPasswordSubheader));
+        webDriverWaitDefault.until(ExpectedConditions.visibilityOf(emailAddressInSetPasswordSubheader));
         return emailAddressInSetPasswordSubheader.getText();
     }
 
     public void fillNewPassword(String password) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(newPasswordInput));
-        newPasswordInput.clear();
-        newPasswordInput.sendKeys(password);
+        clearAndSendKeysToElement(newPasswordInput, password);
     }
 
     public void fillRepeatNewPassword(String password) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(repeatNewPasswordInput));
-        repeatNewPasswordInput.clear();
-        repeatNewPasswordInput.sendKeys(password);
+        clearAndSendKeysToElement(repeatNewPasswordInput, password);
     }
 
     public boolean isAddRetrievePasswordHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(addRetrievePasswordHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(addRetrievePasswordHeader);
     }
 
     public void fillRecoveryMobileNumber(String mobileNumber) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(recoveryMobilePhoneNumberInput));
-        recoveryMobilePhoneNumberInput.clear();
-        recoveryMobilePhoneNumberInput.sendKeys(mobileNumber);
+        clearAndSendKeysToElement(recoveryMobilePhoneNumberInput, mobileNumber);
     }
 
     public void fillVerificationCode(String verificationCode) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(verificationCodeInput));
-        verificationCodeInput.clear();
-        verificationCodeInput.sendKeys(verificationCode);
+        clearAndSendKeysToElement(verificationCodeInput, verificationCode);
     }
 
     public void fillRecoveryEmailAddress(String recoveryEmailAddress) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(recoveryEmailAddressInput));
-        recoveryEmailAddressInput.clear();
-        recoveryEmailAddressInput.sendKeys(recoveryEmailAddress);
+        clearAndSendKeysToElement(recoveryEmailAddressInput, recoveryEmailAddress);
     }
 
-    public void femaleGenderButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(femaleGenderRadioButton));
-        femaleGenderRadioButton.click();
+    public void femaleGenderButtonClick() throws Exception {
+        clickElement(femaleGenderRadioButton);
     }
 
-    public void maleGenderButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(maleGenderRadioButton));
-        maleGenderRadioButton.click();
+    public void maleGenderButtonClick() throws Exception {
+        clickElement(maleGenderRadioButton);
     }
 
-    public void genderButtonClick(String gender) throws InterruptedException {
-        if (gender.equalsIgnoreCase("male")){
-            webDriverWait.until(ExpectedConditions.elementToBeClickable(maleGenderRadioButton));
-            maleGenderRadioButton.click();
-        } if (gender.equalsIgnoreCase("female")){
-            webDriverWait.until(ExpectedConditions.elementToBeClickable(femaleGenderRadioButton));
-            femaleGenderRadioButton.click();
+    public void genderButtonClick(String gender) throws Exception {
+        if (gender.equalsIgnoreCase("male")) {
+            maleGenderButtonClick();
+        }
+        if (gender.equalsIgnoreCase("female")) {
+            femaleGenderButtonClick();
         }
     }
 
     public void fillFirstNameAndLastName(String firstAndLastName) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(firstAndLastNameInput));
-        firstAndLastNameInput.clear();
-        firstAndLastNameInput.sendKeys(firstAndLastName);
+        clearAndSendKeysToElement(firstAndLastNameInput, firstAndLastName);
     }
 
     public void selectDateOfBirth(String date) throws ParseException {
@@ -267,87 +222,62 @@ public class CreateAccountPage extends BasePage{
         simpleDateFormat = new SimpleDateFormat("yyyy");
         String year = simpleDateFormat.format(myDate);
         System.out.println("Year: " + year);
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(dayOfBirthInput));
+        webDriverWaitDefault.until(ExpectedConditions.elementToBeClickable(dayOfBirthInput));
         dayOfBirthInput.clear();
         dayOfBirthInput.sendKeys(day);
         Select monthOfBirth = new Select(listOfMoths);
         monthOfBirth.selectByValue(month);
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(yearOfBirthInput));
+        webDriverWaitDefault.until(ExpectedConditions.elementToBeClickable(yearOfBirthInput));
         yearOfBirthInput.clear();
         yearOfBirthInput.sendKeys(year);
     }
 
     public void fillPostalCode(String postalCode) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(postalCodeInput));
-        postalCodeInput.clear();
-        postalCodeInput.sendKeys(postalCode);
+        clearAndSendKeysToElement(postalCodeInput, postalCode);
     }
 
     public boolean isChoosePackageHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(choosePackageHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(choosePackageHeader);
     }
 
-    public void onetMailFreePlanButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(onetMailFreeButton));
-        onetMailFreeButton.click();
+    public void onetMailFreePlanButtonClick() throws Exception {
+        clickElement(onetMailFreeButton);
     }
 
-    public void onetMailPaidPlanButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(onetMailPaidButton));
-        onetMailPaidButton.click();
+    public void onetMailPaidPlanButtonClick() throws Exception {
+        clickElement(onetMailPaidButton);
     }
 
     public boolean isStatueAndAgreementsHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(statuteAndAgreementsHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(statuteAndAgreementsHeader);
     }
 
-    public void acceptAllCheckboxes() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(acceptAllCheckboxesBelow));
-        acceptAllCheckboxesBelow.click();
+    public void acceptAllCheckboxes() throws Exception {
+        clickElement(acceptAllCheckboxesBelow);
     }
 
-    public void acceptStatueCheckbox() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(acceptStatueCheckbox));
-        acceptStatueCheckbox.click();
+    public void acceptStatueCheckbox() throws Exception {
+        clickElement(acceptStatueCheckbox);
     }
 
-    public void acceptOkontoServiceCheckbox() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(acceptOkontoServiceCheckbox));
-        acceptOkontoServiceCheckbox.click();
+    public void acceptOkontoServiceCheckbox() throws Exception {
+        clickElement(acceptOkontoServiceCheckbox);
     }
 
-    public void acceptStatueOkontoServiceCheckbox() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(acceptStatueOkontoServiceCheckbox));
-        acceptStatueOkontoServiceCheckbox.click();
+    public void acceptStatueOkontoServiceCheckbox() throws Exception {
+        clickElement(acceptStatueOkontoServiceCheckbox);
     }
 
-    public void acceptMarketingCheckbox() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(acceptMarketingCheckbox));
-        acceptMarketingCheckbox.click();
+    public void acceptMarketingCheckbox() throws Exception {
+        clickElement(acceptMarketingCheckbox);
     }
 
     public boolean isRegistrationCompletedHeaderVisible() {
-        try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(registrationCompletedHeader)).isDisplayed();
-            return true;
-        } catch (org.openqa.selenium.TimeoutException | org.openqa.selenium.NoSuchElementException e) {
-            return false;
-        }
+        return isElementVisible(registrationCompletedHeader);
     }
 
-    public LoginPage goToEmailPageButtonClick() throws InterruptedException {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(goToEmailPageButton));
-        goToEmailPageButton.click();
+    public LoginPage goToEmailPageButtonClick() throws Exception {
+        clickElement(goToEmailPageButton);
         return new LoginPage(driver);
     }
 
