@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+    <test name="Test">
+        <!--Indicate test groups that should only be run within Test class. Groups are specified in test classes next to @Test annotation-->
+        <!--You can choose single or multiple groups to be run by adding another row in tag <include/> between tags <groups><run></run></groups>-->
+        <groups>
+            <run>
+                <include name="high"/>
+                <include name="critical"/>
+            </run>
+        </groups>
+        <classes>
+            <!--Indicate Test class that you want to run-->
+            <!--You can choose single or multiple classes to be run by adding another row in tag <class/>-->
+            <class name="Tests.StandardMode.Languages"/>
+        </classes>
+    </test>
+</suite>
