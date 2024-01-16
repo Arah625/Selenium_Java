@@ -31,30 +31,30 @@ public class RequestDataErasure extends BasicPage {
     }
 
     public boolean isDataErasureRequestPageHeaderVisible() {
-        return isElementVisible(dataErasureRequestPageHeader);
+        return elementVisibilityHandler.isElementVisible(dataErasureRequestPageHeader);
     }
 
     public RequestDataErasure fillEmailAddress(String emailAddress) {
-        sendKeysToElement(emailField, emailAddress);
+        commonMethods.sendKeysToElement(emailField, emailAddress);
         return this;
     }
 
     public RequestDataErasure fillSecurityAnswer(String securityAnswer) {
-        sendKeysToElement(securityAnswerField, securityAnswer);
+        commonMethods.sendKeysToElement(securityAnswerField, securityAnswer);
         return this;
     }
 
     public RequestDataErasure deleteUserDataButtonClick() {
-        clickElement(deleteUserDataButton);
+        commonMethods.clickElement(deleteUserDataButton);
         return this;
     }
 
     public boolean isErasureRequestSubmittedHeaderVisible() {
-        return isElementVisible(erasureRequestSubmittedHeader);
+        return elementVisibilityHandler.isElementVisible(erasureRequestSubmittedHeader);
     }
 
     public Home goToHomePageButtonClick() {
-        clickElement(goToHomePageButton);
+        commonMethods.clickElement(goToHomePageButton);
         return new Home(webDriver);
     }
 }

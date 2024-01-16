@@ -18,6 +18,6 @@ public class Nft extends BasicPage {
     }
 
     public boolean isNftPageVisible() {
-        return isElementVisible(juiceShopHeader);
+        return elementVisibilityHandler.isElementVisible(juiceShopHeader);
     }
 }

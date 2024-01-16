@@ -22,6 +22,6 @@ public class Reddit extends BasicPage {
     }
 
     public boolean isRedditPageVisible() {
-        return isElementVisible(redditLogo);
+        return elementVisibilityHandler.isElementVisible(redditLogo);
     }
 }

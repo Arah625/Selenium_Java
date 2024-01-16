@@ -19,6 +19,6 @@ public class Facebook extends BasicPage {
     }
 
     public boolean isFacebookPageVisible() {
-        return isElementVisible(facebookPage);
+        return elementVisibilityHandler.isElementVisible(facebookPage);
     }
 }

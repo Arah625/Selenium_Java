@@ -1,14 +1,42 @@
 package lh.juicecompany.Pages;
 
 import lh.juicecompany.Logger.InfoMessage;
-import lh.juicecompany.PageUtilities.BasicMethods;
+import lh.juicecompany.PageUtilities.Action.CommonMethods;
+import lh.juicecompany.PageUtilities.Action.Element.*;
+import lh.juicecompany.PageUtilities.Detection.ElementFinder;
+import lh.juicecompany.PageUtilities.Detection.ElementVisibilityHandler;
+import lh.juicecompany.PageUtilities.PageSetup;
 import org.openqa.selenium.WebDriver;
 
 
-public abstract class BasicPage extends BasicMethods {
+public abstract class BasicPage extends PageSetup {
 
-    public BasicPage(WebDriver webDriver) {
+    private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String LOWER = "abcdefghijklmnopqrstuvwxyz";
+
+    protected CommonMethods commonMethods;
+    protected Button button;
+    protected Checkbox checkbox;
+    protected RadioButton radioButton;
+    protected DropdownButton dropdownButton;
+    protected Slider slider;
+    protected ElementVisibilityHandler elementVisibilityHandler;
+    protected ElementFinder elementFinder;
+
+    protected BasicPage(WebDriver webDriver) {
         super(webDriver);
+        this.commonMethods = new CommonMethods();
+        this.button = new Button();
+        this.checkbox = new Checkbox();
+        this.radioButton = new RadioButton();
+        this.dropdownButton = new DropdownButton();
+        this.slider = new Slider();
+        this.elementVisibilityHandler = new ElementVisibilityHandler();
+        this.elementFinder = new ElementFinder();
+    }
+
+    public static String caseInsensitiveXPath(String xpath, String searchText) {
+        return xpath + "[translate(text(), '" + UPPER + "', '" + LOWER + "') = '" + searchText.toLowerCase() + "']";
     }
 
     public BasicPage goToPreviousPage() {
@@ -37,6 +65,4 @@ public abstract class BasicPage extends BasicMethods {
         InfoMessage.pageTitle(title);
         return title;
     }
-
-
 }

@@ -1,9 +1,9 @@
 package lh.juicecompany.Pages.Account.OrdersAndPayment.MySavedAddress;
 
-import lh.juicecompany.PageUtilities.Selects;
+import lh.juicecompany.PageUtilities.Action.Element.DropdownButton;
+import lh.juicecompany.PageUtilities.SelectOption;
 import lh.juicecompany.PageUtilities.StringUtilities;
 import lh.juicecompany.Pages.BasicPage;
-import lh.juicecompany.Pages.Components.Dropdowns.DropdownButton;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -44,7 +44,7 @@ public class MyPaymentOptions extends BasicPage {
 
     public MyPaymentOptions(WebDriver webDriver) {
         super(webDriver);
-        dropdownButton = new DropdownButton(webDriver);
+        this.dropdownButton = new DropdownButton();
     }
 
     private static By cardSavedGhostMessageXpath(String cardNumber) {
@@ -52,42 +52,47 @@ public class MyPaymentOptions extends BasicPage {
     }
 
     public MyPaymentOptions expandAddNewCardDropdown() {
-        dropdownButton.expandDropdown(addNewCardDropdownButton);
+        dropdownButton.expand(addNewCardDropdownButton);
         return this;
     }
 
     public MyPaymentOptions closeAddNewCardDropdown() {
-        dropdownButton.closeDropdown(addNewCardDropdownButton);
+        dropdownButton.collapse(addNewCardDropdownButton);
         return this;
     }
 
     public MyPaymentOptions fillCardOwnerName(String name) {
-        sendKeysToElement(nameField, name);
+        commonMethods.sendKeysToElement(nameField, name);
         return this;
     }
 
     public MyPaymentOptions fillCardNumber(String cardNumber) {
-        sendKeysToElement(cardNumberField, cardNumber);
+        commonMethods.sendKeysToElement(cardNumberField, cardNumber);
         return this;
     }
 
     public MyPaymentOptions selectExpiryMonth() {
-        Selects.randomValueFromList(expiryMonthList);
+        SelectOption.byRandomIndexFromList(expiryMonthList);
+        return this;
+    }
+
+    public MyPaymentOptions selectExpiryMonth(int month) {
+        SelectOption.byIndexFromList(expiryMonthList, month);
         return this;
     }
 
     public MyPaymentOptions selectExpiryYear() {
-        Selects.randomValueFromList(expiryYearList);
+        SelectOption.byRandomIndexFromList(expiryYearList);
         return this;
     }
 
     public MyPaymentOptions submitButtonClick() {
-        clickElement(submitButton);
+        commonMethods.clickElement(submitButton);
         return this;
     }
 
     public boolean isCardSavedGhostMessageVisible(String cardNumber) {
-        return isElementVisible(cardSavedGhostMessageXpath(StringUtilities.getLastNumberOfCharacters(cardNumber, 4)));
+        return elementVisibilityHandler.isElementVisible(cardSavedGhostMessageXpath(StringUtilities.getLastNumberOfCharacters(cardNumber, 4)));
     }
 
 

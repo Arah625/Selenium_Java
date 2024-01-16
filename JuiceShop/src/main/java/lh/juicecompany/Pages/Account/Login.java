@@ -42,61 +42,61 @@ public class Login extends Home {
     }
 
     public boolean isInvalidEmailOrPasswordAlertVisible() {
-        return isElementVisible(invalidEmailOrPasswordAlert);
+        return elementVisibilityHandler.isElementVisible(invalidEmailOrPasswordAlert);
     }
 
     public Login fillEmail(String emailAddress) {
-        sendKeysToElement(emailField, emailAddress);
+        commonMethods.sendKeysToElement(emailField, emailAddress);
         return this;
     }
 
     public boolean isEmptyEmailFieldValidationAlertVisible() {
-        return isElementVisible(emptyEmailFieldValidationAlert);
+        return elementVisibilityHandler.isElementVisible(emptyEmailFieldValidationAlert);
     }
 
     public Login fillPassword(String password) {
-        sendKeysToElement(passwordField, password);
+        commonMethods.sendKeysToElement(passwordField, password);
         return this;
     }
 
     public boolean isEmptyPasswordFieldValidationAlertVisible() {
-        return isElementVisible(emptyPasswordFieldValidationAlert);
+        return elementVisibilityHandler.isElementVisible(emptyPasswordFieldValidationAlert);
     }
 
     public boolean isLoginButtonEnabled() {
-        return isElementEnabled(loginButton);
+        return button.isEnabled(loginButton);
     }
 
     public Home loginButtonClick() {
-        clickElement(loginButton);
+        commonMethods.clickElement(loginButton);
         return new Home(webDriver);
     }
 
     public SelectAccount loginWithGoogleAccountButtonClick() {
-        clickElement(loginWithGoogleAccountButton);
+        commonMethods.clickElement(loginWithGoogleAccountButton);
         return new SelectAccount(webDriver);
     }
 
-    public boolean isRememberMeCheckboxSelected() {
-        return isElementSelected(rememberMeCheckboxState);
+    public boolean isRememberMeCheckboxChecked() {
+        return checkbox.isChecked(rememberMeCheckboxState);
     }
 
     public Login rememberMeCheckboxCheck() {
-        clickElement(rememberMeCheckbox);
+        checkbox.check(rememberMeCheckbox);
         return this;
     }
 
     public Register notYetCustomerButtonClick() {
-        clickElement(registerButton);
+        commonMethods.clickElement(registerButton);
         return new Register(webDriver);
     }
 
     public boolean isRegistrationSuccessfulVisible() {
-        return isElementVisible(REGISTRATION_COMPLETED_ALERT_BY);
+        return elementVisibilityHandler.isElementVisible(REGISTRATION_COMPLETED_ALERT_BY);
     }
 
     public boolean isRegistrationSuccessfulInvisible() {
-        return invisibilityOfElement(REGISTRATION_COMPLETED_ALERT_BY);
+        return elementVisibilityHandler.invisibilityOfElement(REGISTRATION_COMPLETED_ALERT_BY);
     }
 
 }

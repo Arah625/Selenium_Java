@@ -30,12 +30,12 @@ public class MySavedAddresses extends Home {
     }
 
     public AddNewAddress addNewAddressButtonClick() {
-        clickElement(addNewAddressButton);
+        commonMethods.clickElement(addNewAddressButton);
         return new AddNewAddress(webDriver);
     }
 
     public boolean isSavedAddressesPageHeaderVisible() {
-        return isElementVisible(savedAddressesPageHeader);
+        return elementVisibilityHandler.isElementVisible(savedAddressesPageHeader);
     }
 
 

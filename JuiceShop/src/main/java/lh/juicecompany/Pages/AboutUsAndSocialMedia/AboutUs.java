@@ -38,41 +38,41 @@ public class AboutUs extends Home {
     }
 
     public boolean isAboutUsHeaderVisible() {
-        return isElementVisible(aboutUsPageHeader);
+        return elementVisibilityHandler.isElementVisible(aboutUsPageHeader);
     }
 
     public Twitter goToOurTwitterPage() {
-        clickElement(twitterButton);
+        commonMethods.clickElement(twitterButton);
         tabHandler.switchToChildTab();
         return new Twitter(webDriver);
     }
 
     public Facebook goToOurFacebookPage() {
-        clickElement(facebookButton);
+        commonMethods.clickElement(facebookButton);
         tabHandler.switchToChildTab();
         return new Facebook(webDriver);
     }
 
     public Slack goToOurSlackPage() {
-        clickElement(slackButton);
+        commonMethods.clickElement(slackButton);
         tabHandler.switchToChildTab();
         return new Slack(webDriver);
     }
 
     public Reddit goToOurRedditPage() {
-        clickElement(redditButton);
+        commonMethods.clickElement(redditButton);
         tabHandler.switchToChildTab();
         return new Reddit(webDriver);
     }
 
     public PressKit goToOurPressKitPage() {
-        clickElement(pressKitButton);
+        commonMethods.clickElement(pressKitButton);
         tabHandler.switchToChildTab();
         return new PressKit(webDriver);
     }
 
     public Nft goToOurNftPage() {
-        clickElement(nftButton);
+        commonMethods.clickElement(nftButton);
         tabHandler.switchToChildTab();
         return new Nft(webDriver);
     }

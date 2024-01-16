@@ -39,42 +39,42 @@ public class AddNewAddress extends Home {
     }
 
     public AddNewAddress fillCountry(String country) {
-        sendKeysToElement(countryField, country);
+        commonMethods.sendKeysToElement(countryField, country);
         return this;
     }
 
     public AddNewAddress fillName(String name) {
-        sendKeysToElement(nameField, name);
+        commonMethods.sendKeysToElement(nameField, name);
         return this;
     }
 
     public AddNewAddress fillMobileNumber(String mobileNumber) {
-        sendKeysToElement(mobileNumberField, mobileNumber);
+        commonMethods.sendKeysToElement(mobileNumberField, mobileNumber);
         return this;
     }
 
     public AddNewAddress fillZipCode(String zipCode) {
-        sendKeysToElement(zipCodeField, zipCode);
+        commonMethods.sendKeysToElement(zipCodeField, zipCode);
         return this;
     }
 
     public AddNewAddress fillAddress(String address) {
-        sendKeysToElement(addressField, address);
+        commonMethods.sendKeysToElement(addressField, address);
         return this;
     }
 
     public AddNewAddress fillCity(String city) {
-        sendKeysToElement(cityField, city);
+        commonMethods.sendKeysToElement(cityField, city);
         return this;
     }
 
     public AddNewAddress fillState(String state) {
-        sendKeysToElement(stateField, state);
+        commonMethods.sendKeysToElement(stateField, state);
         return this;
     }
 
     public MySavedAddresses submitButtonClick() {
-        clickElement(submitButton);
+        commonMethods.clickElement(submitButton);
         return new MySavedAddresses(webDriver);
     }
 }

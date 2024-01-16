@@ -1,6 +1,6 @@
 package Tests;
 
-import Setup.Base;
+import Setup.BaseTest;
 import Setup.TestGroup;
 import Utilities.CredentialManager;
 import com.github.javafaker.CreditCardType;
@@ -10,11 +10,11 @@ import lh.juicecompany.Pages.Google.SelectAccount;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class Cards extends Base {
+public class Cards extends BaseTest {
     private Login login;
     private MyPaymentOptions myPaymentOptions;
     private SelectAccount selectAccount;
-
+    
     @Test(priority = 5, groups = {TestGroup.REGRESSION, TestGroup.CRITICAL})
     public void loginToAccount() {
         testCaseName("Login to account");

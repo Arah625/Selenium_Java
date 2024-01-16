@@ -20,6 +20,6 @@ public class Twitter extends BasicPage {
     }
 
     public boolean isTwitterPageVisible() {
-        return isElementVisible(loginToServiceHeader);
+        return elementVisibilityHandler.isElementVisible(loginToServiceHeader);
     }
 }

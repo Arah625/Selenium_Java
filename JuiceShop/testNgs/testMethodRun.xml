@@ -5,7 +5,7 @@
         <classes>
             <!--Indicate Test class that you want to run-->
             <!--You can choose single or multiple classes to be run by adding another row in tag <class/>-->
-            <class name="Tests.StandardMode.Languages">
+            <class name="Tests.Languages">
                 <!--Indicate Test method that you want to run-->
                 <!--You can choose single or multiple methods to be run by adding another row in tag <include/> between tag <methods></methods>-->
                 <methods>

@@ -9,10 +9,10 @@ public class CustomerFeedback extends Home {
     @FindBy(xpath = "//textarea[@id='comment']")
     private WebElement commentField;
 
-    @FindBy(xpath = "//*[@id='rating']")
+    @FindBy(xpath = "//mat-slider[@id='rating']")
     private WebElement ratingSlider;
 
-    @FindBy(xpath = "//*[@class='mat-slider-thumb']")
+    @FindBy(xpath = "//div[@class='mat-slider-thumb']")
     private WebElement sliderThumb;
 
     @FindBy(xpath = "//code[@id='captcha']")
@@ -39,12 +39,12 @@ public class CustomerFeedback extends Home {
     }
 
     public CustomerFeedback fillComment(String comment) {
-        sendKeysToElement(commentField, comment);
+        commonMethods.sendKeysToElement(commentField, comment);
         return this;
     }
 
     private String getCaptchaCode() {
-        return getTextFromElement(captchaCode);
+        return commonMethods.getTextFromElement(captchaCode);
     }
 
     private String solveEquation() {
@@ -53,44 +53,44 @@ public class CustomerFeedback extends Home {
     }
 
     public CustomerFeedback fillCaptchaResult() {
-        sendKeysToElement(captchaResultField, solveEquation());
+        commonMethods.sendKeysToElement(captchaResultField, solveEquation());
         return this;
     }
 
     public boolean isSubmitButtonEnabled() {
-        return isElementEnabled(submitButton);
+        return button.isEnabled(submitButton);
     }
 
     public CustomerFeedback submitButtonClick() {
-        clickElement(submitButton);
+        commonMethods.clickElement(submitButton);
         return this;
     }
 
     public CustomerFeedback setRandomRating() {
-        moveSliderRandomly(sliderThumb, ratingSlider);
+        slider.moveSliderRandomly(sliderThumb, ratingSlider);
         return this;
     }
 
     public CustomerFeedback setRandomRating(int minValue, int maxValue) {
-        moveSliderRandomly(sliderThumb, ratingSlider, minValue, maxValue);
+        slider.moveSliderRandomly(sliderThumb, ratingSlider, minValue, maxValue);
         return this;
     }
 
     public CustomerFeedback setRating(int rating) {
-        moveSlider(sliderThumb, ratingSlider, rating);
+        slider.moveSlider(sliderThumb, ratingSlider, rating);
         return this;
     }
 
     public boolean isMessageFeedbackSuccessfullySentVisible() {
-        return isElementVisible(feedbackSentMessage);
+        return elementVisibilityHandler.isElementVisible(feedbackSentMessage);
     }
 
     public boolean isMessageFiveStarFeedbackSuccessfullySentVisible() {
-        return isElementVisible(fiveStarFeedbackSentMessage);
+        return elementVisibilityHandler.isElementVisible(fiveStarFeedbackSentMessage);
     }
 
     public boolean isMessageWrongCaptchaVisible() {
-        return isElementVisible(wrongCaptchaMessage);
+        return elementVisibilityHandler.isElementVisible(wrongCaptchaMessage);
     }
 
 }

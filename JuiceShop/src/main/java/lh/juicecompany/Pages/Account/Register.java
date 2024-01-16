@@ -27,7 +27,7 @@ public class Register extends BasicPage {
     private WebElement answerField;
     @FindBy(xpath = "//button[@id='registerButton']")
     private WebElement registerButton;
-    @FindBy(xpath = "//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div/span")
+    @FindBy(xpath = "//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div")
     private List<WebElement> passwordAdviceList;
     @FindBy(xpath = "//div[@class='error' and contains(text(),'Email must be unique')]")
     private WebElement uniqueEmailRequiredAlert;
@@ -37,52 +37,52 @@ public class Register extends BasicPage {
     }
 
     public Register fillEmail(String email) {
-        sendKeysToElement(emailField, email);
-        return new Register(webDriver);
+        commonMethods.sendKeysToElement(emailField, email);
+        return this;
     }
 
     public Register fillPassword(String password) {
-        sendKeysToElement(passwordField, password);
-        return new Register(webDriver);
+        commonMethods.sendKeysToElement(passwordField, password);
+        return this;
     }
 
     public Register fillRepeatPassword(String password) {
-        sendKeysToElement(repeatPasswordField, password);
-        return new Register(webDriver);
+        commonMethods.sendKeysToElement(repeatPasswordField, password);
+        return this;
     }
 
     public Register showPasswordAdvice() {
-        clickElement(showPasswordAdviceToggleSwitch);
-        return new Register(webDriver);
+        commonMethods.clickElement(showPasswordAdviceToggleSwitch);
+        return this;
     }
 
     public boolean arePasswordAdvicesVisible() {
-        return isNumberOfElementsVisible(PASSWORD_ADVICE_ELEMENT_BY, 5);
+        return elementVisibilityHandler.isNumberOfElementsByWebElementsVisible(passwordAdviceList, 5);
     }
 
     private Register securityQuestionDropdownButtonClick() {
-        clickElement(securityQuestionDropdownButton);
-        return new Register(webDriver);
+        commonMethods.clickElement(securityQuestionDropdownButton);
+        return this;
     }
 
     public void selectSecretQuestion(String secretQuestion) {
         securityQuestionDropdownButtonClick();
-        clickElement(webDriver.findElement(By.xpath("//div[@aria-label='Selection list for the security question']//span[contains(text(),'" + secretQuestion + "')]")));
+        commonMethods.clickElement(elementFinder.findElementBy(By.xpath("//div[@aria-label='Selection list for the security question']//span[contains(text(),'" + secretQuestion + "')]")));
     }
 
     public Register fillAnswer(String answer) {
-        sendKeysToElement(answerField, answer);
-        return new Register(webDriver);
+        commonMethods.sendKeysToElement(answerField, answer);
+        return this;
     }
 
     public Login registerButtonClick() {
-        clickElement(registerButton);
+        commonMethods.clickElement(registerButton);
         return new Login(webDriver);
     }
 
 
     public boolean isUniqueEmailRequiredAlertVisible() {
-        return isElementVisible(uniqueEmailRequiredAlert);
+        return elementVisibilityHandler.isElementVisible(uniqueEmailRequiredAlert);
     }
 
 

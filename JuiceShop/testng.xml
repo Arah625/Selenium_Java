@@ -2,6 +2,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite">
     <test name="Test">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="browserMode" value="INCOGNITO"/>
         <!--        Groups that should only by run. Groups are specified in test classes next to @Test annotation-->
         <groups>
             <run>
@@ -12,11 +14,11 @@
         <!--        groups = normal, high, critical, repeatable-->
         <classes>
             <!--            <class name="Tests.Account.LoginToAccount">-->
-            <!--            <class name="Tests.StandardMode.PreparationScripts.AccountCreationInit">-->
-            <class name="Tests.Cards">
-                <!--                    <methods>-->
-                <!--                        <include name="firstLoginToAccount"></include>-->
-                <!--                    </methods>-->
+            <!--            <class name="Tests.PreparationScripts.AccountCreationInit">-->
+            <class name="Tests.Feedback">
+                <methods>
+                    <include name="checkSubmitButton"></include>
+                </methods>
             </class>
         </classes>
     </test>

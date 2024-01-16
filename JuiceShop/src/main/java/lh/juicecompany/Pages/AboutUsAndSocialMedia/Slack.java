@@ -23,7 +23,7 @@ public class Slack extends BasicPage {
     }
 
     public boolean isSlackPageVisible() {
-        return isElementVisible(owaspSupportBanner) && isElementVisible(joinOurSlackCommunityHeader);
+        return elementVisibilityHandler.isElementVisible(owaspSupportBanner) && elementVisibilityHandler.isElementVisible(joinOurSlackCommunityHeader);
     }
 
 }

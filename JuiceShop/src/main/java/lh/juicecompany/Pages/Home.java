@@ -5,8 +5,8 @@ import lh.juicecompany.Pages.Account.Login;
 import lh.juicecompany.Pages.Account.OrdersAndPayment.MySavedAddress.MyPaymentOptions;
 import lh.juicecompany.Pages.Account.OrdersAndPayment.MySavedAddress.MySavedAdresses.MySavedAddresses;
 import lh.juicecompany.Pages.Account.PrivacyAndSecurity.RequestDataErasure;
-import lh.juicecompany.Pages.Components.NavigationBars.SideNavBar.SideNavigationBar;
-import lh.juicecompany.Pages.Components.NavigationBars.TopNavBar.TopNavigationBar;
+import lh.juicecompany.Pages.Components.NavigationBar.SideNavBar.SideNavigationBar;
+import lh.juicecompany.Pages.Components.NavigationBar.TopNavBar.TopNavigationBar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -37,15 +37,15 @@ public class Home extends BasicPage {
     }
 
     public boolean isAllProductsHeaderVisible() {
-        return isElementVisible(allProductsHeader("All Products"));
+        return elementVisibilityHandler.isElementVisible(allProductsHeader("All Products"));
     }
 
     public boolean isAllProductsHeaderVisible(String frazeInForeignLanguage) {
-        return isElementVisible(allProductsHeader(frazeInForeignLanguage));
+        return elementVisibilityHandler.isElementVisible(allProductsHeader(frazeInForeignLanguage));
     }
 
     public Home dismissWelcomeBannerButtonClick() {
-        clickElement(dismissWelcomeBannerButton);
+        commonMethods.clickElement(dismissWelcomeBannerButton);
         return this;
     }
 
@@ -56,7 +56,7 @@ public class Home extends BasicPage {
     }
 
     public Home acceptCookiesButtonClick() {
-        clickElement(acceptCookiesButton);
+        commonMethods.clickElement(acceptCookiesButton);
         return this;
     }
 
@@ -131,6 +131,4 @@ public class Home extends BasicPage {
         topNavigationBar.requestDataErasureButtonClick();
         return new RequestDataErasure(webDriver);
     }
-
-
 }

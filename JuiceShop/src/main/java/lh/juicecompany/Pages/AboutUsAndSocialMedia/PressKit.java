@@ -19,6 +19,6 @@ public class PressKit extends BasicPage {
     }
 
     public boolean isPressKitPageVisible() {
-        return isElementVisible(githubRepository);
+        return elementVisibilityHandler.isElementVisible(githubRepository);
     }
 }

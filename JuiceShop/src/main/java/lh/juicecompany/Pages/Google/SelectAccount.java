@@ -17,11 +17,11 @@ public class SelectAccount extends BasicPage {
     }
 
     public boolean isSignInWithGoogleAccountModalHeaderVisible() {
-        return isElementVisible(signInWithGoogleAccountModalHeader);
+        return elementVisibilityHandler.isElementVisible(signInWithGoogleAccountModalHeader);
     }
 
     public boolean isSignInWithGoogleAccountHeaderVisible() {
-        return isElementVisible(signInGoogleAccountHeader);
+        return elementVisibilityHandler.isElementVisible(signInGoogleAccountHeader);
     }
 
 
