@@ -1,13 +1,17 @@
 package lh.juicecompany.Pages.Account.OrdersAndPayment.MySavedAddress;
 
 import lh.juicecompany.PageUtilities.Action.Element.DropdownButton;
-import lh.juicecompany.PageUtilities.SelectOption;
+import lh.juicecompany.PageUtilities.Action.ExactTextChecker;
+import lh.juicecompany.PageUtilities.Action.PartialTextChecker;
+import lh.juicecompany.PageUtilities.Action.SelectOption;
 import lh.juicecompany.PageUtilities.StringUtilities;
 import lh.juicecompany.Pages.BasicPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class MyPaymentOptions extends BasicPage {
 
@@ -16,28 +20,23 @@ public class MyPaymentOptions extends BasicPage {
     @FindBy(xpath = "//h1[contains(text(),'My Payment Options')]/..//mat-row")
     private WebElement tableRow;
     @FindBy(xpath = "//h1[contains(text(),'My Payment Options')]/..//mat-cell[contains(@class,'Number')]")
-    private WebElement tableNumberCell;
+    private List<WebElement> tableNumberCell;
     @FindBy(xpath = "//h1[contains(text(),'My Payment Options')]/..//mat-cell[contains(@class,'Name')]")
-    private WebElement tableNameCell;
+    private List<WebElement> tableNameCell;
     @FindBy(xpath = "//h1[contains(text(),'My Payment Options')]/..//mat-cell[contains(@class,'Expiry')]")
-    private WebElement tableExpiryCell;
+    private List<WebElement> tableExpiryCell;
     @FindBy(xpath = "//h1[contains(text(),'My Payment Options')]/..//mat-cell[contains(@class,'Remove')]//button")
     private WebElement tableRemoveCell;
     @FindBy(xpath = "//mat-expansion-panel-header[@id='mat-expansion-panel-header-0']")
     private WebElement addNewCardDropdownButton;
-
     @FindBy(xpath = "//mat-label[contains(text(),'Name')]/../../..//input")
     private WebElement nameField;
-
     @FindBy(xpath = "//mat-label[contains(text(),'Card Number')]/../../..//input")
     private WebElement cardNumberField;
-
     @FindBy(xpath = "//mat-label[contains(text(),'Expiry Month')]/../../..//select")
     private WebElement expiryMonthList;
-
     @FindBy(xpath = "//mat-label[contains(text(),'Expiry Year')]/../../..//select")
     private WebElement expiryYearList;
-
     @FindBy(xpath = "//button[@id='submitButton']")
     private WebElement submitButton;
     private DropdownButton dropdownButton;
@@ -77,12 +76,17 @@ public class MyPaymentOptions extends BasicPage {
     }
 
     public MyPaymentOptions selectExpiryMonth(int month) {
-        SelectOption.byIndexFromList(expiryMonthList, month);
+        SelectOption.byTextFromList(expiryMonthList, String.valueOf(month));
         return this;
     }
 
     public MyPaymentOptions selectExpiryYear() {
         SelectOption.byRandomIndexFromList(expiryYearList);
+        return this;
+    }
+
+    public MyPaymentOptions selectExpiryYear(int year) {
+        SelectOption.byValueFromList(expiryYearList, String.valueOf(year));
         return this;
     }
 
@@ -95,5 +99,15 @@ public class MyPaymentOptions extends BasicPage {
         return elementVisibilityHandler.isElementVisible(cardSavedGhostMessageXpath(StringUtilities.getLastNumberOfCharacters(cardNumber, 4)));
     }
 
+    public boolean areCardsLastFourDigitsVisible(String cardNumber) {
+        return PartialTextChecker.isPartialTextPresentInAnyElement(tableNumberCell, StringUtilities.getLastNumberOfCharacters(cardNumber, 4));
+    }
 
+    public boolean isCardOwnersNameVisible(String cardOwnerName) {
+        return ExactTextChecker.isExactTextPresentInAnyElement(tableNameCell, cardOwnerName);
+    }
+
+    public boolean isCardExpiryDateVisible(int expiryMonth, int expiryYear) {
+        return ExactTextChecker.isExactTextPresentInAnyElement(tableExpiryCell, expiryMonth + "/" + expiryYear);
+    }
 }

@@ -4,15 +4,18 @@ import lh.juicecompany.PageUtilities.Action.CommonMethods;
 import lh.juicecompany.PageUtilities.Action.Retry.ActionRetry;
 import lh.juicecompany.PageUtilities.Detection.ElementFinder;
 import lh.juicecompany.PageUtilities.WebDriverSetup;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DropdownButton implements ElementState {
-    private final WebDriver webDriver = WebDriverSetup.getInstance().getWebDriver();
+    private static final String ARIA_EXPANDED = "aria-expanded";
     private final WebDriverWait webDriverWait = WebDriverSetup.getInstance().getWebDriverWait();
-    private CommonMethods commonMethods;
-    private ElementFinder elementFinder;
+    private final CommonMethods commonMethods;
+    private final ElementFinder elementFinder;
 
     public DropdownButton() {
         this.commonMethods = new CommonMethods();
@@ -37,7 +40,7 @@ public class DropdownButton implements ElementState {
 
     public String getDropdownButtonState(WebElement webElement) {
         webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-        return webElement.getAttribute("aria-expanded").toLowerCase();
+        return webElement.getAttribute(ARIA_EXPANDED).toLowerCase();
     }
 
     public void expand(WebElement webElement) {
@@ -68,16 +71,16 @@ public class DropdownButton implements ElementState {
     public String getElementState(WebElement webElement) {
         return ActionRetry.doActionRetry(() -> {
             webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-            return webElement.getAttribute("aria-expanded").toLowerCase();
+            return webElement.getAttribute(ARIA_EXPANDED).toLowerCase();
         }, 3);
     }
 
     @Override
     public String getElementState(By locator) {
         return ActionRetry.doActionRetry(() -> {
-            WebElement webElement = elementFinder.findElementBy(locator);
+            WebElement webElement = elementFinder.locateElementBy(locator);
             webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-            return webElement.getAttribute("aria-expanded").toLowerCase();
+            return webElement.getAttribute(ARIA_EXPANDED).toLowerCase();
         }, 3);
     }
 }

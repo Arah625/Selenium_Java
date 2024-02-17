@@ -3,6 +3,7 @@ package Tests.PreparationScripts;
 import AssertMessages.VisibilityMessage;
 import Setup.BaseTest;
 import Setup.TestGroup;
+import Setup.TestLogger;
 import Utilities.CredentialManager;
 import lh.juicecompany.Pages.Account.Login;
 import lh.juicecompany.Pages.Account.Register;
@@ -18,25 +19,26 @@ public class RandomAccountCreationInit extends BaseTest {
 
     protected String emailAddress;
     protected String validPassword = CredentialManager.credentialReader("validPassword");
+    protected String secretQuestion = "Company you first work for as an adult?";
     protected String secretQuestionAnswer;
     private Login login;
     private Register register;
 
 
-    @Test(priority = 2, groups = {TestGroup.PREREQUISITE})
+    @Test(priority = 2, groups = {TestGroup.PREREQUISITE}, description = "Create random account")
     public void createRandomAccount() {
-        testCaseName("Create random account");
         login = home.goToLogin();
         register = login.notYetCustomerButtonClick();
         emailAddress = faker.internet().emailAddress();
         register.fillEmail(emailAddress);
         register.fillPassword(validPassword);
         register.fillRepeatPassword(validPassword);
-        register.selectSecretQuestion("Company you first work for as an adult?");
+        register.selectSecretQuestion(secretQuestion);
         secretQuestionAnswer = faker.company().name();
         register.fillAnswer(secretQuestionAnswer);
         register.registerButtonClick();
         Assert.assertTrue(login.isRegistrationSuccessfulVisible(), VisibilityMessage.ghostMessageIsNotVisible("Registration completed successfully. You can now log in."));
+        TestLogger.logTestVariables("EMAIL", emailAddress, "PASSWORD", validPassword, "SECRET QUESTION", secretQuestion, "SECRET QUESTION ANSWER", secretQuestionAnswer);
     }
 
 }

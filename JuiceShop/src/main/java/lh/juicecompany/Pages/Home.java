@@ -6,7 +6,7 @@ import lh.juicecompany.Pages.Account.OrdersAndPayment.MySavedAddress.MyPaymentOp
 import lh.juicecompany.Pages.Account.OrdersAndPayment.MySavedAddress.MySavedAdresses.MySavedAddresses;
 import lh.juicecompany.Pages.Account.PrivacyAndSecurity.RequestDataErasure;
 import lh.juicecompany.Pages.Components.NavigationBar.SideNavBar.SideNavigationBar;
-import lh.juicecompany.Pages.Components.NavigationBar.TopNavBar.TopNavigationBar;
+import lh.juicecompany.Pages.Components.NavigationBar.TopNavBar.TopNavigationBarAfterLogin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,7 +15,7 @@ import org.openqa.selenium.support.FindBy;
 public class Home extends BasicPage {
 
     private SideNavigationBar sideNavigationBar;
-    private TopNavigationBar topNavigationBar;
+    private TopNavigationBarAfterLogin topNavigationBarAfterLogin;
 
 //    @FindBy(xpath = "//div[contains(text(),'All Products')]")
 //    private WebElement allProductsHeader;
@@ -28,7 +28,7 @@ public class Home extends BasicPage {
 
     public Home(WebDriver webDriver) {
         super(webDriver);
-        this.topNavigationBar = new TopNavigationBar(webDriver);
+        this.topNavigationBarAfterLogin = new TopNavigationBarAfterLogin(webDriver);
         this.sideNavigationBar = new SideNavigationBar(webDriver);
     }
 
@@ -52,6 +52,9 @@ public class Home extends BasicPage {
     public Home dismissPopUps() {
         dismissWelcomeBannerButtonClick();
         acceptCookiesButtonClick();
+        if (isForcePageReloadButtonVisible()) {
+            forcePageReloadButtonClick();
+        }
         return this;
     }
 
@@ -61,74 +64,74 @@ public class Home extends BasicPage {
     }
 
     public Login goToLogin() {
-        topNavigationBar.loginButtonClick();
+        topNavigationBarAfterLogin.loginButtonClick();
         return new Login(webDriver);
     }
 
     public boolean isLoginButtonVisible() {
-        return topNavigationBar.isLoginButtonVisible();
+        return topNavigationBarAfterLogin.isLoginButtonVisible();
     }
 
     public boolean isLogoutButtonVisible() {
-        return topNavigationBar.isLogoutButtonVisible();
+        return topNavigationBarAfterLogin.isLogoutButtonVisible();
     }
 
     public boolean isYourBasketButtonVisible() {
-        return topNavigationBar.isYourBasketButtonVisible();
+        return topNavigationBarAfterLogin.isYourBasketButtonVisible();
     }
 
     public CustomerFeedback goToCustomerFeedback() {
-        sideNavigationBar = topNavigationBar.openSideNavbar();
+        sideNavigationBar = topNavigationBarAfterLogin.openSideNavbar();
         sideNavigationBar.customerFeedbackButtonClick();
         return new CustomerFeedback(webDriver);
     }
 
     public AboutUs goToAboutUs() {
-        sideNavigationBar = topNavigationBar.openSideNavbar();
+        sideNavigationBar = topNavigationBarAfterLogin.openSideNavbar();
         sideNavigationBar.aboutUsButtonClick();
         return new AboutUs(webDriver);
     }
 
     public PhotoWall goToPhotoWall() {
-        sideNavigationBar = topNavigationBar.openSideNavbar();
+        sideNavigationBar = topNavigationBarAfterLogin.openSideNavbar();
         sideNavigationBar.photoWallButtonClick();
         return new PhotoWall(webDriver);
     }
 
-    public Home selectLanguage(String language) {
-        topNavigationBar.selectLanguage(language);
+    public Home selectLanguage(String language) throws Exception {
+        topNavigationBarAfterLogin.selectLanguage(language);
         return this;
     }
 
     public boolean isLanguageChangedAlertVisible(String language) {
-        return topNavigationBar.isLanguageChangedAlertVisible(language);
+        return topNavigationBarAfterLogin.isLanguageChangedAlertVisible(language);
     }
 
     public boolean isForcePageReloadButtonVisible() {
-        return topNavigationBar.isForcePageReloadButtonVisible();
+        return topNavigationBarAfterLogin.isForcePageReloadButtonVisible();
     }
 
     public Home forcePageReloadButtonClick() {
-        topNavigationBar.forcePageReloadButtonClick();
+        topNavigationBarAfterLogin.forcePageReloadButtonClick();
         return this;
     }
 
     public String getLanguageDropdownButtonCode() {
-        return topNavigationBar.getLanguageCode();
+        return topNavigationBarAfterLogin.getLanguageCode();
     }
 
     public MySavedAddresses goToMySavedAddresses() {
-        topNavigationBar.mySavedAddressesButtonClick();
+        topNavigationBarAfterLogin.mySavedAddressesButtonClick();
         return new MySavedAddresses(webDriver);
     }
 
     public MyPaymentOptions goTomyPaymentOptions() {
-        topNavigationBar.myPaymentOptionsButtonClick();
+        topNavigationBarAfterLogin.myPaymentOptionsButtonClick();
         return new MyPaymentOptions(webDriver);
     }
 
     public RequestDataErasure goToRequestDataErasure() {
-        topNavigationBar.requestDataErasureButtonClick();
+        topNavigationBarAfterLogin.requestDataErasureButtonClick();
         return new RequestDataErasure(webDriver);
     }
 }

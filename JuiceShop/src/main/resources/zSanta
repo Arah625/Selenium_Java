@@ -1,0 +1,712 @@
+
+z santa
+
+//    public By getElementLocator(WebElement webElement) throws Exception {
+//        String elementAsString = webElement.toString();
+//
+//        List<By> listOfLocators = new ArrayList<>();
+//        if (elementAsString.contains("By.chained") || elementAsString.contains("By.all")) {
+//            Pattern pattern = Pattern.compile("\\{([^}]*)\\}");
+//            Matcher matcher = pattern.matcher(elementAsString);
+//            if (matcher.find()) {
+//                //split string to individual locators
+//                String extractedLocators = matcher.group(1);
+//                pattern = Pattern.compile("By\\.(\\w+): ([^,]+(?:, [^,]+)*)");
+//                matcher = pattern.matcher(extractedLocators);
+//                while (matcher.find()) {
+//                    listOfLocators.add(stringToBy(String.format("By.%s: %s", matcher.group(1), matcher.group(2)
+//                                                                                                      .trim())));
+//                }
+//            }
+//        }
+//        //Extract individual locators
+//        else if (elementAsString.contains("By.")) {
+//            String locatorAsString = elementAsString.substring(elementAsString.indexOf("By."));
+//            return stringToBy(locatorAsString);
+//        } else {
+//            throw new Exception("Could not parse locators from element: " + elementAsString);
+//        }
+//        return elementAsString.contains("By.chained") ? new ByChained(listOfLocators.toArray(new By[0])) :
+//                elementAsString.contains("By.all") ? new ByAll(listOfLocators.toArray(new By[0])) : null;
+//    }
+
+
+//    private By stringToBy(String locatorAsString) throws Exception {
+//        System.out.println("locatorAsString: " + locatorAsString); // Debug output
+//        String locatorType = locatorAsString.substring(locatorAsString.indexOf("By.") + 3, locatorAsString.indexOf(":"));
+//        String locator = locatorAsString.substring(locatorAsString.indexOf(":") + 2);
+//        return switch (locatorType) {
+//            case "id" -> By.id(locator);
+//            case "xpath" -> By.xpath(locator);
+//            case "cssSelector" -> By.cssSelector(locator);
+//            case "className" -> By.className(locator);
+//            default -> throw new Exception(String.format("unable to parse '%s' to its locator type", locatorType));
+//        };
+//    }
+
+
+
+
+//    public By getElementLocator(WebElement webElement) {
+//        String elementAsString = webElement.toString();
+//
+//        List<By> listOfLocators = new ArrayList<>();
+//        if (elementAsString.contains("By.chained") || elementAsString.contains("By.all")) {
+//            Pattern pattern = Pattern.compile("\\{([^}]*)\\}");
+//            Matcher matcher = pattern.matcher(elementAsString);
+//            if (matcher.find()) {
+//                String extractedLocators = matcher.group(1);
+//                pattern = Pattern.compile("By\\.(\\w+): ([^,]+(?:, [^,]+)*)");
+//                matcher = pattern.matcher(extractedLocators);
+//                while (matcher.find()) {
+//                    try {
+//                        listOfLocators.add(stringToBy(String.format("By.%s: %s", matcher.group(1), matcher.group(2)
+//                                                                                                          .trim())));
+//                    } catch (IllegalLocatorTypeException | LocatorParseException e) {
+//                        System.err.println("Error: " + e.getMessage());
+//                        // Handle the error as appropriate
+//                    }
+//                }
+//            }
+//        } else if (elementAsString.contains("->")) {
+//            Pattern pattern = Pattern.compile("-> (\\w+): (.+)");
+//            Matcher matcher = pattern.matcher(elementAsString);
+//            if (matcher.find()) {
+//                String type = matcher.group(1);
+//                String value = matcher.group(2).trim();
+//                try {
+//                    return stringToBy(String.format("By.%s: %s", type, value));
+//                } catch (IllegalLocatorTypeException | LocatorParseException e) {
+//                    System.err.println("Error: " + e.getMessage());
+//                    // Handle the error as appropriate
+//                }
+//            }
+//        } else {
+//            System.err.println("Could not parse locators from element: " + elementAsString);
+//            // Handle the error as appropriate
+//        }
+//
+//        System.out.println("List of locators: " + listOfLocators);
+//        System.out.println("Element type: " + (elementAsString.contains("By.chained") ? "By.chained" :
+//                elementAsString.contains("By.all") ? "By.all" : "Other"));
+//
+//        return elementAsString.contains("By.chained") ? new ByChained(listOfLocators.toArray(new By[0])) :
+//                elementAsString.contains("By.all") ? new ByAll(listOfLocators.toArray(new By[0])) : null;
+//    }
+//
+//    private By stringToBy(String locatorAsString) throws IllegalLocatorTypeException, LocatorParseException {
+//        System.out.println("locatorAsString: " + locatorAsString); // Debug output
+//
+//        Pattern pattern = Pattern.compile("By\\.(\\w+):\\s*(.+?)]?$");
+//        Matcher matcher = pattern.matcher(locatorAsString);
+//
+//        if (matcher.find()) {
+//            String locatorType = matcher.group(1).trim();
+//            String locator = matcher.group(2).trim();
+//
+//            return switch (locatorType) {
+//                case "id" -> By.id(locator);
+//                case "xpath" -> By.xpath(locator);
+//                case "cssSelector" -> By.cssSelector(locator);
+//                case "className" -> By.className(locator);
+//                case "name" -> By.name(locator);
+//                case "tagName" -> By.tagName(locator);
+//                default -> throw new IllegalLocatorTypeException(
+//                        String.format("Unable to parse '%s' to its locator type", locatorType));
+//            };
+//        } else {
+//            throw new LocatorParseException("Invalid locator format: " + locatorAsString, -1);
+//        }
+//    }
+
+/Old methods from ElementVisibilityHandler
+
+
+
+//    public boolean waitForAnyElementPresence(Duration totalTimeout, Duration retryInterval, By... locators) {
+//        WaitCondition condition = driver -> {
+//            for (By locator : locators) {
+//                try {
+//                    if (areElementsFoundByLocatorVisible(locator)) {
+//                        return true;
+//                    }
+//                } catch (TimeoutException timeoutException) {
+//                    // Log the exception or ignore if not critical
+//                    System.out.println("Exception while checking locator: " + locator + ", " + timeoutException.getMessage());
+//                }
+//            }
+//            return false;
+//        };
+//        return WaitUtilities.waitForCondition(totalTimeout, retryInterval, condition);
+//    }
+//
+//    public boolean waitForAnyElementPresence(Duration retryInterval, By... locators) {
+//        // Obtain a FluentWait instance with predefined timeout and polling settings
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait(retryInterval);
+//
+//        try {
+//            // Use FluentWait to check for the presence of any element specified by the locators
+//            return fluentWait.until(driver -> {
+//                for (By locator : locators) {
+//                    if (areElementsFoundByLocatorVisible(locator)) {
+//                        return true; // If any elements found by the locator are visible, return true immediately
+//                    }
+//                }
+//                return false; // Continue polling if no elements found
+//            });
+//        } catch (TimeoutException timeoutException) {
+//            // Log the exception or ignore if not critical
+//            System.out.println("TimeoutException while waiting for any element presence: " + timeoutException.getMessage());
+//            return false;
+//        }
+//    }
+//
+//    public boolean waitForAnyElementPresence(By... locators) {
+//        // Obtain a FluentWait instance with predefined timeout and polling settings
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait();
+//
+//        try {
+//            // Use FluentWait to check for the presence of any element specified by the locators
+//            return fluentWait.until(driver -> {
+//                for (By locator : locators) {
+//                    if (areElementsFoundByLocatorVisible(locator)) {
+//                        return true; // If any elements found by the locator are visible, return true immediately
+//                    }
+//                }
+//                return false; // Continue polling if no elements found
+//            });
+//        } catch (TimeoutException timeoutException) {
+//            // Log the exception or ignore if not critical
+//            System.out.println("TimeoutException while waiting for any element presence: " + timeoutException.getMessage());
+//            return false;
+//        }
+//    }
+//
+//    public boolean waitForAnyElementPresence(List<By> locatorsList) {
+//        // Adjusting to use getFluentWait for the fluentWait configuration
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait();
+//
+//        try {
+//            // Utilize the customized waiting condition
+//            return fluentWait.until(driver -> {
+//                for (By locator : locatorsList) {
+//                    if (areElementsFoundByLocatorVisible(locator)) {
+//                        System.out.println("Element found: " + locator);
+//                        return true; // If any element is found and is displayed
+//                    }
+//                }
+//                return false; // Continue polling if no elements found
+//            });
+//        } catch (TimeoutException timeoutException) {
+//            // Log the exception or ignore if not critical
+//            System.out.println("Exception while checking locator: " + timeoutException.getMessage());
+//            return false;
+//        }
+//    }
+//
+//    public boolean waitForAnyElementPresence(Duration totalTimeout, Duration retryInterval, List<By> locatorsList) {
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait(totalTimeout, retryInterval);
+//
+//        try {
+//            // Use FluentWait to poll for the presence of any element in the list of locators
+//            return fluentWait.until(driver -> {
+//                for (By locator : locatorsList) {
+//                    if (areElementsFoundByLocatorVisible(locator)) {
+//                        System.out.println("Element found: " + locator);
+//                        return true; // Element is found and is displayed
+//                    }
+//                }
+//                return false; // No elements found yet, continue polling
+//            });
+//        } catch (TimeoutException timeoutException) {
+//            // Log the exception or ignore if not critical
+//            System.out.println("Exception while checking locator: " + timeoutException.getMessage());
+//            return false;
+//        }
+//    }
+//
+//    public boolean waitForAnyElementPresence(Duration retryInterval, List<By> locatorsList) {
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait(retryInterval);
+//
+//        try {
+//            // Use FluentWait to poll for the presence of any element in the list of locators
+//            return fluentWait.until(driver -> {
+//                for (By locator : locatorsList) {
+//                    if (areElementsFoundByLocatorVisible(locator)) {
+//                        System.out.println("Element found: " + locator);
+//                        return true; // Element is found and is displayed
+//                    }
+//                }
+//                return false; // No elements found yet, continue polling
+//            });
+//        } catch (TimeoutException timeoutException) {
+//            // Log the exception or ignore if not critical
+//            System.out.println("Exception while checking locator: " + timeoutException.getMessage());
+//            return false;
+//        }
+//    }
+//
+//    public boolean waitForAnyElementPresence(Duration totalTimeout, Duration retryInterval, WebElement... webElements) {
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait(totalTimeout, retryInterval);
+//
+//        try {
+//            // Utilize the customized waiting condition
+//            return fluentWait.until(driver -> {
+//                for (WebElement webElement : webElements) {
+//                    if (webElement.isDisplayed()) {
+//                        System.out.println("Element is displayed.");
+//                        return true; // If any WebElement is displayed, return true immediately
+//                    }
+//                }
+//                return false; // Continue polling if no elements are displayed
+//            });
+//        } catch (TimeoutException timeoutException) {
+//            // Log the exception or ignore if not critical
+//            System.out.println("TimeoutException while checking WebElement presence: " + timeoutException.getMessage());
+//            return false;
+//        }
+//    }
+//
+//    public boolean waitForAnyElementPresence(Duration retryInterval, WebElement... webElements) {
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait(retryInterval);
+//
+//        try {
+//            // Utilize the customized waiting condition
+//            return fluentWait.until(driver -> {
+//                for (WebElement webElement : webElements) {
+//                    if (webElement.isDisplayed()) {
+//                        System.out.println("Element is displayed.");
+//                        return true; // If any WebElement is displayed, return true immediately
+//                    }
+//                }
+//                return false; // Continue polling if no elements are displayed
+//            });
+//        } catch (TimeoutException timeoutException) {
+//            // Log the exception or ignore if not critical
+//            System.out.println("TimeoutException while checking WebElement presence: " + timeoutException.getMessage());
+//            return false;
+//        }
+//    }
+//
+//    public boolean waitForAnyElementPresence(WebElement... webElements) {
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait();
+//
+//        try {
+//            // Utilize the customized waiting condition
+//            return fluentWait.until(driver -> {
+//                for (WebElement webElement : webElements) {
+//                    if (webElement.isDisplayed()) {
+//                        System.out.println("Element is displayed.");
+//                        return true; // If any WebElement is displayed, return true immediately
+//                    }
+//                }
+//                return false; // Continue polling if no elements are displayed
+//            });
+//        } catch (TimeoutException timeoutException) {
+//            // Log the exception or ignore if not critical
+//            System.out.println("TimeoutException while checking WebElement presence: " + timeoutException.getMessage());
+//            return false;
+//        }
+//    }
+//
+//    public boolean waitForAnyWebElementPresence(Duration totalTimeout, Duration retryInterval, List<WebElement> webElementsList) {
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait(totalTimeout, retryInterval);
+//
+//        // Use FluentWait to check if any of the WebElements are displayed
+//        return fluentWait.until(driver -> {
+//            for (WebElement webElement : webElementsList) {
+//                try {
+//                    if (webElement.isDisplayed()) {
+//                        System.out.println("Element is displayed.");
+//                        return true; // If any WebElement is displayed, return true immediately
+//                    }
+//                } catch (Exception e) {
+//                    // This can catch NoSuchElementException or StaleElementReferenceException
+//                    // indicating the element is not present or no longer attached to the DOM.
+//                }
+//            }
+//            return false; // Continue polling if no elements are displayed
+//        });
+//    }
+//
+//    public boolean waitForAnyWebElementPresence(Duration retryInterval, List<WebElement> webElementsList) {
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait(retryInterval);
+//
+//        // Use FluentWait to check if any of the WebElements are displayed
+//        return fluentWait.until(driver -> {
+//            for (WebElement webElement : webElementsList) {
+//                try {
+//                    if (webElement.isDisplayed()) {
+//                        System.out.println("Element is displayed.");
+//                        return true; // If any WebElement is displayed, return true immediately
+//                    }
+//                } catch (Exception e) {
+//                    // This can catch NoSuchElementException or StaleElementReferenceException
+//                    // indicating the element is not present or no longer attached to the DOM.
+//                }
+//            }
+//            return false; // Continue polling if no elements are displayed
+//        });
+//    }
+//
+//    public boolean waitForAnyWebElementPresence(List<WebElement> webElementsList) {
+//        FluentWait<WebDriver> fluentWait = WebDriverSetup.getInstance().getFluentWait();
+//
+//        // Use FluentWait to check if any of the WebElements are displayed
+//        return fluentWait.until(driver -> {
+//            for (WebElement webElement : webElementsList) {
+//                try {
+//                    if (webElement.isDisplayed()) {
+//                        System.out.println("Element is displayed.");
+//                        return true; // If any WebElement is displayed, return true immediately
+//                    }
+//                } catch (Exception e) {
+//                    // This can catch NoSuchElementException or StaleElementReferenceException
+//                    // indicating the element is not present or no longer attached to the DOM.
+//                }
+//            }
+//            return false; // Continue polling if no elements are displayed
+//        });
+//    }
+//
+//    public boolean waitForAllElementsVisibility(Duration totalTimeout, Duration retryInterval, By... locators) {
+//        WaitCondition condition = driver -> {
+//            for (By locator : locators) {
+//                WebElement element = ExpectedConditions.visibilityOfElementLocated(locator).apply(webDriver);
+//                if (!isElementDisplayedAndNotNull(element)) {
+//                    return false;
+//                }
+//            }
+//            return true;
+//        };
+//        return WaitUtilities.waitForCondition(totalTimeout, retryInterval, condition);
+//    }
+//
+//    public boolean waitForAllElementsVisibility(Duration totalTimeout, Duration retryInterval, List<By> locatorsList) {
+//        WaitCondition condition = driver -> {
+//            for (By locator : locatorsList) {
+//                WebElement element = ExpectedConditions.visibilityOfElementLocated(locator).apply(webDriver);
+//                if (!isElementDisplayedAndNotNull(element)) {
+//                    return false;
+//                }
+//            }
+//            return true;
+//        };
+//        return WaitUtilities.waitForCondition(totalTimeout, retryInterval, condition);
+//    }
+//
+//    public boolean waitForAllElementsVisibility(List<By> locatorsList) {
+//        WaitCondition condition = driver -> {
+//            for (By locator : locatorsList) {
+//                WebElement element = ExpectedConditions.visibilityOfElementLocated(locator).apply(webDriver);
+//                if (!isElementDisplayedAndNotNull(element)) {
+//                    return false;
+//                }
+//            }
+//            return true;
+//        };
+//        return WaitUtilities.waitForCondition(condition);
+//    }
+
+
+//    //TODO: Check if works correctly
+//    public boolean waitForAnyElementPresence(Duration totalTimeout, Duration retryInterval, By... selectors) {
+//        long startTime = System.currentTimeMillis();
+//        long endTime = startTime + totalTimeout.toMillis();
+//        FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+//                .withTimeout(retryInterval)
+//                .pollingEvery(retryInterval)
+//                .ignoring(NoSuchElementException.class);
+//
+//        while (System.currentTimeMillis() < endTime) {
+//            for (By selector : selectors) {
+//                try {
+//                    WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
+//                    if (element != null) {
+//                        return true; // An element is found, return true.
+//                    }
+//                } catch (TimeoutException timeoutException) {
+//                    // Ignore the exception and try the next selector
+//                }
+//            }
+//        }
+//
+//        return false;
+//    }
+//
+//    public boolean waitForAnyLocatorPresence(Duration totalTimeout, Duration retryInterval, List<By> listOfSelectors) {
+//        long startTime = System.currentTimeMillis();
+//        long endTime = startTime + totalTimeout.toMillis();
+//        FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+//                .withTimeout(retryInterval)
+//                .pollingEvery(retryInterval)
+//                .ignoring(NoSuchElementException.class);
+//
+//        while (System.currentTimeMillis() < endTime) {
+//            for (By selector : listOfSelectors) {
+//                try {
+//                    WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
+//                    if (element != null) {
+//                        return true; // An element is found, return true.
+//                    }
+//                } catch (TimeoutException timeoutException) {
+//                    // Ignore the exception and try the next selector
+//                }
+//            }
+//        }
+//
+//        return false;
+//    }
+//
+//    //TODO: Check if works correctly
+//    public boolean waitForAnyElementPresence(Duration totalTimeout, Duration retryInterval, WebElement... webElements) {
+//        long startTime = System.currentTimeMillis();
+//        long endTime = startTime + totalTimeout.toMillis();
+//        FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+//                .withTimeout(retryInterval)
+//                .pollingEvery(retryInterval)
+//                .ignoring(NoSuchElementException.class);
+//
+//        while (System.currentTimeMillis() < endTime) {
+//            for (WebElement webElement : webElements) {
+//                try {
+//                    // Use a function that checks for the element's visibility without throwing an unchecked exception if it's not visible.
+//                    boolean isVisible = wait.until(driver -> webElement.isDisplayed());
+//                    if (isVisible) {
+//                        return true; // The element is visible, return true.
+//                    }
+//                } catch (TimeoutException timeoutException) {
+//                    // Ignore exceptions and try the next element.
+//                    // This catch block will handle cases where the element is not present or not visible yet.
+//                }
+//            }
+//        }
+//
+//        return false; // None of the elements were visible within the time frame.
+//    }
+//
+//    public boolean waitForAnyWebElementPresence(Duration totalTimeout, Duration retryInterval, List<WebElement> listOfWebElements) {
+//        long startTime = System.currentTimeMillis();
+//        long endTime = startTime + totalTimeout.toMillis();
+//        FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+//                .withTimeout(retryInterval)
+//                .pollingEvery(retryInterval)
+//                .ignoring(NoSuchElementException.class);
+//
+//        while (System.currentTimeMillis() < endTime) {
+//            for (WebElement webElement : listOfWebElements) {
+//                try {
+//                    // Use a function that checks for the element's visibility without throwing an unchecked exception if it's not visible.
+//                    boolean isVisible = wait.until(driver -> webElement.isDisplayed());
+//                    if (isVisible) {
+//                        return true; // The element is visible, return true.
+//                    }
+//                } catch (TimeoutException timeoutException) {
+//                    // Ignore exceptions and try the next element.
+//                    // This catch block will handle cases where the element is not present or not visible yet.
+//                }
+//            }
+//        }
+//
+//        return false; // None of the elements were visible within the time frame.
+//    }
+//
+//    //TODO: Check if works correctly
+//    public boolean waitForAllElementsVisibility(Duration totalTimeout, Duration retryInterval, By... locators) {
+//        FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+//                .withTimeout(totalTimeout)
+//                .pollingEvery(retryInterval)
+//                .ignoring(NoSuchElementException.class);
+//
+//        try {
+//            wait.until(driver -> {
+//                for (By locator : locators) {
+//                    if (!elementFinder.findElementBy(locator).isDisplayed()) {
+//                        return false; // If any element is not displayed, return false to continue waiting.
+//                    }
+//                }
+//                return true; // All elements are displayed.
+//            });
+//            return true; // Wait was successful.
+//        } catch (TimeoutException timeoutException) {
+//            return false; // Not all elements were visible within the timeout period.
+//        }
+//    }
+//
+//    public boolean waitForAllElementsVisibility(Duration totalTimeout, Duration retryInterval, List<By> locatorsList) {
+//        FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+//                .withTimeout(totalTimeout)
+//                .pollingEvery(retryInterval)
+//                .ignoring(NoSuchElementException.class);
+//
+//        try {
+//            wait.until(driver -> {
+//                for (By locator : locatorsList) {
+//                    if (!elementFinder.findElementBy(locator).isDisplayed()) {
+//                        return false; // If any element is not displayed, return false to continue waiting.
+//                    }
+//                }
+//                return true; // All elements are displayed.
+//            });
+//            return true; // Wait was successful.
+//        } catch (TimeoutException timeoutException) {
+//            return false; // Not all elements were visible within the timeout period.
+//        }
+//    }
+//
+//    //TODO: Check if works correctly
+//    public boolean waitForAllElementsVisibility(Duration totalTimeout, Duration retryInterval, WebElement... webElements) {
+//        FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+//                .withTimeout(totalTimeout)
+//                .pollingEvery(retryInterval)
+//                .ignoring(NoSuchElementException.class);
+//
+//        try {
+//            wait.until(driver -> {
+//                for (WebElement webElement : webElements) {
+//                    if (!webElement.isDisplayed()) {
+//                        return false; // If any element is not displayed, return false to continue waiting.
+//                    }
+//                }
+//                return true; // All elements are displayed.
+//            });
+//            return true; // Wait was successful.
+//        } catch (TimeoutException timeoutException) {
+//            return false; // Not all elements were visible within the timeout period.
+//        }
+//    }
+//
+//
+//    public boolean waitForAllElementsVisibilityWithLogging(List<By> locators, Duration totalTimeout, Duration retryInterval) {
+//        FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+//                .withTimeout(totalTimeout)
+//                .pollingEvery(retryInterval)
+//                .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
+//
+//        for (By locator : locators) {
+//            try {
+//                InfoMessage.waitingForVisibilityOfElement(locator);
+//                wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+//                InfoMessage.elementIsVisible(locator);
+//            } catch (Exception e) { // Catch any exception due to wait.until
+//                ErrorMessage.caughtElementException(e, locator);
+//                return false; // Return false as soon as any element fails to meet the condition
+//            }
+//        }
+//        return true; // All elements are visible
+//    }
+
+//        public boolean areAllElementsVisible(List<WebElement> elements) {
+//        long startTime = System.currentTimeMillis();
+//        long maxTimeoutMillis = webDriverWait.getTimeout().toMillis();
+//
+//        while (System.currentTimeMillis() - startTime < maxTimeoutMillis) {
+//            boolean allVisible = true;
+//
+//            for (WebElement element : elements) {
+//                if (!element.isDisplayed()) {
+//                    allVisible = false;
+//                }
+//            }
+//
+//            if (allVisible) {
+//                return true;
+//            }
+//
+//            // Sleep for a short interval before checking again
+//            try {
+//                Thread.sleep(500); // Adjust the sleep time as needed
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//            }
+//        }
+//
+//        // Timeout reached, not all elements became visible
+//        return false;
+//    }
+
+old methods from WaitForFirstLocator
+
+    public static boolean waitForAnyElementByPresence(FluentWait<WebDriver> fluentWait, By... locators) {
+        try {
+            return fluentWait.until(driver -> {
+                for (By locator : locators) {
+                    if (areElementsFoundByLocatorVisible(locator)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        } catch (TimeoutException timeoutException) {
+            System.out.println("Exception while checking locator presence: " + timeoutException.getMessage());
+            return false;
+        }
+    }
+
+        public static boolean waitForAnyElementFromListPresence(FluentWait<WebDriver> fluentWait, List<By> locatorsList) {
+            try {
+                return fluentWait.until(driver -> areElementsFoundByLocatorVisible(locatorsList));
+            } catch (TimeoutException timeoutException) {
+                System.out.println("Exception while checking WebElement presence: " + locatorsList.listIterator() + timeoutException.getMessage());
+                return false;
+            }
+        }
+
+
+Old methods from WaitForAllLocators
+
+    public static boolean waitForAllLocatorsVisibility(FluentWait<WebDriver> fluentWait, List<By> locatorsList) {
+        try {
+            return fluentWait.until(driver -> areAllLocatorsVisible(driver, locatorsList));
+        } catch (TimeoutException timeoutException) {
+            System.out.println("Exception while checking all locators visibility: " + timeoutException.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean waitForAllLocatorsVisibility(FluentWait<WebDriver> fluentWait, By... locators) {
+        return waitForAllLocatorsVisibility(fluentWait, Arrays.asList(locators));
+    }
+
+
+Old methods from WaitForFirstElement
+
+    public static boolean waitForAnyElementPresence(FluentWait<WebDriver> fluentWait, List<WebElement> webElementsList) {
+        try {
+            return fluentWait.until(driver -> isAnyElementInListVisible(webElementsList));
+        } catch (TimeoutException timeoutException) {
+            System.out.println("Exception while checking WebElement presence: " + timeoutException.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean waitForAnyElementPresence(FluentWait<WebDriver> fluentWait, WebElement... webElements) {
+        try {
+            return fluentWait.until(driver -> {
+                for (WebElement webElement : webElements) {
+                    if (isElementDisplayedAndNotNull(webElement)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        } catch (TimeoutException timeoutException) {
+            System.out.println("Exception while checking locator presence: " + timeoutException.getMessage());
+            return false;
+        }
+    }
+
+Old methods from WaitForAllElements
+
+    public static boolean waitForAllElementsPresence(FluentWait<WebDriver> fluentWait, WebElement... webElements) {
+        return waitForAllElementsFromListPresence(fluentWait, Arrays.asList(webElements));
+    }
+
+    public static boolean waitForAllElementsFromListPresence(FluentWait<WebDriver> fluentWait, List<WebElement> webElementsList) {
+        try {
+            return fluentWait.until(driver -> areAllElementsVisible(webElementsList));
+        } catch (TimeoutException timeoutException) {
+            System.out.println("Exception while checking all WebElements visibility: " + timeoutException.getMessage());
+            return false;
+        }
+    }

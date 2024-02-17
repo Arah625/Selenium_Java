@@ -1,14 +1,12 @@
 package lh.juicecompany.PageUtilities.Action.Element;
 
+import lh.juicecompany.PageUtilities.IntegerUtilities;
 import lh.juicecompany.PageUtilities.WebDriverSetup;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import java.security.SecureRandom;
-
-public class Slider {
-
+public class ToggleSwitch {
 
     public static Actions getSliderAction() {
         WebDriver webDriver = WebDriverSetup.getInstance().getWebDriver();
@@ -27,13 +25,8 @@ public class Slider {
         return ratingSlider.getSize().getWidth();
     }
 
-    private int randomFromRange(int min, int max) {
-        SecureRandom secureRandom = new SecureRandom();
-        return secureRandom.nextInt((max - min) + 1) + min;
-    }
-
     private int calculateHorizontalOffset(WebElement slider, int minValue, int maxValue) {
-        return getSliderWidth(slider) * (randomFromRange(minValue, maxValue) - minValue) / (getSliderMaxValue(slider) - getSliderMinValue(slider));
+        return getSliderWidth(slider) * (IntegerUtilities.getRandomInclusive(minValue, maxValue) - minValue) / (getSliderMaxValue(slider) - getSliderMinValue(slider));
     }
 
     private int calculateHorizontalOffset(WebElement slider, int desiredValue) {
@@ -41,7 +34,7 @@ public class Slider {
     }
 
     private int calculateRandomHorizontalOffsetWithinSliderRange(WebElement slider) {
-        return getSliderWidth(slider) * (randomFromRange(getSliderMinValue(slider), getSliderMaxValue(slider)) - getSliderMinValue(slider)) / (getSliderMaxValue(slider) - getSliderMinValue(slider));
+        return getSliderWidth(slider) * (IntegerUtilities.getRandomInclusive(getSliderMinValue(slider), getSliderMaxValue(slider)) - getSliderMinValue(slider)) / (getSliderMaxValue(slider) - getSliderMinValue(slider));
     }
 
     public void moveSliderRandomly(WebElement sliderThumb, WebElement slider) {

@@ -67,17 +67,17 @@ public class CustomerFeedback extends Home {
     }
 
     public CustomerFeedback setRandomRating() {
-        slider.moveSliderRandomly(sliderThumb, ratingSlider);
+        toggleSwitch.moveSliderRandomly(sliderThumb, ratingSlider);
         return this;
     }
 
     public CustomerFeedback setRandomRating(int minValue, int maxValue) {
-        slider.moveSliderRandomly(sliderThumb, ratingSlider, minValue, maxValue);
+        toggleSwitch.moveSliderRandomly(sliderThumb, ratingSlider, minValue, maxValue);
         return this;
     }
 
     public CustomerFeedback setRating(int rating) {
-        slider.moveSlider(sliderThumb, ratingSlider, rating);
+        toggleSwitch.moveSlider(sliderThumb, ratingSlider, rating);
         return this;
     }
 

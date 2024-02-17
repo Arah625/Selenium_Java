@@ -59,7 +59,7 @@ public class RadioButton implements ElementState {
     @Override
     public String getElementState(By locator) {
         return ActionRetry.doActionRetry(() -> {
-            WebElement webElement = elementFinder.findElementBy(locator);
+            WebElement webElement = elementFinder.locateElementBy(locator);
             webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
             return String.valueOf(webElement.getAttribute("class").contains("mat-radio-checked"));
         }, 3);

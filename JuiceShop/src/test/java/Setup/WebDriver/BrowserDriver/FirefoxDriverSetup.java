@@ -9,15 +9,13 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 public class FirefoxDriverSetup implements WebDriverFactory {
 
     private FirefoxOptions firefoxOptionsStandard() {
-        FirefoxOptions firefoxOptions = new FirefoxOptions();
-        firefoxOptions.addArguments("--start-maximized");
-        return firefoxOptions;
+        return new FirefoxOptions();
     }
 
     private FirefoxOptions firefoxOptionsIncognito() {
         FirefoxOptions firefoxOptions = new FirefoxOptions();
+
         firefoxOptions.addArguments("--private-window");
-        firefoxOptions.addArguments("--start-maximized");
         return firefoxOptions;
     }
 

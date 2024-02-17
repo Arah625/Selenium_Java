@@ -6,13 +6,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class Register extends BasicPage {
 
-    private static final By PASSWORD_ADVICE_ELEMENT_BY = By.xpath("//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div");
-    private final List<String> PASSWORD_ADVICES_LIST = Arrays.asList("contains at least one lower character", "contains at least one upper character", "contains at least one digit", "contains at least one special character", "contains at least 8 characters");
+    private static final List<String> PASSWORD_ADVICES_LIST = Arrays.asList("contains at least one lower character", "contains at least one upper character", "contains at least one digit", "contains at least one special character", "contains at least 8 characters");
+    private static final List<String> WRONG_PASSWORD_ADVICES_LIST = Arrays.asList("contains at least one lower characterr", "contains at least one upper characterr", "contains at least one digitt", "contains at least one special characterr", "contains at least 8 characters");
+    private static final List<String> BAD_PASSWORD_ADVICES_LIST = Arrays.asList("contains at least one lower characterr", "contains at least one upper characterr", "contains at least one digitt", "contains at least one special characterr", "contains at least 8 characterss");
     @FindBy(xpath = "//input[@id='emailControl']")
     private WebElement emailField;
     @FindBy(xpath = "//input[@id='passwordControl']")
@@ -31,6 +34,16 @@ public class Register extends BasicPage {
     private List<WebElement> passwordAdviceList;
     @FindBy(xpath = "//div[@class='error' and contains(text(),'Email must be unique')]")
     private WebElement uniqueEmailRequiredAlert;
+    @FindBy(xpath = "//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div/span[contains(text(),'contains at least one lower characterr')]")
+    private WebElement firstHint;
+    @FindBy(xpath = "//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div/span[contains(text(),'contains at least one upper character')]")
+    private WebElement secondHint;
+    @FindBy(xpath = "//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div/span[contains(text(),'contains at least one digitt')]")
+    private WebElement thirdHint;
+    @FindBy(xpath = "//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div/span[contains(text(),'contains at least one special character')]")
+    private WebElement fourthHint;
+    @FindBy(xpath = "//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div/span[contains(text(),'contains at least 8 characters')]")
+    private WebElement fifthHint;
 
     public Register(WebDriver webDriver) {
         super(webDriver);
@@ -56,8 +69,31 @@ public class Register extends BasicPage {
         return this;
     }
 
-    public boolean arePasswordAdvicesVisible() {
-        return elementVisibilityHandler.isNumberOfElementsByWebElementsVisible(passwordAdviceList, 5);
+    public boolean isNumberOfPasswordHintsVisible() {
+        return elementVisibilityHandler.isNumberOfElementsByWebElementsVisible(passwordAdviceList, passwordHintsList().size());
+    }
+
+    private By passwordHintXpath(String passwordHint) {
+        return By.xpath("//*[@id='registration-form']/mat-password-strength-info/mat-card/mat-card-content/div/span[contains(text(),'" + passwordHint + "')]");
+    }
+
+//    private List<By> passwordHintsList() {
+//        return WRONG_PASSWORD_ADVICES_LIST.stream().map(this::passwordHintXpath).toList();
+//    }
+
+    private List<WebElement> passwordHintsList() {
+        ArrayList<WebElement> webElementArrayList = new ArrayList<>();
+        webElementArrayList.add(firstHint);
+        webElementArrayList.add(secondHint);
+        webElementArrayList.add(thirdHint);
+        webElementArrayList.add(fourthHint);
+        webElementArrayList.add(fifthHint);
+        return webElementArrayList;
+    }
+
+    public boolean arePasswordHintsVisible() {
+        return elementVisibilityHandler.areAllElementsVisible(passwordHintsList());
+//        return elementVisibilityHandler.areAllElementsVisible(firstHint, secondHint, thirdHint, fourthHint, fifthHint);
     }
 
     private Register securityQuestionDropdownButtonClick() {
@@ -67,7 +103,7 @@ public class Register extends BasicPage {
 
     public void selectSecretQuestion(String secretQuestion) {
         securityQuestionDropdownButtonClick();
-        commonMethods.clickElement(elementFinder.findElementBy(By.xpath("//div[@aria-label='Selection list for the security question']//span[contains(text(),'" + secretQuestion + "')]")));
+        commonMethods.clickElement(elementFinder.locateElementBy(By.xpath("//div[@aria-label='Selection list for the security question']//span[contains(text(),'" + secretQuestion + "')]")));
     }
 
     public Register fillAnswer(String answer) {
@@ -80,10 +116,7 @@ public class Register extends BasicPage {
         return new Login(webDriver);
     }
 
-
     public boolean isUniqueEmailRequiredAlertVisible() {
         return elementVisibilityHandler.isElementVisible(uniqueEmailRequiredAlert);
     }
-
-
 }

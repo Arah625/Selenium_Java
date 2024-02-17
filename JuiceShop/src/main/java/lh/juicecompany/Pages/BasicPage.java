@@ -19,7 +19,7 @@ public abstract class BasicPage extends PageSetup {
     protected Checkbox checkbox;
     protected RadioButton radioButton;
     protected DropdownButton dropdownButton;
-    protected Slider slider;
+    protected ToggleSwitch toggleSwitch;
     protected ElementVisibilityHandler elementVisibilityHandler;
     protected ElementFinder elementFinder;
 
@@ -30,7 +30,7 @@ public abstract class BasicPage extends PageSetup {
         this.checkbox = new Checkbox();
         this.radioButton = new RadioButton();
         this.dropdownButton = new DropdownButton();
-        this.slider = new Slider();
+        this.toggleSwitch = new ToggleSwitch();
         this.elementVisibilityHandler = new ElementVisibilityHandler();
         this.elementFinder = new ElementFinder();
     }

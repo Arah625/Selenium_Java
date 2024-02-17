@@ -1,6 +1,6 @@
 package lh.juicecompany.Logger;
 
-import lh.juicecompany.Colors.Color;
+import lh.juicecompany.Ansi.Colors.Color;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -14,6 +14,8 @@ public abstract class ErrorMessage extends BasicMessage {
     public static final String FAILED_TO_CLOSE_BROWSER = Color.redBold("Failed to close the browser!");
     public static final String FAILED_TO_QUIT_WEB_DRIVER = Color.redBold("Failed to quit WebDriver!");
     public static final String UNKNOWN_BROWSER_MODE = Color.red("Unknown browser mode! Please set " + Color.redBold("STANDARD") + Color.red(" or ") + Color.redBold("INCOGNITO") + Color.red(" mode in testng.xml file."));
+    public static final String SECURITY_ACCESS_DENIED_OR_NULL_POINTER = Color.redBold("Access to System Properties is not allowed or searched property does not exist!");
+
     private static final Logger logger = LoggerFactory.getLogger(ErrorMessage.class);
 
     public static void caughtElementException(Exception exception, WebElement webElement) {
@@ -32,4 +34,7 @@ public abstract class ErrorMessage extends BasicMessage {
         logger.error(EXCEPTION_CAUGHT, exception.getClass().getName(), errorReason);
     }
 
+    public static void unknownTypeException(Exception exception, String errorReason, String argument) {
+        logger.error(UNKNOWN_BROWSER_MODE, exception.getClass().getName(), errorReason);
+    }
 }

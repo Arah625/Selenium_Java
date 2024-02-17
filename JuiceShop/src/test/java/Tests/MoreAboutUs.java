@@ -18,9 +18,8 @@ public class MoreAboutUs extends BaseTest {
     private PressKit pressKit;
     private Nft nft;
 
-    @Test(priority = 1, groups = {TestGroup.REGRESSION, TestGroup.HIGH})
+    @Test(priority = 1, groups = {TestGroup.REGRESSION, TestGroup.HIGH}, description = "Check redirection to our Twitter Social Media Page")
     public void checkRedirectionToTwitter() {
-        testCaseName("Check redirection to our Twitter Social Media Page");
         aboutUs = home.goToAboutUs();
         Assert.assertTrue(aboutUs.isAboutUsHeaderVisible(), VisibilityMessage.headerIsNotVisible("About Us"));
         twitter = aboutUs.goToOurTwitterPage();
@@ -31,9 +30,8 @@ public class MoreAboutUs extends BaseTest {
         Assert.assertTrue(twitter.isTwitterPageVisible(), VisibilityMessage.pageIsNotVisible(SocialMediaData.TWITTER.getSocialMediaPlatform()));
     }
 
-    @Test(priority = 2, groups = {TestGroup.REGRESSION, TestGroup.HIGH})
+    @Test(priority = 2, groups = {TestGroup.REGRESSION, TestGroup.HIGH}, description = "Check redirection to our Facebook Social Media Page")
     public void checkRedirectionToFacebook() {
-        testCaseName("Check redirection to our Facebook Social Media Page");
         aboutUs = home.goToAboutUs();
         Assert.assertTrue(aboutUs.isAboutUsHeaderVisible(), VisibilityMessage.headerIsNotVisible("About Us"));
         facebook = aboutUs.goToOurFacebookPage();
@@ -44,9 +42,8 @@ public class MoreAboutUs extends BaseTest {
         Assert.assertTrue(facebook.isFacebookPageVisible(), VisibilityMessage.pageIsNotVisible(SocialMediaData.FACEBOOK.getSocialMediaPlatform()));
     }
 
-    @Test(priority = 3, groups = {TestGroup.REGRESSION, TestGroup.HIGH})
+    @Test(priority = 3, groups = {TestGroup.REGRESSION, TestGroup.HIGH}, description = "Check redirection to our Slack Social Media Page")
     public void checkRedirectionToSlack() {
-        testCaseName("Check redirection to our Slack Social Media Page");
         aboutUs = home.goToAboutUs();
         Assert.assertTrue(aboutUs.isAboutUsHeaderVisible(), VisibilityMessage.headerIsNotVisible("About Us"));
         slack = aboutUs.goToOurSlackPage();
@@ -57,9 +54,8 @@ public class MoreAboutUs extends BaseTest {
         Assert.assertTrue(slack.isSlackPageVisible(), VisibilityMessage.pageIsNotVisible(SocialMediaData.SLACK.getSocialMediaPlatform()));
     }
 
-    @Test(priority = 4, groups = {TestGroup.REGRESSION, TestGroup.HIGH})
+    @Test(priority = 4, groups = {TestGroup.REGRESSION, TestGroup.HIGH}, description = "Check redirection to our Reddit Social Media Page")
     public void checkRedirectionToReddit() {
-        testCaseName("Check redirection to our Reddit Social Media Page");
         aboutUs = home.goToAboutUs();
         Assert.assertTrue(aboutUs.isAboutUsHeaderVisible(), VisibilityMessage.headerIsNotVisible("About Us"));
         reddit = aboutUs.goToOurRedditPage();
@@ -70,9 +66,8 @@ public class MoreAboutUs extends BaseTest {
         Assert.assertTrue(reddit.isRedditPageVisible(), VisibilityMessage.pageIsNotVisible(SocialMediaData.REDDIT.getSocialMediaPlatform()));
     }
 
-    @Test(priority = 5, groups = {TestGroup.REGRESSION, TestGroup.HIGH})
+    @Test(priority = 5, groups = {TestGroup.REGRESSION, TestGroup.HIGH}, description = "Check redirection to our Press Kit Social Media Page")
     public void checkRedirectionToPressKit() {
-        testCaseName("Check redirection to our Press Kit Social Media Page");
         aboutUs = home.goToAboutUs();
         Assert.assertTrue(aboutUs.isAboutUsHeaderVisible(), VisibilityMessage.headerIsNotVisible("About Us"));
         pressKit = aboutUs.goToOurPressKitPage();
@@ -83,9 +78,8 @@ public class MoreAboutUs extends BaseTest {
         Assert.assertTrue(pressKit.isPressKitPageVisible(), VisibilityMessage.pageIsNotVisible(SocialMediaData.PRESS_KIT.getSocialMediaPlatform()));
     }
 
-    @Test(priority = 6, groups = {TestGroup.REGRESSION, TestGroup.HIGH})
+    @Test(priority = 6, groups = {TestGroup.REGRESSION, TestGroup.HIGH}, description = "Check redirection to our NFT Social Media Page")
     public void checkRedirectionToNft() {
-        testCaseName("Check redirection to our NFT Social Media Page");
         aboutUs = home.goToAboutUs();
         Assert.assertTrue(aboutUs.isAboutUsHeaderVisible(), VisibilityMessage.headerIsNotVisible("About Us"));
         nft = aboutUs.goToOurNftPage();

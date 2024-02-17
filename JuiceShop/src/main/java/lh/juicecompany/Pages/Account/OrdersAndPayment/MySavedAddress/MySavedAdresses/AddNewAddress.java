@@ -77,4 +77,15 @@ public class AddNewAddress extends Home {
         commonMethods.clickElement(submitButton);
         return new MySavedAddresses(webDriver);
     }
+
+    public AddNewAddress fillAddNewAddressForm(String country, String name, String mobileNumber, String zipCode, String address, String city, String state) {
+        fillCountry(country);
+        fillName(name);
+        fillMobileNumber(mobileNumber);
+        fillZipCode(zipCode);
+        fillAddress(address);
+        fillCity(city);
+        fillState(state);
+        return this;
+    }
 }

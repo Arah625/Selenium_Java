@@ -1,6 +1,6 @@
 package AssertMessages;
 
-import lh.juicecompany.Colors.Color;
+import lh.juicecompany.Ansi.Colors.Color;
 
 public abstract class VisibilityMessage {
 
@@ -66,5 +66,13 @@ public abstract class VisibilityMessage {
 
     public static String countryCodeIsVisible(String button) {
         return Color.red("Country code " + Color.redBold(button) + Color.red(" is visible!"));
+    }
+
+    public static String listOfElementsIsEmpty(String listName) {
+        return Color.redBold(listName) + Color.red(" list is empty!");
+    }
+
+    public static String listOfElementsIsNotEmpty(String listName) {
+        return Color.redBold(listName) + Color.red(" list is not empty!");
     }
 }

@@ -1,6 +1,7 @@
 package lh.juicecompany.Logger;
 
-import lh.juicecompany.Colors.Color;
+import lh.juicecompany.Ansi.Colors.AnsiColorPalette;
+import lh.juicecompany.Ansi.Colors.Color;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public abstract class InfoMessage extends BasicMessage {
     public static final String IS_ELEMENT_ENABLED = Color.blue("Checking if element " + Color.blueBold("{}") + Color.blue(" is enabled!"));
     public static final String IS_ELEMENT_SELECTED = Color.blue("Checking if element " + Color.blueBold("{}") + Color.blue(" is selected!"));
     public static final String TEXT_FROM_ELEMENT = Color.blue("Retrieved text " + Color.blueBold("{}") + Color.blue(" from element ") + Color.blueBold("{}"));
-    public static final String TEST_CASE_NAME = Color.green("Starting Test Case: " + Color.greenBold("{}"));
+    public static final String TEST_CASE_DESCRIPTION = Color.green("Starting Test Case with description: " + Color.greenBold("{}"));
     public static final String CURRENT_URL = Color.green("Current URL: " + Color.blueBoldUnderlined("{}"));
     public static final String PAGE_TITLE = Color.green("Page title: " + Color.blueBold("{}"));
     public static final String BEFORE_METHOD_START = Color.yellow("Starting: " + Color.yellowBold("@BeforeMethod"));
@@ -32,8 +33,8 @@ public abstract class InfoMessage extends BasicMessage {
     public static final String AFTER_METHOD_START = Color.yellow("Starting: " + Color.yellowBold("@AfterMethod"));
     public static final String AFTER_METHOD_END = Color.yellow("Ending: " + Color.yellowBold("@AfterMethod"));
     public static final String AFTER_CLASS_START = Color.yellow("Starting: " + Color.yellowBold("@AfterClass"));
-    public static final String AFTER_CLASS_END = Color.yellow("Ending: " + Color.yellowBold("@AfterClass"));
-    public static final String BROWSER_AND_MODE = Color.purple("Starting " + Color.purpleBold("{}") + Color.purple(" browser in ") + Color.purpleBold("{}") + Color.purple(" mode."));
+    public static final String AFTER_CLASS_END = Color.yellow("Ending: {}");
+    public static final String BROWSER_AND_MODE = AnsiColorPalette.applyColor("Starting {} browser in {} mode.", AnsiColorPalette.MAGENTA_BOLD, AnsiColorPalette.MAGENTA_BOLD);
     private static final Logger logger = LoggerFactory.getLogger(InfoMessage.class);
 
     public static void waitingForVisibilityOfElement(WebElement webElement) {
@@ -112,8 +113,8 @@ public abstract class InfoMessage extends BasicMessage {
         logger.info(TEXT_FROM_ELEMENT, text, getXpathFromLocator(locator));
     }
 
-    public static void startingTestCase(String testCaseName) {
-        logger.info(TEST_CASE_NAME, testCaseName);
+    public static void startingTestCaseWithDescription(String testCaseName) {
+        logger.info(TEST_CASE_DESCRIPTION, testCaseName);
     }
 
     public static void currentUrl(String currentUrl) {
@@ -141,15 +142,14 @@ public abstract class InfoMessage extends BasicMessage {
     }
 
     public static void afterClassStart() {
-        logger.info(AFTER_CLASS_START);
+        logger.info(AFTER_CLASS_START, AnsiColorPalette.YELLOW_BOLD.apply("@AfterClass"));
     }
 
     public static void afterClassEnd() {
-        logger.info(AFTER_CLASS_END);
+        logger.info(AFTER_CLASS_END, AnsiColorPalette.YELLOW_BOLD.apply("@AfterClass"));
     }
 
     public static void browserAndMode(String browser, String mode) {
         logger.info(BROWSER_AND_MODE, browser, mode);
     }
-
 }
