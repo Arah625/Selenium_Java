@@ -23,7 +23,7 @@
             <class name="Tests.Account.SignUp">
                 <methods>
                     <!--                    <include name="createRandomAccount"></include>-->
-                    <include name="checkPasswordHints"></include>
+                    <include name="checkPasswordMissingDigitValidation"></include>
                 </methods>
             </class>
         </classes>

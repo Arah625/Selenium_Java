@@ -22,8 +22,12 @@ import reports.ExtentReportUtilities;
 import reports.ExtentTestManager;
 import reports.RetryAnalyzer;
 
+import java.util.Locale;
+
 public class BaseTest {
-    protected Faker faker = new Faker();
+    //    protected Faker faker = new Faker();
+    protected Faker faker = new Faker(new Locale.Builder().setLanguage("AU").build());
+
     protected Home home;
     protected WebDriver webDriver;
 
@@ -69,7 +73,7 @@ public class BaseTest {
 //        } finally {
         InfoMessage.afterMethodStart();
         try {
-            WebDriverSetup.getInstance().closeDriver();
+//            WebDriverSetup.getInstance().closeDriver();
         } catch (WebDriverException webDriverException) {
             ErrorMessage.caughtException(webDriverException, ErrorMessage.FAILED_TO_CLOSE_BROWSER);
         }
@@ -80,7 +84,7 @@ public class BaseTest {
     public void finalTearDown() {
         InfoMessage.afterClassStart();
         try {
-            WebDriverSetup.getInstance().quitDriver();
+            //           WebDriverSetup.getInstance().quitDriver();
             ExtentReportUtilities.openReportInBrowser();
         } catch (WebDriverException webDriverException) {
             ErrorMessage.caughtElementException(webDriverException, ErrorMessage.FAILED_TO_QUIT_WEB_DRIVER);

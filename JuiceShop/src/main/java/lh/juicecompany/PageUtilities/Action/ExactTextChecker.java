@@ -18,6 +18,9 @@ public class ExactTextChecker {
         elementFinder = new ElementFinder();
     }
 
+    private ExactTextChecker() {
+    }
+
     public static boolean isExactTextPresentInAnyElementLocatedBy(By locator, String expectedValue) {
         List<WebElement> elements = elementFinder.findElementsBy(locator);
         for (WebElement element : elements) {

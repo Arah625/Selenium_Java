@@ -14,6 +14,9 @@ public class SelectOption {
 
     private static final Random random = new Random();
 
+    private SelectOption() {
+    }
+
     public static Select getDropdownList(WebElement dropdownList) {
         WebDriverWait webDriverWait = WebDriverSetup.getInstance().getWebDriverWait();
         webDriverWait.until(ExpectedConditions.visibilityOf(dropdownList));
@@ -41,7 +44,6 @@ public class SelectOption {
         Select select = getDropdownList(dropdownList);
         List<WebElement> options = select.getOptions();
 
-        // Extract values from options
         List<String> values = new ArrayList<>();
         for (WebElement option : options) {
             String value = option.getAttribute("value");
@@ -50,7 +52,6 @@ public class SelectOption {
             }
         }
 
-        // Choose a random value
         if (!values.isEmpty()) {
             String randomValue = values.get(random.nextInt(values.size()));
             select.selectByValue(randomValue);
@@ -62,7 +63,6 @@ public class SelectOption {
         Select select = getDropdownList(dropdownList);
         List<WebElement> options = select.getOptions();
 
-        // Extract visible text from options
         List<String> visibleTexts = new ArrayList<>();
         for (WebElement option : options) {
             String text = option.getText();
@@ -70,8 +70,6 @@ public class SelectOption {
                 visibleTexts.add(text);
             }
         }
-
-        // Choose a random visible text
         if (!visibleTexts.isEmpty()) {
             String randomVisibleText = visibleTexts.get(random.nextInt(visibleTexts.size()));
             select.selectByVisibleText(randomVisibleText);

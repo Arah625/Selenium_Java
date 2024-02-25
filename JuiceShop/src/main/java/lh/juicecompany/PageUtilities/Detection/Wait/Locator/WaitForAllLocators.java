@@ -1,14 +1,16 @@
 package lh.juicecompany.PageUtilities.Detection.Wait.Locator;
 
 import lh.juicecompany.PageUtilities.Detection.Wait.WaitUtilities;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
 
 public class WaitForAllLocators extends WaitUtilities {
 
@@ -22,39 +24,36 @@ public class WaitForAllLocators extends WaitUtilities {
     public static boolean waitForEachLocatorVisibility(FluentWait<WebDriver> fluentWait, List<By> locatorsList) {
         List<By> remainingLocators = new ArrayList<>(locatorsList); // Initially, all elements are to be checked.
 
-        try {
-            fluentWait.until(driver -> {
-                Iterator<By> iterator = remainingLocators.iterator();
-                while (iterator.hasNext()) {
-                    By locator = iterator.next();
-                    try {
-                        System.out.println("Waiting for locator: " + locator); // Log attempt to check element.
-                        WebElement webElement = driver.findElement(locator);
-                        if (webElement.isDisplayed()) {
-                            System.out.println("Element found and visible: " + locator); // Log visible element.
-                            iterator.remove(); // Remove the visible element immediately.
-                        }
-                    } catch (NoSuchElementException e) {
-                        // Element not found in the DOM, consider it not visible for this iteration.
+        boolean allVisible = waitForCondition(fluentWait, driver -> {
+            Iterator<By> iterator = remainingLocators.iterator();
+            while (iterator.hasNext()) {
+                By locator = iterator.next();
+                try {
+                    WebElement webElement = driver.findElement(locator);
+                    if (webElement.isDisplayed()) {
+                        iterator.remove(); // Element is visible, remove it.
                     }
+                } catch (NoSuchElementException e) {
+                    // Element not found, consider it not visible for this iteration.
                 }
-                return remainingLocators.isEmpty(); // Continue until all are found or timeout is reached.
-            });
+            }
+            return remainingLocators.isEmpty(); // If empty, all elements were found and visible.
+        });
 
-            return true; // All elements were visible before the timeout.
-        } catch (TimeoutException e) {
-            System.out.println("Timeout reached. The following locators elements were not visible:");
-            remainingLocators.forEach(webElement -> System.out.println(webElement.toString()));
-            return false; // Not all elements were visible before the timeout.
+        if (!allVisible) {
+            System.out.println("Timeout reached. The following locators' elements were not visible:");
+            remainingLocators.forEach(locator -> System.out.println(locator.toString()));
         }
+
+        return allVisible; // Reflects the actual outcome based on visibility.
     }
 
     //TODO: Method that constantly checks all locators on list, even if finds one.
     public static boolean waitForAllLocatorsVisibility(FluentWait<WebDriver> fluentWait, List<By> locatorsList) {
         List<By> notVisibleLocators = new ArrayList<>(locatorsList); // Copy of locators list to track not found elements.
 
-        // Custom Function to check visibility of all elements.
-        Function<WebDriver, Boolean> visibilityOfAllElements = driver -> {
+        // Directly using waitForCondition with a lambda expression for the custom condition.
+        boolean allElementsVisible = waitForCondition(fluentWait, driver -> {
             boolean allVisible = true;
             List<By> currentlyNotVisible = new ArrayList<>();
 
@@ -68,24 +67,15 @@ public class WaitForAllLocators extends WaitUtilities {
 
             notVisibleLocators.retainAll(currentlyNotVisible); // Update the list with currently not visible elements.
             return allVisible;
-        };
+        });
 
-        try {
-            // Setting the polling interval and custom condition for visibility.
-            fluentWait.until(visibilityOfAllElements);
-            return true; // All elements were visible before timeout.
-        } catch (TimeoutException e) {
-            // Logging not visible elements after timeout.
-            if (!notVisibleLocators.isEmpty()) {
-                System.out.println("Timeout reached. The following elements were not visible: ");
-                notVisibleLocators.forEach(locator -> System.out.println("Element not found or not visible for locator: " + locator));
-
-//                for (By locator : notVisibleLocators) {
-//                    System.out.println(locator.toString());
-//                }
-            }
-            return false; // Not all elements were visible before timeout.
+        if (!allElementsVisible) {
+            // Logging not visible elements after checking visibility.
+            System.out.println("Some elements were not visible: ");
+            notVisibleLocators.forEach(locator -> System.out.println("Element not found or not visible for locator: " + locator));
         }
+
+        return allElementsVisible;
     }
     //TODO: OK - WORKS
 

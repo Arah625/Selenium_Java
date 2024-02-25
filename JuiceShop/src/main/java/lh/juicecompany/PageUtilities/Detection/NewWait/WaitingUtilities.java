@@ -106,6 +106,13 @@ public abstract class WaitingUtilities {
         }
     }
 
+    protected static boolean logNotVisibleElementsAndReturnFailure(List<WebElement> notVisibleElements) {
+        System.out.println("Timeout reached. The following elements were not visible:");
+        notVisibleElements.forEach(webElement -> System.out.println(webElement.toString()));
+        return false; // Indicates not all elements were visible before the timeout.
+    }
+
+
     public enum LoggingBehavior {
         LOG_VISIBLE,
         LOG_NOT_VISIBLE

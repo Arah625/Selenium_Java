@@ -1,124 +1,71 @@
 package lh.juicecompany.PageUtilities.Action;
 
-import lh.juicecompany.Exceptions.MaximumNumberOfRepetitionsException;
 import lh.juicecompany.Logger.ErrorMessage;
 import lh.juicecompany.Logger.InfoMessage;
+import lh.juicecompany.PageUtilities.Action.Retry.ActionRetry;
 import lh.juicecompany.PageUtilities.WebDriverSetup;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.function.Supplier;
+
 public class CommonMethods {
-    private static final int COUNTER_BASE_VALUE = 0;
     private static final int REPETITIONS = 3;
     private final WebDriverWait webDriverWait = WebDriverSetup.getInstance().getWebDriverWait();
 
     public void sendKeysToElement(WebElement webElement, String stringValue) {
-        int counter = COUNTER_BASE_VALUE;
-        while (true) {
-            try {
-                InfoMessage.waitingForVisibilityOfElement(webElement);
-                webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-                InfoMessage.waitingForElementToBeClickable(webElement);
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
-                webElement.clear();
-                InfoMessage.sendingKeysToElement(stringValue, webElement);
-                webElement.sendKeys(stringValue);
-                break;
-            } catch (StaleElementReferenceException | ElementNotInteractableException exception) {
-                ErrorMessage.caughtElementException(exception, webElement);
-                counter++;
-            }
-            if (counter >= REPETITIONS) {
-                throw new MaximumNumberOfRepetitionsException(ErrorMessage.MAXIMUM_REPETITIONS_REACHED);
-            }
-        }
+        ActionRetry.doActionRetry(() -> {
+            InfoMessage.waitingForVisibilityOfElement(webElement);
+            webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+            InfoMessage.waitingForElementToBeClickable(webElement);
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
+            webElement.clear();
+            InfoMessage.sendingKeysToElement(stringValue, webElement);
+            webElement.sendKeys(stringValue);
+        }, REPETITIONS, StaleElementReferenceException.class, ElementNotInteractableException.class);
     }
 
     public void clickElement(WebElement webElement) {
-        int counter = COUNTER_BASE_VALUE;
-        while (true) {
-            try {
-                InfoMessage.waitingForVisibilityOfElement(webElement);
-                webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-                InfoMessage.waitingForElementToBeClickable(webElement);
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
-                InfoMessage.clickingElement(webElement);
-                webElement.click();
-                break;
-            } catch (StaleElementReferenceException | ElementClickInterceptedException exception) {
-                ErrorMessage.caughtElementException(exception, webElement);
-                counter++;
-            }
-            if (counter >= REPETITIONS) {
-                throw new MaximumNumberOfRepetitionsException(ErrorMessage.MAXIMUM_REPETITIONS_REACHED);
-            }
-        }
+        ActionRetry.doActionRetry(() -> {
+            InfoMessage.waitingForVisibilityOfElement(webElement);
+            webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+            InfoMessage.waitingForElementToBeClickable(webElement);
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
+            InfoMessage.clickingElement(webElement);
+            webElement.click();
+        }, REPETITIONS, StaleElementReferenceException.class, ElementClickInterceptedException.class);
     }
 
     public void clickElement(By locator) {
-        int counter = COUNTER_BASE_VALUE;
-        while (true) {
-            try {
-                WebElement webElement = webDriverWait.until(ExpectedConditions.presenceOfElementLocated(locator));
-                InfoMessage.waitingForVisibilityOfElement(webElement);
-                webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-                InfoMessage.waitingForElementToBeClickable(webElement);
-                webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
-                InfoMessage.clickingElement(webElement);
-                webElement.click();
-                break;
-            } catch (StaleElementReferenceException | ElementClickInterceptedException exception) {
-                ErrorMessage.caughtElementException(exception, locator);
-                counter++;
-            }
-            if (counter >= REPETITIONS) {
-                throw new MaximumNumberOfRepetitionsException(ErrorMessage.MAXIMUM_REPETITIONS_REACHED);
-            }
-        }
+        ActionRetry.doActionRetry(() -> {
+            WebElement webElement = webDriverWait.until(ExpectedConditions.presenceOfElementLocated(locator));
+            InfoMessage.waitingForVisibilityOfElement(webElement);
+            webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+            InfoMessage.waitingForElementToBeClickable(webElement);
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
+            InfoMessage.clickingElement(webElement);
+            webElement.click();
+        }, REPETITIONS, StaleElementReferenceException.class, ElementClickInterceptedException.class);
     }
 
     public String getTextFromElement(WebElement webElement) {
-        String text;
-        int counter = COUNTER_BASE_VALUE;
-        while (true) {
-            try {
-                InfoMessage.waitingForVisibilityOfElement(webElement);
-                webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-                text = webElement.getText();
-                break;
-            } catch (StaleElementReferenceException exception) {
-                ErrorMessage.caughtElementException(exception, webElement);
-                counter++;
-            }
-            if (counter >= REPETITIONS) {
-                throw new MaximumNumberOfRepetitionsException(ErrorMessage.MAXIMUM_REPETITIONS_REACHED);
-            }
-        }
-        InfoMessage.retrievedTextFromElement(text, webElement);
-        return text;
+        Supplier<String> getTextAction = () -> {
+            InfoMessage.waitingForVisibilityOfElement(webElement);
+            webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+            return webElement.getText();
+        };
+        return ActionRetry.doActionRetry(getTextAction, REPETITIONS, StaleElementReferenceException.class, ElementClickInterceptedException.class);
     }
 
     public String getTextFromElement(By locator) {
-        String text;
-        int counter = COUNTER_BASE_VALUE;
-        while (true) {
-            try {
-                WebElement webElement = webDriverWait.until(ExpectedConditions.presenceOfElementLocated(locator));
-                InfoMessage.waitingForVisibilityOfElement(webElement);
-                webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
-                text = webElement.getText();
-                break;
-            } catch (StaleElementReferenceException exception) {
-                ErrorMessage.caughtElementException(exception, locator);
-                counter++;
-            }
-            if (counter >= REPETITIONS) {
-                throw new MaximumNumberOfRepetitionsException(ErrorMessage.MAXIMUM_REPETITIONS_REACHED);
-            }
-        }
-        InfoMessage.retrievedTextFromElement(text, locator);
-        return text;
+        Supplier<String> getTextAction = () -> {
+            WebElement webElement = webDriverWait.until(ExpectedConditions.presenceOfElementLocated(locator));
+            InfoMessage.waitingForVisibilityOfElement(webElement);
+            webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+            return webElement.getText();
+        };
+        return ActionRetry.doActionRetry(getTextAction, REPETITIONS, StaleElementReferenceException.class);
     }
 
     @Deprecated
