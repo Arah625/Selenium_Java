@@ -1,6 +1,6 @@
 package lh.juicecompany.PageUtilities.Detection.Wait.Element;
 
-import lh.juicecompany.PageUtilities.Detection.NewWait.WaitingUtilities;
+import lh.juicecompany.PageUtilities.Detection.Wait.WaitUtilities;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.util.Arrays;
 import java.util.List;
 
-public class WaitForFirstElement extends WaitingUtilities {
+public class WaitForFirstElement extends WaitUtilities {
 
     //TODO: Change methods names and add Logging instead of souts
 
@@ -22,7 +22,6 @@ public class WaitForFirstElement extends WaitingUtilities {
                         return true;
                     }
                 } catch (NoSuchElementException ignored) {
-                    // This catch block is for handling cases where the element gets detached from the DOM after the list was created.
                 }
             }
             return false;

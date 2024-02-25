@@ -1,7 +1,7 @@
 package lh.juicecompany.PageUtilities.Detection.Wait.Locator;
 
 import lh.juicecompany.PageUtilities.Detection.ElementFinder;
-import lh.juicecompany.PageUtilities.Detection.NewWait.WaitingUtilities;
+import lh.juicecompany.PageUtilities.Detection.Wait.WaitUtilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.util.Arrays;
 import java.util.List;
 
-public class WaitForFirstLocator extends WaitingUtilities {
+public class WaitForFirstLocator extends WaitUtilities {
 
     private static final ElementFinder elementFinder = new ElementFinder();
 
