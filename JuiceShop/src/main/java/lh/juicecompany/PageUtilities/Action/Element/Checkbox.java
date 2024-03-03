@@ -11,6 +11,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * Provides utilities for interacting with checkbox elements on a web page, including checking, unchecking,
+ * and determining the checked state of checkboxes. This class implements the {@link ElementState} interface
+ * to utilize the common method of fetching an element's state.
+ */
 public class Checkbox implements ElementState {
 
     private static final String ARIA_CHECKED = "aria-checked";
@@ -18,11 +23,20 @@ public class Checkbox implements ElementState {
     private final CommonMethods commonMethods;
     private final ElementFinder elementFinder;
 
+    /**
+     * Constructs a Checkbox instance, initializing the necessary utilities for element interaction.
+     */
     public Checkbox() {
         this.commonMethods = new CommonMethods();
         this.elementFinder = new ElementFinder();
     }
 
+    /**
+     * Checks if the specified {@link WebElement} representing a checkbox is checked.
+     *
+     * @param webElement The {@link WebElement} to check.
+     * @return {@code true} if the checkbox is checked, {@code false} otherwise.
+     */
     public boolean isChecked(WebElement webElement) {
         try {
             return "true".equals(getElementState(webElement));
@@ -31,6 +45,12 @@ public class Checkbox implements ElementState {
         }
     }
 
+    /**
+     * Checks if the checkbox identified by the given locator is checked.
+     *
+     * @param locator The {@link By} locator to identify the checkbox element.
+     * @return {@code true} if the checkbox is checked, {@code false} otherwise.
+     */
     public boolean isChecked(By locator) {
         try {
             return "true".equals(getElementState(locator));
@@ -39,24 +59,44 @@ public class Checkbox implements ElementState {
         }
     }
 
+    /**
+     * Checks (selects) the specified checkbox {@link WebElement} if it is not already checked.
+     *
+     * @param webElement The {@link WebElement} representing the checkbox to check.
+     */
     public void check(WebElement webElement) {
         if (!isChecked(webElement)) {
             commonMethods.clickElement(webElement);
         }
     }
 
+    /**
+     * Checks (selects) the checkbox identified by the given locator if it is not already checked.
+     *
+     * @param locator The {@link By} locator to identify the checkbox element.
+     */
     public void check(By locator) {
         if (!isChecked(locator)) {
             commonMethods.clickElement(locator);
         }
     }
 
+    /**
+     * Unchecks (deselects) the specified checkbox {@link WebElement} if it is currently checked.
+     *
+     * @param webElement The {@link WebElement} representing the checkbox to uncheck.
+     */
     public void uncheck(WebElement webElement) {
         if (isChecked(webElement)) {
             commonMethods.clickElement(webElement);
         }
     }
 
+    /**
+     * Unchecks (deselects) the checkbox identified by the given locator if it is currently checked.
+     *
+     * @param locator The {@link By} locator to identify the checkbox element.
+     */
     public void uncheck(By locator) {
         if (isChecked(locator)) {
             commonMethods.clickElement(locator);
